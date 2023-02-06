@@ -9,7 +9,7 @@ contract Purchase {
 
    uint public value;
    int public buyerNumber;
-   int maxBuyerNumber = 10;
+   int maxBuyerNumber = 3;
    string item_price_in_ETH;
    string item_name;
    string item_details;
@@ -21,7 +21,7 @@ contract Purchase {
 
 
    // enum State { Created, Locked, Release, Inactive }
-   enum State { created, paid, shipped, received, refunded, completed }
+   enum State { created, paid, shipped, received, refunded }
 
 
 
@@ -186,7 +186,6 @@ contract Purchase {
 
 
    function getBuyerState(address addr) public
-       onlyBuyer
        condition(doesExist(addr))
        view returns(string memory)
    {
@@ -200,14 +199,13 @@ contract Purchase {
        if (stateIdx == State.shipped) return "shipped";
        if (stateIdx == State.received) return "received";
        if (stateIdx == State.refunded) return "refunded";
-       if (stateIdx == State.completed) return "completed";
        return "";
    }
   
    function createBuyer() public
        onlyBuyer
        condition(!doesExist(msg.sender))
-       condition(buyerNumber <= maxBuyerNumber)
+       condition(buyerNumber < maxBuyerNumber)
    {
        buyerNumber ++;
        map[msg.sender] = Buyer(payable(msg.sender), State.created);
@@ -233,7 +231,7 @@ contract Purchase {
    function confirmShipped(address address_)
        external
        onlySeller
-       inState(msg.sender, State.paid)
+       inState(address_, State.paid)
        condition(doesExist(address_))
        payable
    {
@@ -273,6 +271,14 @@ contract Purchase {
        // can call in again here.
        map[item_received_buyer].state = State.refunded;
        seller.transfer(3 * value);
+
+       // remove the item_received_buyer from the hashmap
+       // 
    }
+
+
+   // function that seller can end/complete the contract
+   // when there's no buyer
+   
 }
 
