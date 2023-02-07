@@ -43,8 +43,20 @@
         <p id="contractArea"></p>
         <button onclick="getItemName()">GET ITEM NAME</button> <br>
         <p id="dataArea1"></p>
+        <button onclick="getItemPriceInETH()">GET ITEM PRICE (in ETH)</button> <br>
+        <p id="dataArea10"></p>
+        <button onclick="getItemDetails()">GET ITEM DETAILS</button> <br>
+        <p id="dataArea11"></p>
+        <button onclick="getItemDescription()">GET ITEM DESCRIPTION</button> <br>
+        <p id="dataArea12"></p>
+
+
         <button onclick="getBuyerNumber()">GET BUYER NUMBER</button> <br>
 	    <p id="dataArea4"></p>
+        <button onclick="getCurrentAddress()">GET CURRENT ADDRESS</button> <br>
+        <p id="dataArea9"></p>
+
+
 
         <button onclick="getContractAccount()">GET CONTRACT ACCOUNT</button>
         <p id="contractAccount">Contract Account: Not Connected to Contract</P>
@@ -57,16 +69,33 @@
     <div id="writeArea">
         <button onclick="createBuyer()">REGISTER AS BUYER</button> <br>
 	    <p id="dataArea2"></p>
+
         <button onclick="getBuyerState()">GET BUYER STATE</button> <br>
         <input type="text" id="addressBuyerState" placeholder="Enter Buyer Address"> <br>
-	    <p id="dataArea3"></p>
+        <p id="dataArea3"></p>
 
-        <button onclick="depositContract()">SEND ETHER TO THE CONTRACT</button> <br>
+
+<!--         <button onclick="depositContract()">SEND ETHER TO THE CONTRACT</button> <br>
         <input type="number" id="depositInput" placeholder="Enter Amount (Wei)"> <br> <br>
         
         <button onclick="withdraw()">WITHDRAW ETHER TO ANY ADDRESS</button> <br>
         <input type="text" id="addressInput" placeholder="Enter Address"> <br>
-        <input type="number" id="amountInput" placeholder="Enter Amount (Wei)">
+        <input type="number" id="amountInput" placeholder="Enter Amount (Wei)"> <br> -->
+
+        <button onclick="confirmPurchase()">CONFIRM PURCHASE (BUYER)</button> <br>
+        <p id="dataArea5"></p>
+        <button onclick="confirmShipped()">CONFIRM SHIPPED (SELLER)</button> <br>
+        <p id="dataArea6"></p>
+        <button onclick="confirmReceived()">CONFIRM RECIEVED (BUYER)</button> <br>
+        <p id="dataArea7"></p>
+        <button onclick="refundSeller()">REFUND SELLER (SELLER)</button> <br>
+        <p id="dataArea8"></p>
+        <button onclick="addEscrow()">ADD ESCROW (SELLER)</button> <br>
+        <p id="dataArea13"></p>
+        <button onclick="closeContract()">TERMINATE CONTRACT (SELLER)</button> <br>
+        <p id="dataArea14"></p>
+
+
 
     </div>
 
@@ -382,7 +411,7 @@
                     "type": "function"
                 }
             ];
-            const Address = "0x3d4FfF8ECB813CbB7C21DCe68F56cA28B33F019D";
+            const Address = "0x043f8f6e4b4b6be617af797c3ea689565710aeb0";//"0x3d4FfF8ECB813CbB7C21DCe68F56cA28B33F019D";
             window.web3 = await new Web3(window.ethereum);
             window.contract = await new window.web3.eth.Contract(ABI, Address); 
             document.getElementById("contractArea").innerHTML = "connected to smart contract";
@@ -394,6 +423,32 @@
             document.getElementById("dataArea1").innerHTML = data;
         }
 
+        const getItemPriceInETH = async () => {
+            const data = await window.contract.methods.getItemPriceInETH().call();
+            document.getElementById("dataArea10").innerHTML = data;
+        }
+
+        const getItemDetails = async () => {
+            const data = await window.contract.methods.getItemDetails().call();
+            document.getElementById("dataArea11").innerHTML = data;
+        }
+
+        const getItemDescription = async () => {
+            const data = await window.contract.methods.getItemDescription().call();
+            document.getElementById("dataArea12").innerHTML = data;
+        }
+
+        const getBuyerNumber = async () => {
+            const data = await window.contract.methods.getBuyerNumber().call();
+            document.getElementById("dataArea4").innerHTML = data;
+        }
+
+        const getCurrentAddress = async () => {
+            const data = await window.contract.methods.getAddress().call();
+            document.getElementById("dataArea9").innerHTML = data;
+        }
+
+
         const getContractAccount= async () => {
             const data = await window.contract.methods.getAddress().call();
             document.getElementById("contractAccount").innerHTML = `Contract Account: ${data}`;
@@ -404,22 +459,69 @@
             document.getElementById("balanceArea").innerHTML = `Contract Balance (Wei): ${data}`;
         }
 
-        const depositContract = async () => {
-            const amount = document.getElementById("depositInput").value;
-            await window.contract.methods.deposit().send({ from: account, value: amount });
-        }
+        // const depositContract = async () => {
+        //     const amount = document.getElementById("depositInput").value;
+        //     await window.contract.methods.deposit().send({ from: account, value: amount });
+        // }
 
-        const withdraw = async () => {
-            const amount = document.getElementById("amountInput").value;
-            const address = document.getElementById("addressInput").value;
-            await window.contract.methods.withdraw(address, amount).send({ from: account })
-        }
+        // const withdraw = async () => {
+        //     const amount = document.getElementById("amountInput").value;
+        //     const address = document.getElementById("addressInput").value;
+        //     await window.contract.methods.withdraw(address, amount).send({ from: account })
+        // }
+
 
         //4-read data from smart contract
         const createBuyer = async () => {
             await window.contract.methods.createBuyer().send( {from: account} );
             console.log("Registered as Buyer successfully!");
-            document.getElementById("dataArea3").innerHTML = "Registered as Buyer successfully!";
+            document.getElementById("dataArea2").innerHTML = "Registered as Buyer successfully!";
+        }
+
+        const confirmPurchase = async () => {
+            try {
+                await window.contract.methods.confirmPurchase().send({ from: account, value: 2 * value });
+                console.log("Purchase confirmed successfully!");
+                document.getElementById("dataArea5").innerHTML = "Purchase confirmed successfully!";
+            } catch (error) {
+                console.error(error);
+                document.getElementById("dataArea5").innerHTML = "Error confirming purchase: " + error;
+            }
+        };
+
+        const confirmShipped = async (address_) => {
+            try {
+                await window.contract.methods.confirmShipped(address_).send({ from: account });
+                console.log("Shipping confirmed successfully!");
+                document.getElementById("dataArea6").innerHTML = "Shipping confirmed successfully!";
+            } catch (error) {
+                console.error(error);
+                document.getElementById("dataArea6").innerHTML = "Error confirming shipping: " + error;
+            }
+        };
+
+
+        const confirmReceived = async () => {
+            try {
+                await window.contract.methods.confirmReceived().send({ from: account });
+                console.log("Item received successfully!");
+                document.getElementById("dataArea7").innerHTML = "Item received successfully!";
+            } catch (error) {
+                console.error(error);
+                document.getElementById("dataArea7").innerHTML = "Error confirming item received: " + error;
+            }
+        };
+
+        const refundSeller = async (address_) => {
+            await window.contract.methods.refundSeller(item_received_buyer).send({ from: account });
+            console.log("Seller Refunded Successfully!");
+            document.getElementById("dataArea8").innerHTML = "Seller Refunded Successfully!";
+        }
+
+        const addEscrow = async () => {
+            await window.contract.methods.addEscrow().send( {from: account, value: 20 * value} );
+            console.log("Escrow added successfully!");
+            document.getElementById("dataArea13").innerHTML = "Escrow added successfully!";
         }
 
         //5-read data from smart contract

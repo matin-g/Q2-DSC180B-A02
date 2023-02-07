@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 
+// TODO : Close contract function
 
 pragma solidity ^0.8.4;
 
@@ -8,8 +9,9 @@ contract Purchase {
 
 
    uint public value;
-   int public buyerNumber;
-   int maxBuyerNumber = 3;
+   uint public escrowLeft;
+   uint public buyerNumber = 0;
+   uint maxBuyerNumber = 3;
    string item_price_in_ETH;
    string item_name;
    string item_details;
@@ -50,6 +52,8 @@ contract Purchase {
    error InvalidState();
    /// The provided value has to be even.
    error ValueNotEven();
+      /// The provided value has to be even.
+   error notEnoughEscrow();
 
 
    modifier onlyBuyer() {
@@ -72,6 +76,12 @@ contract Purchase {
        _;
    }
 
+    modifier enoughEscrow() {
+       if ( escrowLeft / 2 / value < buyerNumber)
+           revert notEnoughEscrow();
+       _;
+   }
+
 
 
 
@@ -80,6 +90,8 @@ contract Purchase {
    event ConfirmShipped();
    event ItemReceived();
    event SellerRefunded();
+   event addedEscrow();
+//   event closedContract();
 
 
    // Ensure that `msg.value` is an even number.
@@ -87,14 +99,15 @@ contract Purchase {
    // Check via multiplication that it wasn't an odd number.
    constructor() payable {
        seller = payable(msg.sender);
-       value = msg.value / 2;
+       value = msg.value / 2 / 10; // requires 10 * 2 * $item for deployment
+       escrowLeft = msg.value; 
        item_price_in_ETH = "0.01 ETH";
        item_name = "Nike Air Max 90";
        item_details = "Size: 10, Color: Iron Grey/Dark Smoke Grey/Black/White, Style: Textile upper with leather and synthetic overlays, Foam midsole, Rubber Waffle outsole";
        item_description = "Nothing as fly, nothing as comfortable, nothing as proven. The Nike Air Max 90 stays true to its OG running roots with the iconic Waffle sole, stitched overlays and classic TPU details. Classic colors celebrate your fresh look while Max Air cushioning adds comfort to the journey.";
 
 
-       if ((2 * value) != msg.value)
+       if (value % 2 != 0 )
            revert ValueNotEven();
    }
 
@@ -125,6 +138,7 @@ contract Purchase {
    }
 
 
+
    function getItemName() public view returns (string memory) {
        return item_name;
    }
@@ -139,7 +153,7 @@ contract Purchase {
        return item_description;
    }
   
-   function getBuyerNumber() public view returns (int) {
+   function getBuyerNumber() public view returns (uint) {
        return buyerNumber;
    }
    
@@ -152,6 +166,10 @@ contract Purchase {
    function getAddress() public view returns (address) {
        return address(this);
    }
+
+//     function getBuyerNumAddress(uint buyerNum) public view returns (address) {
+//        return map[map[buyerNum]].addr;
+//    }
 
    function deposit() public payable {
    }
@@ -204,6 +222,7 @@ contract Purchase {
   
    function createBuyer() public
        onlyBuyer
+       enoughEscrow
        condition(!doesExist(msg.sender))
        condition(buyerNumber < maxBuyerNumber)
    {
@@ -239,6 +258,36 @@ contract Purchase {
        map[address_].state = State.shipped; 
    }
 
+    function addEscrow()
+       external
+       onlySeller
+       condition(msg.value == (2 * 10 * value))
+       payable
+   {
+       escrowLeft += msg.value;
+       emit addedEscrow();
+   }
+
+   // function that seller can end/complete the contract
+   // when there's no buyer
+
+    // function checkNoActiveBuyers(){
+    //     flagActiveBuyers = False;
+    //     for (uint i = 0 ; i<buyerNumber; i++) {
+    //         curr = map[i].state;
+    //     ...
+    // }
+
+    //}
+//     function closeContract()
+//        external
+//        onlySeller
+//        condition(checkNoActiveBuyers)
+//        payable
+//    {
+//        seller.transfer(address(this).balance);
+//        emit closedContract();
+//    }
 
 
 
@@ -270,15 +319,15 @@ contract Purchase {
        // otherwise, the contracts called using `send` below
        // can call in again here.
        map[item_received_buyer].state = State.refunded;
+       delete map[item_received_buyer];
+       buyerNumber--;
        seller.transfer(3 * value);
+       escrowLeft = escrowLeft - value * 2;
 
        // remove the item_received_buyer from the hashmap
        // 
    }
 
 
-   // function that seller can end/complete the contract
-   // when there's no buyer
    
 }
-
