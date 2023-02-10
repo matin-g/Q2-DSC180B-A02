@@ -37,12 +37,16 @@
     
 
     <div id="readArea">
+        
         <button onclick="connectMetamask()">CONNECT TO METAMASK</button> <br>
         <p id="accountArea"></p>
+
         <button onclick="connectContract()">CONNECT TO CONTRACT</button> <br>
         <p id="contractArea"></p>
+
         <button onclick="getItemName()">GET ITEM NAME</button> <br>
         <p id="dataArea1"></p>
+
         <button onclick="getItemPriceInETH()">GET ITEM PRICE (in ETH)</button> <br>
         <p id="dataArea10"></p>
         <button onclick="getItemDetails()">GET ITEM DETAILS</button> <br>
@@ -53,8 +57,8 @@
 
         <button onclick="getBuyerNumber()">GET BUYER NUMBER</button> <br>
 	    <p id="dataArea4"></p>
-        <button onclick="getCurrentAddress()">GET CURRENT ADDRESS</button> <br>
-        <p id="dataArea9"></p>
+<!--         <button onclick="getCurrentAddress()">GET CURRENT ADDRESS</button> <br>
+        <p id="dataArea9"></p> -->
 
 
 
@@ -83,12 +87,17 @@
         <input type="number" id="amountInput" placeholder="Enter Amount (Wei)"> <br> -->
 
         <button onclick="confirmPurchase()">CONFIRM PURCHASE (BUYER)</button> <br>
+<!--         <input type="number" id="valueConfirmPurchase" placeholder="Enter 2x the item Value (Wei)"> <br> -->
         <p id="dataArea5"></p>
+
+
         <button onclick="confirmShipped()">CONFIRM SHIPPED (SELLER)</button> <br>
+        <input type="text" id="addressInputCS" placeholder="Enter Address"> <br>
         <p id="dataArea6"></p>
         <button onclick="confirmReceived()">CONFIRM RECIEVED (BUYER)</button> <br>
         <p id="dataArea7"></p>
         <button onclick="refundSeller()">REFUND SELLER (SELLER)</button> <br>
+        <input type="text" id="addressInputRS" placeholder="Enter Address"> <br>
         <p id="dataArea8"></p>
         <button onclick="addEscrow()">ADD ESCROW (SELLER)</button> <br>
         <p id="dataArea13"></p>
@@ -112,308 +121,15 @@
             }
         }
 
+        let value;
         //2- connect to smart contract
         const connectContract = async () => {
-            const ABI = [
-                {
-                    "inputs": [],
-                    "name": "InvalidState",
-                    "type": "error"
-                },
-                {
-                    "inputs": [],
-                    "name": "OnlyBuyer",
-                    "type": "error"
-                },
-                {
-                    "inputs": [],
-                    "name": "OnlySeller",
-                    "type": "error"
-                },
-                {
-                    "inputs": [],
-                    "name": "ValueNotEven",
-                    "type": "error"
-                },
-                {
-                    "anonymous": false,
-                    "inputs": [],
-                    "name": "Aborted",
-                    "type": "event"
-                },
-                {
-                    "anonymous": false,
-                    "inputs": [],
-                    "name": "ConfirmShipped",
-                    "type": "event"
-                },
-                {
-                    "anonymous": false,
-                    "inputs": [],
-                    "name": "ItemReceived",
-                    "type": "event"
-                },
-                {
-                    "anonymous": false,
-                    "inputs": [],
-                    "name": "PurchaseConfirmed",
-                    "type": "event"
-                },
-                {
-                    "anonymous": false,
-                    "inputs": [],
-                    "name": "SellerRefunded",
-                    "type": "event"
-                },
-                {
-                    "inputs": [],
-                    "name": "confirmPurchase",
-                    "outputs": [],
-                    "stateMutability": "payable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "confirmReceived",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [
-                        {
-                            "internalType": "address",
-                            "name": "address_",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "confirmShipped",
-                    "outputs": [],
-                    "stateMutability": "payable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "createBuyer",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "deposit",
-                    "outputs": [],
-                    "stateMutability": "payable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [
-                        {
-                            "internalType": "address",
-                            "name": "item_received_buyer",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "refundSeller",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [
-                        {
-                            "internalType": "address payable",
-                            "name": "_to",
-                            "type": "address"
-                        },
-                        {
-                            "internalType": "uint256",
-                            "name": "_amount",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "withdraw",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "stateMutability": "payable",
-                    "type": "constructor"
-                },
-                {
-                    "inputs": [],
-                    "name": "buyerNumber",
-                    "outputs": [
-                        {
-                            "internalType": "int256",
-                            "name": "",
-                            "type": "int256"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [
-                        {
-                            "internalType": "address",
-                            "name": "key",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "doesExist",
-                    "outputs": [
-                        {
-                            "internalType": "bool",
-                            "name": "",
-                            "type": "bool"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "getAddress",
-                    "outputs": [
-                        {
-                            "internalType": "address",
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "getBalance",
-                    "outputs": [
-                        {
-                            "internalType": "uint256",
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "getBuyerNumber",
-                    "outputs": [
-                        {
-                            "internalType": "int256",
-                            "name": "",
-                            "type": "int256"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [
-                        {
-                            "internalType": "address",
-                            "name": "addr",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "getBuyerState",
-                    "outputs": [
-                        {
-                            "internalType": "string",
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "getItemDescription",
-                    "outputs": [
-                        {
-                            "internalType": "string",
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "getItemDetails",
-                    "outputs": [
-                        {
-                            "internalType": "string",
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "getItemName",
-                    "outputs": [
-                        {
-                            "internalType": "string",
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "getItemPriceInETH",
-                    "outputs": [
-                        {
-                            "internalType": "string",
-                            "name": "",
-                            "type": "string"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "seller",
-                    "outputs": [
-                        {
-                            "internalType": "address payable",
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "value",
-                    "outputs": [
-                        {
-                            "internalType": "uint256",
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                }
-            ];
-            const Address = "0x043f8f6e4b4b6be617af797c3ea689565710aeb0";//"0x3d4FfF8ECB813CbB7C21DCe68F56cA28B33F019D";
+            const ABI = [{"inputs":[],"stateMutability":"payable","type":"constructor"},{"inputs":[],"name":"InvalidState","type":"error"},{"inputs":[],"name":"OnlyBuyer","type":"error"},{"inputs":[],"name":"OnlySeller","type":"error"},{"inputs":[],"name":"ValueNotEven","type":"error"},{"inputs":[],"name":"notEnoughEscrow","type":"error"},{"anonymous":false,"inputs":[],"name":"Aborted","type":"event"},{"anonymous":false,"inputs":[],"name":"ConfirmShipped","type":"event"},{"anonymous":false,"inputs":[],"name":"ItemReceived","type":"event"},{"anonymous":false,"inputs":[],"name":"PurchaseConfirmed","type":"event"},{"anonymous":false,"inputs":[],"name":"SellerRefunded","type":"event"},{"anonymous":false,"inputs":[],"name":"addedEscrow","type":"event"},{"inputs":[],"name":"addEscrow","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"buyerNumber","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"confirmPurchase","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"confirmReceived","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"address_","type":"address"}],"name":"confirmShipped","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"createBuyer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"deposit","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"key","type":"address"}],"name":"doesExist","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"escrowLeft","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBuyerNumber","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"addr","type":"address"}],"name":"getBuyerState","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getItemDescription","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getItemDetails","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getItemName","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getItemPriceInETH","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getValue","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"item_received_buyer","type":"address"}],"name":"refundSeller","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"seller","outputs":[{"internalType":"address payable","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"value","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address payable","name":"_to","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"}];
+            const Address = "0x703950a4937F7197cfc79926cF276bb004e76C68";
+            //"0x043f8f6e4b4b6be617af797c3ea689565710aeb0";//"0x3d4FfF8ECB813CbB7C21DCe68F56cA28B33F019D";
             window.web3 = await new Web3(window.ethereum);
             window.contract = await new window.web3.eth.Contract(ABI, Address); 
+
             document.getElementById("contractArea").innerHTML = "connected to smart contract";
         }
 
@@ -438,15 +154,15 @@
             document.getElementById("dataArea12").innerHTML = data;
         }
 
-        const getBuyerNumber = async () => {
-            const data = await window.contract.methods.getBuyerNumber().call();
-            document.getElementById("dataArea4").innerHTML = data;
-        }
+        // const getBuyerNumber = async () => {
+        //     const data = await window.contract.methods.getBuyerNumber().call();
+        //     document.getElementById("dataArea4").innerHTML = data;
+        // }
 
-        const getCurrentAddress = async () => {
-            const data = await window.contract.methods.getAddress().call();
-            document.getElementById("dataArea9").innerHTML = data;
-        }
+        // const getCurrentAddress = async () => {
+        //     const data = await window.contract.methods.getAddress().call();
+        //     document.getElementById("dataArea9").innerHTML = data;
+        // }
 
 
         const getContractAccount= async () => {
@@ -479,18 +195,26 @@
         }
 
         const confirmPurchase = async () => {
-            try {
-                await window.contract.methods.confirmPurchase().send({ from: account, value: 2 * value });
-                console.log("Purchase confirmed successfully!");
-                document.getElementById("dataArea5").innerHTML = "Purchase confirmed successfully!";
-            } catch (error) {
-                console.error(error);
-                document.getElementById("dataArea5").innerHTML = "Error confirming purchase: " + error;
-            }
+          try {
+            let result;
+            await window.contract.methods.getValue().call()
+              .then(function(value) {
+                result = value;
+              });
+            console.log(result);
+            await window.contract.methods.confirmPurchase().send({ from: account, value: result * 2});
+
+            console.log("Purchase confirmed successfully!");
+            document.getElementById("dataArea5").innerHTML = "Purchase confirmed successfully!";
+          } catch (error) {
+            console.error(error);
+            document.getElementById("dataArea5").innerHTML = "Error confirming purchase: " + error;
+          }
         };
 
-        const confirmShipped = async (address_) => {
+        const confirmShipped = async () => {
             try {
+                const address_ = document.getElementById("addressInputCS").value;
                 await window.contract.methods.confirmShipped(address_).send({ from: account });
                 console.log("Shipping confirmed successfully!");
                 document.getElementById("dataArea6").innerHTML = "Shipping confirmed successfully!";
@@ -499,6 +223,13 @@
                 document.getElementById("dataArea6").innerHTML = "Error confirming shipping: " + error;
             }
         };
+
+        // const confirmShipped = async () => {
+        // const address_ = document.getElementById("addressInputCS").value;
+        // await window.contract.methods.confirmShipped(address_).send({ from: account });
+        // console.log("Shipping confirmed successfully!");
+        // document.getElementById("dataArea2").innerHTML = "Shipping confirmed successfully!";
+        // }
 
 
         const confirmReceived = async () => {
@@ -512,11 +243,24 @@
             }
         };
 
-        const refundSeller = async (address_) => {
-            await window.contract.methods.refundSeller(item_received_buyer).send({ from: account });
-            console.log("Seller Refunded Successfully!");
-            document.getElementById("dataArea8").innerHTML = "Seller Refunded Successfully!";
-        }
+
+        const refundSeller = async () => {
+            try {
+                const address_ = document.getElementById("addressInputRS").value;
+                await window.contract.methods.refundSeller(address_).send({ from: account });
+                console.log("Seller Refunded successfully!");
+                document.getElementById("dataArea8").innerHTML = "Seller Refunded successfully!";
+            } catch (error) {
+                console.error(error);
+                document.getElementById("dataArea8").innerHTML = "Error Refunding Seller: " + error;
+            }
+        };
+
+        // const refundSeller = async (address_) => {
+        //     await window.contract.methods.refundSeller(address_).send({ from: account });
+        //     console.log("Seller Refunded Successfully!");
+        //     document.getElementById("dataArea8").innerHTML = "Seller Refunded Successfully!";
+        // }
 
         const addEscrow = async () => {
             await window.contract.methods.addEscrow().send( {from: account, value: 20 * value} );

@@ -11,7 +11,7 @@ contract Purchase {
    uint public value;
    uint public escrowLeft;
    uint public buyerNumber = 0;
-   uint maxBuyerNumber = 3;
+   uint maxBuyerNumber = 2;
    string item_price_in_ETH;
    string item_name;
    string item_details;
@@ -111,6 +111,7 @@ contract Purchase {
            revert ValueNotEven();
    }
 
+    //
 
    /// Abort the purchase and reclaim the ether.
    /// Can only be called by the seller before
@@ -136,8 +137,12 @@ contract Purchase {
    function getItemPriceInETH() public view returns (string memory) {
        return item_price_in_ETH;
    }
+   
 
-
+   function getValue() public view returns (uint) {
+       return value;
+   }
+   
 
    function getItemName() public view returns (string memory) {
        return item_name;
