@@ -36,6 +36,8 @@ contract Purchase {
 
    mapping (address => Buyer) map;
 
+   address[] addresses;
+
 
    // since seller is launching --> there should be item name and description, item details --> make those readable by buyer
    modifier condition(bool condition_) {
@@ -91,7 +93,7 @@ contract Purchase {
    event ItemReceived();
    event SellerRefunded();
    event addedEscrow();
-//   event closedContract();
+   event closedContract();
 
 
    // Ensure that `msg.value` is an even number.
@@ -233,6 +235,7 @@ contract Purchase {
    {
        buyerNumber ++;
        map[msg.sender] = Buyer(payable(msg.sender), State.created);
+       addresses.push(msg.sender);
    }
 
 
@@ -282,18 +285,78 @@ contract Purchase {
     //         curr = map[i].state;
     //     ...
     // }
+    
+    // function checkNoActiveBuyers() public view returns (bool) {
+    //     bool flagActiveBuyers = false;
+    //     for (uint i = 0; i < map.length; i++) {
+    //         if (map[address(i)].state != State.created && map[address(i)].state != State.refunded) {
+    //             flagActiveBuyers = true;
+    //             break;
+    //         }
+    //     }
+    //     return flagActiveBuyers;
+    // }
 
-    //}
-//     function closeContract()
-//        external
-//        onlySeller
-//        condition(checkNoActiveBuyers)
-//        payable
-//    {
-//        seller.transfer(address(this).balance);
-//        emit closedContract();
-//    }
+    // function checkNoActiveBuyers() public view returns (bool) {
+    // bool allStatesCreated = true;
+    // bytes32 hash = 0x0;
+    //     while (hash < 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff) {
+    //         if (map[address(hash)].state != State.created && map[address(hash)].state != State.refunded) {
+    //         //if (map[address(hash)].state != State.created) {
+    //             allStatesCreated = false;
+    //             break;
+    //         }
+    //         hash = keccak256(abi.encodePacked(hash + 1));
+    //     }
+    //     return allStatesCreated;
+    // }
 
+//     function checkNoActiveBuyers() public view returns (bool) {
+//     bool flagActiveBuyers = false;
+//     bytes32 hash = 0x0;
+//     while (hash < 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff) {
+//     if (map[address(hash)].state != State.created && map[address(hash)].state != State.refunded) {
+//             flagActiveBuyers = true;
+//             break;
+//         }
+//         hash = keccak256(abi.encodePacked(hash + 1));
+//     }
+//     return !flagActiveBuyers;
+// }
+
+// function checkActiveBuyers() public view returns (bool) {
+//     bool flagActiveBuyers = false;
+//     for (address buyerAddr in map) {
+//         if (map[buyerAddr].state != State.created && map[buyerAddr].state != State.refunded) {
+//             flagActiveBuyers = true;
+//             break;
+//         }
+//     }
+//     return flagActiveBuyers;
+// }
+
+    function checkNoActiveBuyers() public view returns (bool) {
+        bool flagActiveBuyers = false;
+
+        for (uint i = 0; i < addresses.length; i++) {
+            address currentAddress = addresses[i];
+            if (map[currentAddress].state != State.created && map[currentAddress].state != State.refunded) {
+                flagActiveBuyers = true;
+                break;
+            }
+        }
+        return flagActiveBuyers;
+    }
+
+    function closeContract()
+       external
+       onlySeller
+       condition(checkNoActiveBuyers())
+       payable
+   {
+       seller.transfer(address(this).balance);
+       emit closedContract();
+   }
 
 
    /// Confirm that you (the buyer) received the item.
