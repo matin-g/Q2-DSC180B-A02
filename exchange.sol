@@ -336,12 +336,12 @@ contract Purchase {
 // }
 
     function checkNoActiveBuyers() public view returns (bool) {
-        bool flagActiveBuyers = false;
+        bool flagActiveBuyers = true;
 
         for (uint i = 0; i < addresses.length; i++) {
             address currentAddress = addresses[i];
             if (map[currentAddress].state != State.created && map[currentAddress].state != State.refunded) {
-                flagActiveBuyers = true;
+                flagActiveBuyers = false;
                 break;
             }
         }
@@ -358,6 +358,7 @@ contract Purchase {
        emit closedContract();
    }
 
+    // not allow any new buyers once closed --> add contract state 
 
    /// Confirm that you (the buyer) received the item.
    /// This will release the locked ether.
