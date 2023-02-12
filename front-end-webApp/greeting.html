@@ -5,13 +5,13 @@
         return localStorage.getItem("role");
       }
 
-      // function navigateToBuyerPage() {
-      //   window.location.href = "buyerPage.html";
-      // }
+      function navigateToBuyerPage() {
+        window.location.href = "buyerPage.html";
+      }
 
-      // function navigateToSellerPage() {
-      //   window.location.href = "sellerPage.html";
-      // }
+      function navigateToSellerPage() {
+        window.location.href = "sellerPage.html";
+      }
     </script>
   </head>
   <body>
@@ -20,10 +20,10 @@
         var role = getRole();
         if (role === "buyer") {
           document.write("Hi Buyer");
-          //navigateToBuyerPage();
+          navigateToBuyerPage();
         } else if (role === "seller") {
           document.write("Hi Seller");
-          //navigateToSellerPage();
+          navigateToSellerPage();
         }
       </script>
     </h1>
