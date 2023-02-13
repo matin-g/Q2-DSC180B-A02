@@ -14,7 +14,7 @@ contract Purchase {
    uint public buyerNumber = 0;
    uint public quantity;
    uint maxBuyerNumber = 2;
-   string item_price_in_ETH;
+   string item_price_in_Wei;
    string item_name;
    string item_details;
    string item_description;
@@ -142,30 +142,31 @@ contract Purchase {
    // }
    // Setters for quantity and value 
    
-   function setValue_Quant(uint inp_value) public
+   function setValue_Quant(uint inp_value) internal
        onlySeller
    {
        value = inp_value;
        quantity = escrowLeft/value/2;
-       item_price_in_ETH = string.concat(Strings.toString(inp_value) , " ETH");
+       item_price_in_Wei = string.concat(Strings.toString(inp_value) , " Wei");
    }
-   
-   function setItem_Name(string memory inp_item_name) public 
-        onlySeller
-    {
+
+   function setItem_Name(string memory inp_item_name) internal
+       onlySeller
+       {
         item_name = inp_item_name;
-       
-   }
+       }
 
-   function setItem_Details(string memory inp_item_details) public
-        onlySeller{
-            item_details = inp_item_details;
-        }
+   function setItem_Details(string memory inp_item_details) internal
+       onlySeller
+       {
+        item_details = inp_item_details;
+       }
 
-    function setItem_Descriptions( string memory inp_item_descriptions) public onlySeller
-    {
+    function setItem_Descriptions( string memory inp_item_descriptions) internal
+       onlySeller
+       {
         item_description = inp_item_descriptions;
-    }
+       }
 
     function add_item
     (uint inp_value, 
@@ -182,8 +183,8 @@ contract Purchase {
    // GETTERS for read-only product attributes
 
 
-   function getItemPriceInETH() public view returns (string memory) {
-       return item_price_in_ETH;
+   function getItemPriceInWEI() public view returns (string memory) {
+       return item_price_in_Wei;
    }
    
 
@@ -275,9 +276,9 @@ contract Purchase {
        onlyBuyer
        addedItem
        enoughEscrow
-    //    condition(!doesExist(msg.sender))
-    //    condition(buyerNumber < maxBuyerNumber)
-    //    condition(!terminated)
+       condition(!doesExist(msg.sender))
+       condition(buyerNumber < maxBuyerNumber)
+       condition(!terminated)
    {
        buyerNumber ++;
        map[msg.sender] = Buyer(payable(msg.sender), State.created);
@@ -296,6 +297,7 @@ contract Purchase {
        condition(msg.value == (2 * value))
        payable
    {
+       quantity -= 1;
        emit PurchaseConfirmed();
        map[msg.sender].state = State.paid;
    }
@@ -312,12 +314,14 @@ contract Purchase {
        map[address_].state = State.shipped; 
    }
 
-    function addEscrow(uint new_quantity)
+    function addEscrow()
        external
        onlySeller
-       condition(msg.value == (2 * new_quantity * value))
+       condition(msg.value >= (2 * value))
        payable
    {
+       uint new_quantity = msg.value / 2 / value;
+       quantity += new_quantity;
        escrowLeft += msg.value;
        emit addedEscrow();
    }
