@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Search Page</title>
+    <!-- Include the Parse SDK -->
+    <script src="https://unpkg.com/parse/dist/parse.min.js"></script>
+
+      
+      <script>
+    Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
+    Parse.serverURL = "https://parseapi.back4app.com/";
+
+    //search bar works, but we need to create a column for products to reference
+    // (and our smart contract code). Just to get it working, it works with usernames now.
+
+
+      // Define a function to execute the search
+      function search() {
+        // Get the search term from the input element
+        const searchTerm = document.getElementById('search-input').value;
+        //console.log(searchTerm);
+        // Create a Parse query to search for the matching user
+        const query = new Parse.Query("User");
+        query.equalTo('username', searchTerm);
+        console.log(searchTerm)
+        console.log(query)
+        // Execute the query
+        query.first().then(user => {
+          if (user) {
+            // If a matching user is found, go to the new HTML link
+            
+            window.location.href = "BuyerPage.html";
+          } else {
+            // Display an error message if no matching user was found
+            console.log('No matching user found');
+          }
+        }).catch(error => {
+          // Display an error message if there was an issue executing the query
+          console.error('Error executing query:', error);
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="location.href = 'BuyerPage.html';">Deploy a New Contract</button>
+    <button onclick="location.href = 'BuyerPage.html';">Open my Active Contracts</button>
+    <!-- <h1>Search Bar Example</h1>
+    <input type="text" id="search-input" placeholder="Enter a username">
+    <button type="button" onclick="search()">O</button> -->
+  </body>
+</html>
+
+
