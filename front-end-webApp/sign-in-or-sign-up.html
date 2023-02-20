@@ -1,5 +1,7 @@
 <html>
   <head>
+    <link href="styleSIGN.css" rel="stylesheet" type="text/css">
+     <link href="background.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
     <script>
       function navigateToGreetingPage() {
@@ -9,6 +11,43 @@
   </head>
   <body>
     <div id="signin-signup">
+  <h2>Sign In</h2>
+  <form>
+    <div class="form-group">
+      <label for="emailSI">Email:</label>
+      <input type="email" id="emailSI" placeholder="Enter your email">
+    </div>
+    <div class="form-group">
+      <label for="passwordSI">Password:</label>
+      <input type="password" id="passwordSI" placeholder="Enter your password">
+    </div>
+    <button id="submitButtonSignIn">Sign In</button>
+  </form>
+  <p>Don't have an account? <a href="#" id="signup-link">Sign Up</a></p>
+</div>
+
+<!-- Sign-up Form -->
+<div id="signup" style="display:none;">
+  <h2>Sign Up</h2>
+  <form>
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" placeholder="Enter your username">
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="Enter your email">
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" placeholder="Enter your password">
+    </div>
+    <button id="submitButtonSignUp">Sign Up</button>
+  </form>
+  <p>Already have an account? <a href="#" id="signin-link">Sign In</a></p>
+</div>
+
+<!--     <div id="signin-signup">
       <h3>Sign In</h3>
       <form>
         <input type="email" id="emailSI" placeholder="Email">
@@ -19,9 +58,9 @@
       </form>
       <p>Don't have an account? <a href="#" id="signup-link">Sign Up</a></p>
     </div>
-    
+     -->
     <!-- Sign-up Form -->
-    <div id="signup" style="display:none;">
+<!--     <div id="signup" style="display:none;">
       <h3>Sign Up</h3>
       <form>
         <input id="username" type="text" placeholder="Username"/>
@@ -30,7 +69,7 @@
         <button id="submitButtonSignUp">Sign Up</button>
       </form>
       <p>Already have an account? <a href="#" id="signin-link">Sign In</a></p>
-    </div>
+    </div> -->
     
     <!-- JS for handling the Sign-in and Sign-up Forms -->
     <script>

@@ -1,0 +1,219 @@
+/*body {
+	font-family: Arial, sans-serif;
+	background-color: #f5f5f5;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	text-align: center;
+	font-size: 50px;
+	font-weight: bold;
+	color: #007bff;
+	margin-top: 100px;
+}
+
+.button-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.button-buyer,
+.button-seller {
+	background-color: #007bff;
+	color: #fff;
+	padding: 20px 40px;
+	font-size: 25px;
+	border-radius: 50px;
+	border: none;
+	margin: 0 20px;
+	cursor: pointer;
+	box-shadow: 0px 8px #0069e0;
+	transition: all 0.3s ease;
+}
+
+.button-buyer:hover,
+.button-seller:hover {
+	transform: translateY(-5px);
+	box-shadow: 0px 12px #0069e0;
+}
+*/
+/* Reset default margin and padding */
+/* Reset default margin and padding */
+/* Reset default margin and padding */
+body {
+font-family: Arial, sans-serif;
+background-color: #f5f5f5;
+margin: 0;
+padding: 0;
+}
+
+/* Center the heading */
+/*h1 {
+text-align: center;
+font-size: 50px;
+font-weight: bold;
+color: linear-gradient(to left, #42f569, #f5bc42);
+/*color: #007bff;
+margin-top: 100px;
+} */
+
+/* This part is for the vertical rotating text*/
+
+
+.Iam {
+	padding: 2em 5em;
+	font: normal 40px/50px Montserrat, sans-serif;
+	color: #007bff;
+}
+.Iam p {
+	height: 50px;
+	float: left;
+	margin-right: 0.3em;
+}
+.Iam b {
+	float: left;
+	overflow: hidden;
+	position: relative;
+	height: 50px;
+	top: 40px;
+}
+.Iam .innerIam {
+	display: inline-block;
+	color: #e74c3c;
+	position: relative;
+	white-space: nowrap;
+	top: 0;
+	left: 0;
+
+
+/*animation*/
+-webkit-animation:move 5s;
+	-moz-animation:move 5s;
+	-ms-animation:move 5s;
+	-o-animation:move 5s;
+		animation:move 5s;
+/*animation-iteration-count*/
+-webkit-animation-iteration-count:infinite;
+	-moz-animation-iteration-count:infinite;
+	-ms-animation-iteration-count:infinite;
+	-o-animation-iteration-count:infinite;
+		animation-iteration-count:infinite;
+/*animation-delay*/
+-webkit-animation-delay:1s;
+	-moz-animation-delay:1s;
+	-ms-animation-delay:1s;
+	-o-animation-delay:1s;
+		animation-delay:1s;
+}
+@keyframes move{
+	0%  { top: 0px; }
+	20% { top: -50px; }
+	40% { top: -100px; }
+	60% { top: -150px; }
+	80% { top: -200px; }
+}
+
+@-webkit-keyframes move {
+	0%  { top: 0px; }
+	20% { top: -50px; }
+	40% { top: -100px; }
+	60% { top: -150px; }
+	80% { top: -200px; }
+}
+@-moz-keyframes move {
+	0%  { top: 0px; }
+	20% { top: -50px; }
+	40% { top: -100px; }
+	60% { top: -150px; }
+	80% { top: -200px; }
+}
+@-o-keyframes move {
+	0%  { top: 0px; }
+	20% { top: -50px; }
+	40% { top: -100px; }
+	60% { top: -150px; }
+	80% { top: -200px; }
+}
+@keyframes move {
+	0%  { top: 0px; }
+	20% { top: -50px; }
+	40% { top: -100px; }
+	60% { top: -150px; }
+	80% { top: -200px; }
+}
+
+
+
+
+/* Center and space out the buttons */
+.button-wrapper {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+}
+
+.button-buyer,
+.button-seller {
+background-color: #007bff;
+color: #fff;
+padding: 20px 40px;
+font-size: 25px;
+border-radius: 50px;
+border: none;
+margin: 0 20px;
+cursor: pointer;
+box-shadow: 0px 8px #0069e0;
+transition: all 0.3s ease;
+}
+
+/* Add hover effect on buttons */
+.button-buyer:hover,
+.button-seller:hover {
+transform: translateY(-5px);
+box-shadow: 0px 12px #0069e0;
+}
+
+/* -------Fancy Styling Starts Here-------- */
+
+/* Set a fancy gradient background */
+body {
+background: linear-gradient(to right, #007bff, #00c5f1);
+}
+
+/* Give the heading a fancy text shadow effect */
+h1 {
+text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Add a stylish border to the buttons */
+.button-buyer,
+.button-seller {
+border: 3px solid #fff;
+}
+
+/* Change the cursor to a pointer for better user experience */
+.button-buyer,
+.button-seller {
+cursor: pointer;
+}
+
+/* Make the hover effect more fancy */
+.button-buyer:hover,
+.button-seller:hover {
+transform: translateY(-5px);
+box-shadow: 0px 12px #0069e0;
+background-color: #0069e0;
+}
+
+/* Increase the font size of the buttons on smaller devices */
+@media screen and (max-width: 767px) {
+.button-buyer,
+.button-seller {
+font-size: 20px;
+padding: 15px 30px;
+}
+}
