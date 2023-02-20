@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Product List</title>
+    <link href="style2.css" rel="stylesheet" type="text/css">
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        color: #333;
+      }
+      section {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      /* Styling for the slider container */
+      .slider {
+        width: 100%;
+        height: 400px;
+        overflow: hidden;
+      }
+      /* Styling for the slider items */
+      .slider-item {
+        display: inline-block;
+        width: 25%;
+        height: 100%;
+        text-align: center;
+        vertical-align: top;
+        white-space: normal;
+        transition: all 0.5s ease;
+      }
+      /* Styling for the active slider item */
+      .slider-item.active {
+        width: 50%;
+      }
+      /* Styling for the slider buttons */
+      .slider-btn {
+        display: inline-block;
+        margin: 10px;
+        cursor: pointer;
+        background-color: #ccc;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+      }
+      /* Styling for the active slider button */
+      .slider-btn.active {
+        background-color: #555;
+      }
+      form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+      label {
+        margin-right: 10px;
+      }
+      input[type="text"] {
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        width: 200px;
+      }
+      button[type="button"] {
+        background-color: #555;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+      button[type="button"]:hover {
+        background-color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h2>Product List</h2>
+      <div class="slider">
+        <div class="slider-item active">
+          <img src="product1.jpg" alt="Product 1">
+          <h3>Product 1</h3>
+          <p>Description of Product 1.</p>
+        </div>
+        <div class="slider-item">
+          <img src="product2.jpg" alt="Product 2">
+          <h3>Product 2</h3>
+          <p>Description of Product 2.</p>
+        </div>
+        <div class="slider-item">
+          <img src="product3.jpg" alt="Product 3">
+          <h3>Product 3</h3>
+          <p>Description of Product 3.</p>
+        </div>
+        <div class="slider-item">
+          <img src="product4.jpg" alt="Product 4">
+          <h3>Product 4</h3>
+          <p>Description of Product 4.</p>
+        </div>
+        <div class="slider-item">
+          <img src="product5.jpg" alt="Product 5">
+          <h3>Product 5</h3>
+          <p>Description of Product 5.</p>
+        </div>
+      </div>
+      <div class="slider-controls">
+        <div class="slider-btn active" onclick="showSlide(1)">1</div>
+        <div class="slider-btn" onclick="showSlide(2)">2</div>
+        <div class="slider-btn" onclick="showSlide(3)">3</div>
+        <div class="slider-btn" onclick="showSlide(4)">4</div>
+        <div class="slider-btn" onclick="showSlide(5)">5</div>
+        </div>
+        <form>
+        <label for="search">Search:</label>
+        <input type="text" id="search" name="search">
+        <button type="button" onclick="searchProducts()">Search</button>
+        </form>
+        <div id="search-results"></div>
+        </section>
+        <script>
+        let currentSlide = 1;
+        const sliderItems = document.querySelectorAll('.slider-item');
+        const sliderButtons = document.querySelectorAll('.slider-btn');
+          function showSlide(n) {
+    if (n < 1) {
+      n = sliderItems.length;
+    } else if (n > sliderItems.length) {
+      n = 1;
+    }
+    for (let i = 0; i < sliderItems.length; i++) {
+      sliderItems[i].classList.remove('active');
+    }
+    for (let i = 0; i < sliderButtons.length; i++) {
+      sliderButtons[i].classList.remove('active');
+    }
+    sliderItems[n - 1].classList.add('active');
+    sliderButtons[n - 1].classList.add('active');
+    currentSlide = n;
+  }
+  
+  function searchProducts() {
+    const searchTerm = document.getElementById('search').value.toLowerCase();
+    const resultsDiv = document.getElementById('search-results');
+    let html = '';
+    for (let i = 0; i < sliderItems.length; i++) {
+      const itemName = sliderItems[i].querySelector('h3').textContent.toLowerCase();
+      const itemDescription = sliderItems[i].querySelector('p').textContent.toLowerCase();
+      if (itemName.includes(searchTerm) || itemDescription.includes(searchTerm)) {
+        html += '<div class="search-result">';
+        html += sliderItems[i].innerHTML;
+        html += '</div>';
+      }
+    }
+    if (html === '') {
+      resultsDiv.innerHTML = '<p>No results found.</p>';
+    } else {
+      resultsDiv.innerHTML = html;
+    }
+  }
+</script>
+  </body>
+</html>
