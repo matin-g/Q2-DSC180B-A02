@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product List</title>
+  </head>
+  <body>
+    <section>
+      <h2>Product List</h2>
+      <ul id="product-list">
+        <!-- This is where the product list will be dynamically generated -->
+      </ul>
+    </section>
+    <section>
+      <h2>Search Products</h2>
+      <form>
+        <label for="search">Search by Name:</label>
+        <input type="text" id="search" name="search">
+        <button type="button" onclick="searchProducts()">Search</button>
+      </form>
+    </section>
+    <script>
+      // This is where you can write JavaScript to retrieve the product data from a database and generate the product list dynamically.
+      const products = [
+        { name: "Product 1", description: "This is the description for Product 1" },
+        { name: "Product 2", description: "This is the description for Product 2" },
+        { name: "Product 3", description: "This is the description for Product 3" },
+        { name: "Product 4", description: "This is the description for Product 4" },
+        { name: "Product 5", description: "This is the description for Product 5" },
+      ];
+
+      const productList = document.getElementById("product-list");
+
+      function generateProductList() {
+        productList.innerHTML = "";
+        products.forEach((product) => {
+          const li = document.createElement("li");
+          li.innerHTML = `<strong>${product.name}</strong>: ${product.description}`;
+          productList.appendChild(li);
+        });
+      }
+
+      generateProductList();
+
+      function searchProducts() {
+        const searchTerm = document.getElementById("search").value;
+        const filteredProducts = products.filter((product) =>
+          product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        productList.innerHTML = "";
+        filteredProducts.forEach((product) => {
+          const li = document.createElement("li");
+          li.innerHTML = `<strong>${product.name}</strong>: ${product.description}`;
+          productList.appendChild(li);
+        });
+      }
+    </script>
+  </body>
+</html>
