@@ -147,6 +147,7 @@
             window.contract = await new window.web3.eth.Contract(ABI, Address); */
             
             document.getElementById("contractFollowMetamaskArea").innerHTML = "Please follow through the Metamask page";
+            
 
             window.web3 = await new Web3(window.ethereum);
 
@@ -170,6 +171,10 @@
 
                     contractAddress = receipt.contractAddress;
                     document.getElementById("contractAddressArea").innerHTML = "Here is your unique contract address: " + contractAddress;
+
+                    
+                    // store the contract address to the database
+                    pushSellerContract(sellerAddress, contractAddress); 
                     
                     var button = document.getElementById("toContractDetail");
                     button.style.visibility = "visible";
@@ -193,7 +198,7 @@
                     clearInterval(id);
                     i = 0;
                 } else {
-                    width = width + 0.05;
+                    width = width + 0.06;
                     elem.style.width = width + "%";
                     elem.innerHTML = Number((width).toFixed(1))  + "%";
                     }   
@@ -215,13 +220,29 @@
                     clearInterval(id);
                     i = 0;
                 } else {
-                    width = width + 0.06;
+                    width = width + 0.07;
                     elem.style.width = width + "%";
                     elem.innerHTML = Number((width).toFixed(1))  + "%";
                     }   
                 }
                 
             }
+            
+            async function pushSellerContract(sellerAddress, contractAddress) {
+
+                const sellerContract = new Parse.Object("sellerContract");
+   
+                sellerContract.set("sellerAddress", sellerAddress);
+                sellerContract.set("contractAddress", contractAddress);
+
+                try {
+                    let result = await sellerContract.save();
+
+                } catch (error) {
+                    alert(`Error: ${error.message}`);
+
+                }
+            } 
             
         }
 
