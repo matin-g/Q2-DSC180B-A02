@@ -3,7 +3,6 @@
 
 <head>
     <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
-    <title>CONNECTION TO METAMASK</title>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
     <link href="background.css" rel="stylesheet" type="text/css">
     <style>
@@ -183,7 +182,7 @@
         
         <p id="toContractDetail"></p>
 
-        <button style="visibility: hidden;" id="addItem" onclick="location.href = 'sellerContractDetailPage.html';">Add Item to My Contract</button>
+        <button style="visibility: hidden;" id="addItem" onclick="location.href = 'sellerAddItemPage.html';">Add Item to My Contract</button>
 
 
     </div>
@@ -345,6 +344,10 @@
                     // store the contract address to the database
                     pushSellerContract(sellerAddress, contractAddress); 
                     
+                    // store the contract address and seller address to local storage and ensure the next page can access them
+                    localStorage.setItem('contractAddress', contractAddress);
+                    localStorage.setItem('sellerAddress', account);
+
                     var button = document.getElementById("addItem");
                     button.style.visibility = "visible";
                     
@@ -367,7 +370,7 @@
                     clearInterval(id);
                     i = 0;
                 } else {
-                    width = width + 0.08;
+                    width = width + 0.07;
                     elem.style.width = width + "%";
                     elem.innerHTML = Number((width).toFixed(1))  + "%";
                     }   
@@ -389,7 +392,7 @@
                     clearInterval(id);
                     i = 0;
                 } else {
-                    width = width + 0.09;
+                    width = width + 0.08;
                     elem.style.width = width + "%";
                     elem.innerHTML = Number((width).toFixed(1))  + "%";
                     }   

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+    <link href="background.css" rel="stylesheet" type="text/css">
+
+    <title>Add Item to My Contract</title>
+    <style>
+      body {
+        background-color: #222;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2em;
+        margin-top: 100px;
+      }
+
+      #underscore {
+        font-size: 1em;
+        margin-top: 100px;
+        animation: flash 1.0s linear infinite;
+      }
+
+        
+      #setItemName {
+        opacity: 0;
+        animation: fadeIn 1.0s 1s forwards;
+        width: 25%;
+      }
+
+      #setItemPrice {
+        opacity: 0;
+        animation: fadeIn 1.0s 2s forwards;
+        width: 25%;
+      }
+
+      #setItemDetails {
+        opacity: 0;
+        animation: fadeIn 1.0s 3s forwards;
+        width: 25%;
+        height: 5%;
+      }
+
+      #setItemDescription {
+        opacity: 0;
+        animation: fadeIn 1.0s 3.5s forwards;
+        width: 25%;
+        height: 10%;
+      }
+
+      #submit {
+        opacity: 0;
+        animation: fadeIn 1.0s 4s forwards;
+      }
+
+      input {
+        display: block;
+        margin: 0 auto;
+        margin-top: 30px;
+        padding: 10px;
+        border: 2px solid #fff;
+        border-radius: 5px;
+        background-color: transparent;
+        color: #f1eaea;
+        font-size: 1.5em;
+        width: 300px;
+      }
+
+      input::placeholder {
+        color: rgb(64, 70, 73);
+      }
+
+      button {
+        display: block;
+        margin: 0 auto;
+        margin-top: 50px;
+        padding: 10px 20px;
+        border: 2px solid #fff;
+        border-radius: 5px;
+        background-color: transparent;
+        color: #fff;
+        font-size: 1.5em;
+      }
+
+      button:hover {
+            background-color: rgb(38, 187, 233);
+      }
+
+      p {
+            font-family: fantasy;
+            font-size: 28px;
+            color:  #f1f3ec;
+      }
+
+      @keyframes flash {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+
+      #jumpToItemListing {
+        animation-name: motivate;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+      }
+
+      @keyframes motivate {
+        0% {
+        transform: translateY(0);
+        }
+        20% {
+        transform: translateY(-10px);
+        }
+        40% {
+        transform: translateY(0);
+        }
+        60% {
+        transform: translateY(-5px);
+        }
+        80% {
+        transform: translateY(0);
+        }
+        100% {
+        transform: translateY(-2px);
+        }
+    }
+</style>
+  </head>
+  <body>
+    <h1>Add Item to My Contract<span id="underscore">_</span></h1>
+    <input type="text" placeholder="Enter Your Item's name" id="setItemName">
+    <input type="text" placeholder="Enter Your Item's price in Wei" id="setItemPrice">
+    <input type="text" placeholder="Enter Your Item's detail" id="setItemDetails">
+    <input type="text" placeholder="Enter a brief description of your item" id="setItemDescription">
+    
+    <p id="warnMessage"></p>
+
+    <button id="submit" style="visibility: visible;" onclick="submit()">Submit</button>
+
+    <button id="jumpToItemListing" style="visibility: hidden;" onclick="location.href = 'itemListingPage.html';">Go to Marketplace</button>
+
+    <script>
+        /* Ensure that the page starts at the top whenever refresh the page */
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
+        }
+
+        // var contractAddress = "0x734988dcc2681b9ed5318b45026546d9322d2fcc";
+        // var account = "0xeD91FF98A7932D1c7C1d14957422023735DA6De6";
+
+        var contractAddress = localStorage.getItem('contractAddress');
+        var account = localStorage.getItem('sellerAddress');
+      
+
+        function outputText(id, text) {
+
+            var index = 0;
+            var speed = 30;
+            var container = document.getElementById(id);
+
+            if (container.innerHTML !== "") {
+                container.innerHTML = ""; 
+            }
+
+            var interval = setInterval(function() {
+            if (index < text.length) {
+                container.innerHTML += text.charAt(index);
+                index++;
+            } else {
+                clearInterval(interval);
+            }
+            }, speed);
+        }
+
+        /* function that helps scroll down the html page*/
+        function scrollToPosition(position, duration) {
+            // Get the current scroll position
+            var start = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+            
+            // Calculate the distance to scroll
+            var distance = position - start;
+            
+            // Get the start time
+            var startTime = null;
+            
+            function scroll(time) {
+            if (startTime === null) {
+                startTime = time;
+            }
+            
+            var timeElapsed = time - startTime;
+            var progress = Math.min(timeElapsed / duration, 1);
+            var scrollTop = start + distance * easeInOutCubic(progress);
+            window.scrollTo(0, scrollTop);
+            
+            if (timeElapsed < duration) {
+                window.requestAnimationFrame(scroll);
+            }
+            }
+            
+            function easeInOutCubic(t) {
+            return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+            }
+            
+            window.requestAnimationFrame(scroll);
+            }
+        
+            function scrollDown() {
+                var position = document.body.scrollHeight - window.innerHeight;
+                var duration = 1700;
+                scrollToPosition(-position*10, duration);
+            }
+
+        // write to the contract through setter functions within our back-end solidity code
+        const submit = async () => {
+            const name = document.getElementById("setItemName").value;
+            const price = document.getElementById("setItemPrice").value;
+            const detail = document.getElementById("setItemDetails").value;
+            const description = document.getElementById("setItemDescription").value;
+            
+            if (name === "" || price === "" || detail === "") {
+                
+                outputText("warnMessage", "Please ensure that you input product name and price correctly");
+
+            } else {
+
+                if (account === "") {
+                    outputText("warnMessage", "Please ensure that you have connected your Metamask seller account");
+                } else {
+
+                    // set up connection to the contract address
+                    const ABI = [ { "inputs": [], "stateMutability": "payable", "type": "constructor" }, { "inputs": [], "name": "InvalidState", "type": "error" }, { "inputs": [], "name": "ItemNotAdded", "type": "error" }, { "inputs": [], "name": "OnlyBuyer", "type": "error" }, { "inputs": [], "name": "OnlySeller", "type": "error" }, { "inputs": [], "name": "ValueNotEven", "type": "error" }, { "inputs": [], "name": "notEnoughEscrow", "type": "error" }, { "anonymous": false, "inputs": [], "name": "ConfirmShipped", "type": "event" }, { "anonymous": false, "inputs": [], "name": "ItemReceived", "type": "event" }, { "anonymous": false, "inputs": [], "name": "PurchaseConfirmed", "type": "event" }, { "anonymous": false, "inputs": [], "name": "SellerRefunded", "type": "event" }, { "anonymous": false, "inputs": [], "name": "addedEscrow", "type": "event" }, { "anonymous": false, "inputs": [], "name": "closedContract", "type": "event" }, { "inputs": [], "name": "addEscrow", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "inp_value", "type": "uint256" }, { "internalType": "string", "name": "inp_item_name", "type": "string" }, { "internalType": "string", "name": "inp_item_details", "type": "string" }, { "internalType": "string", "name": "inp_item_descriptions", "type": "string" } ], "name": "add_item", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "buyerNumber", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "checkNoActiveBuyers", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "closeContract", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [], "name": "confirmPurchase", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [], "name": "confirmReceived", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "address_", "type": "address" } ], "name": "confirmShipped", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [], "name": "createBuyer", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "key", "type": "address" } ], "name": "doesExist", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "escrowLeft", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getAddress", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getBalance", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getBuyerNumber", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "addr", "type": "address" } ], "name": "getBuyerState", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getItemDescription", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getItemDetails", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getItemName", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getItemPriceInWEI", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getValue", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "quantity", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "item_received_buyer", "type": "address" } ], "name": "refundSeller", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "seller", "outputs": [ { "internalType": "address payable", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "inp_item_descriptions", "type": "string" } ], "name": "setItem_Descriptions", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "inp_item_details", "type": "string" } ], "name": "setItem_Details", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "inp_item_name", "type": "string" } ], "name": "setItem_Name", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "inp_value", "type": "uint256" } ], "name": "setValue_Quant", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "value", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" } ]
+                    
+                    const address = contractAddress;
+
+                    window.web3 = await new Web3(window.ethereum);
+                    window.contract = await new window.web3.eth.Contract(ABI, address); 
+
+                    outputText("warnMessage", "Storing the item data to your smart contract now...");
+                    
+                    await window.contract.methods.add_item(price, name, detail, description).send({ from: account });
+
+                    pushProduct(price,name, detail, description, account);
+
+                    outputText("warnMessage", "Item added successfully, Congrats!");
+
+                    jumpToItemListing();
+
+                    async function pushProduct(price,name, detail, description,sellerAddress) {
+
+                        const product = new Parse.Object("Product_details");
+
+                        product.set("ProductName", name);
+                        product.set("ProductPrice", price);
+                        product.set("ProductDescription", description);
+                        product.set("ProductDetails", detail);
+                        product.set("SellerAddress", sellerAddress);
+
+                        try {
+                            let result = await product.save();
+
+                        } catch (error) {
+                            alert(`Error: ${error.message}`);
+
+                        }
+                    }
+
+                    // This function helps navigate to main item listing page
+                    async function jumpToItemListing() {
+
+                        scrollDown();
+                        document.getElementById("submit").style.visibility = "hidden";
+                        document.getElementById("jumpToItemListing").style.visibility = "visible";
+                        
+                    }
+
+                }
+
+            }
+        }
+
+    </script>
+
+  </body>
+</html>
