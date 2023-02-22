@@ -24,6 +24,23 @@
             opacity: 0;
         }
 
+        .cool-input {
+            display: block;
+            width: 300px;
+            padding: 10px;
+            margin: 0 auto;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            color: #333;
+            outline: none;
+        }
+        .cool-input:focus {
+            border-color: #5bc0de;
+            box-shadow: 0 0 5px #5bc0de;
+        }
+
         body {
             background-color: rgb(16, 17, 17);
             font-family: fantasy;
@@ -102,7 +119,12 @@
         <button onclick="connectMetamask()">CONNECT TO METAMASK</button> <br>
         <p id="accountArea"></p>
 
-        <button onclick="deployContract()">DEPLOY CONTRACT</button> <br>
+        <button onclick="haveMyOwnContract()">HAVE MY OWN CONTRACT</button> <br>
+        <p id="contractDeployValue"></p>
+        <input style="visibility: hidden;" type="text" class="cool-input" id="deployValue" placeholder="Enter the amount in Wei"> <br>
+        <br>
+        <button style="visibility: hidden;" id="deployContract" onclick="deployContract()">DEPLOY CONTRACT</button> <br>
+
         <p id="contractFollowMetamaskArea"></p>
         <p id="contractStartsDeployingArea"></p>
         <div id="myProgress">
@@ -122,20 +144,66 @@
         Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
         Parse.serverURL = "https://parseapi.back4app.com/";
 
+
+        /* function that helps dynamically output text */
+
+        function outputText(id, text) {
+
+            var index = 0;
+            var speed = 50;
+            var container = document.getElementById(id);
+            
+            if (container.innerHTML !== "") {
+                container = "";
+            }
+
+            var interval = setInterval(function() {
+            if (index < text.length) {
+                container.innerHTML += text.charAt(index);
+                index++;
+            } else {
+                clearInterval(interval);
+            }
+            }, speed);
+        }
+
+
         let account;
         const connectMetamask = async () => {
             if (window.ethereum !== "undefined") {
                 const accounts = await ethereum.request({ method: "eth_requestAccounts" });
                 account = accounts[0];
-                document.getElementById("accountArea").innerHTML = `User Account: ${account}`;
+                
+
+                var text = `Hello Address: ${account}`;
+                
+                outputText("accountArea", text);
             }
             
         }
 
-        let value;
+        let value = 0;
+        const haveMyOwnContract = async () => {
+
+            var text = "Please enter the amount you want to deploy to the contract below, it can be 0 for now and you can always add more balance to your contract later";
+
+            outputText("contractDeployValue", text);
+            
+            document.getElementById("deployValue").style.visibility = "visible";
+
+            document.getElementById("deployContract").style.visibility = "visible";
+
+        }
+    
+
         let contractAddress;
-        //2- connect to smart contract
         const deployContract = async () => {
+
+            value = document.getElementById("deployValue").value;
+
+            var text = "Please follow through the Metamask page ";
+            
+            outputText("contractFollowMetamaskArea", text);
             
             const ABI = [ { "inputs": [], "stateMutability": "payable", "type": "constructor" }, { "inputs": [], "name": "InvalidState", "type": "error" }, { "inputs": [], "name": "ItemNotAdded", "type": "error" }, { "inputs": [], "name": "OnlyBuyer", "type": "error" }, { "inputs": [], "name": "OnlySeller", "type": "error" }, { "inputs": [], "name": "ValueNotEven", "type": "error" }, { "inputs": [], "name": "notEnoughEscrow", "type": "error" }, { "anonymous": false, "inputs": [], "name": "ConfirmShipped", "type": "event" }, { "anonymous": false, "inputs": [], "name": "ItemReceived", "type": "event" }, { "anonymous": false, "inputs": [], "name": "PurchaseConfirmed", "type": "event" }, { "anonymous": false, "inputs": [], "name": "SellerRefunded", "type": "event" }, { "anonymous": false, "inputs": [], "name": "addedEscrow", "type": "event" }, { "anonymous": false, "inputs": [], "name": "closedContract", "type": "event" }, { "inputs": [], "name": "addEscrow", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "inp_value", "type": "uint256" }, { "internalType": "string", "name": "inp_item_name", "type": "string" }, { "internalType": "string", "name": "inp_item_details", "type": "string" }, { "internalType": "string", "name": "inp_item_descriptions", "type": "string" } ], "name": "add_item", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "buyerNumber", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "checkNoActiveBuyers", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "closeContract", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [], "name": "confirmPurchase", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [], "name": "confirmReceived", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "address_", "type": "address" } ], "name": "confirmShipped", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [], "name": "createBuyer", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "key", "type": "address" } ], "name": "doesExist", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "escrowLeft", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getAddress", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getBalance", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getBuyerNumber", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "addr", "type": "address" } ], "name": "getBuyerState", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getItemDescription", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getItemDetails", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getItemName", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getItemPriceInWEI", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getValue", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "quantity", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "item_received_buyer", "type": "address" } ], "name": "refundSeller", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "seller", "outputs": [ { "internalType": "address payable", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "inp_item_descriptions", "type": "string" } ], "name": "setItem_Descriptions", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "inp_item_details", "type": "string" } ], "name": "setItem_Details", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "string", "name": "inp_item_name", "type": "string" } ], "name": "setItem_Name", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "inp_value", "type": "uint256" } ], "name": "setValue_Quant", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "value", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" } ];
 
@@ -146,7 +214,6 @@
             window.web3 = await new Web3(window.ethereum);
             window.contract = await new window.web3.eth.Contract(ABI, Address); */
             
-            document.getElementById("contractFollowMetamaskArea").innerHTML = "Please follow through the Metamask page";
             
 
             window.web3 = await new Web3(window.ethereum);
@@ -154,25 +221,30 @@
 
             window.web3.eth.sendTransaction({
                 from: sellerAddress,
-                data: code
+                data: code,
+                value: value
             }).on('transactionHash', async function (hash) {
-                document.getElementById("contractStartsDeployingArea").innerHTML = "Contract is now deploying, please wait";
+                text = "Contract is now deploying, please wait";
+                outputText("contractStartsDeployingArea", text);
                 
                 await move();
 
             }).on("receipt", async function (receipt) {
                 if (receipt.status == false) {
-                    document.getElementById("contractDeployStateArea").innerHTML = "Contract-deploy fails, please check your Metamask page for more details";
+                    text = "Contract-deploy fails, please check your Metamask page for more details";
+                    outputText("contractDeployStateArea", text);
                 } else {
 
                     await move_finish();
 
-                    document.getElementById("contractDeployStateArea").innerHTML = "Contract-deploy successful!";
+                    text = "Contract-deploy successful!";
+                    outputText("contractDeployStateArea", text);
 
                     contractAddress = receipt.contractAddress;
-                    document.getElementById("contractAddressArea").innerHTML = "Here is your unique contract address: " + contractAddress;
 
-                    
+                    text = "Here is your unique contract address: " + contractAddress;
+                    outputText("contractAddressArea", text);
+
                     // store the contract address to the database
                     pushSellerContract(sellerAddress, contractAddress); 
                     
