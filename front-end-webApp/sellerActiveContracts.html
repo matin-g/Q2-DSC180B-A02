@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> View Active Contracts </title>
+    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+    <link href="background.css" rel="stylesheet" type="text/css">
+    <style>
+      body {
+        background-color: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .text-container {
+        margin-top: 100px;
+        opacity: 0;
+        animation: fadeIn 1s forwards;
+      }
+
+      .text-line {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      select {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #fff;
+        color: #000;
+        font-size: 1.5em;
+        margin-top: 50px;
+        cursor: pointer;
+      }
+
+      select:hover {
+        background-color: #ccc;
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideIn {
+        0% {
+          transform: translateY(50%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body onload="connectMetamask()">
+    <div class="container">
+      <div class="text-container">
+        <div class="text-line" id="time"></div>
+        <div class="text-line" id="connectMetamask"></div>
+        <div class="text-line" id="activeContracts"></div>
+        
+      </div>
+      <select id="info-selector" onchange="selectInfo()">
+        <option value="0" selected>Select Information</option>
+      </select>
+      <br>
+      <br>
+      <div class="text-line" id="chooseActiveContracts">Choose contract to view more details</div>
+    </div>
+
+    <script>
+
+        Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
+        Parse.serverURL = "https://parseapi.back4app.com/";
+
+        /* function that helps dynamically output text */
+        async function outputText(id, text, speed) {
+            var index = 0;
+            var speed = speed;
+            var container = document.getElementById(id);
+
+            var interval = setInterval(function() {
+            if (index < text.length) {
+                container.innerHTML += text.charAt(index);
+                index++;
+            } else {
+                clearInterval(interval);
+            }
+            }, speed);
+        }
+
+        printTime();
+
+        // connect to metamask when loading the page 
+
+        let sellerAccount;
+        const connectMetamask = async () => {
+            if (window.ethereum !== "undefined") {
+                const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+                sellerAccount = accounts[0];
+
+                await readFromDB();
+                
+            }
+            
+        }
+
+        function printTime() {
+            var date = new Date();
+
+            var month = date.toLocaleString('default', { month: 'long' });
+            var day = date.getDate();
+            var year = date.getFullYear();
+            var time = date.toISOString().substr(11, 8);
+
+            var dateString = month + " " + day + ", " + year + ", " + time + " UTC";
+            
+            outputText("time", dateString, 50);
+        }
+
+        async function readFromDB() {
+
+            // fetch seller's active contracts' data from database
+            var query = new Parse.Query("sellerContract");
+
+            // fetch rows that has column sellerAddress equal to seller Account
+            query.equalTo("sellerAddress", sellerAccount);
+            
+            // Fetch the data from the parse class
+            query.find().then(async function(results) {
+                // Extract the data from the results and store it in an array
+                columnData = results.map(function(result) {
+                    return result.get("contractAddress");
+                });
+                
+                var text = `Dear Seller: ${sellerAccount}, as of now, our system indicates that you have ${columnData.length} active 
+                contract(s).`;
+
+                outputText("connectMetamask", text, 30);
+
+                // add all the contract address to the option bar
+                var select = document.getElementById("info-selector"); // Get the select element
+                
+                for (let i = 0; i < columnData.length; i++) { 
+                    const contract = columnData[i];
+                    
+                    var option = document.createElement("option");
+                    option.textContent = contract; // Set the text content of the new option
+                    option.value = `${i}.html`
+                    select.appendChild(option); // Add the new option to the select element
+                }
+
+                }, function(error) {
+                console.log("Error: " + error.code + " " + error.message);
+            });
+            
+        }
+
+
+        var select = document.getElementById("info-selector");
+            select.addEventListener("change", function() {
+                var selectedOption = select.options[select.selectedIndex];
+                var url = selectedOption.value;
+                if (url !== "") {
+                    window.location.href = url;
+                }
+        });
+
+    </script>
+  </body>
+</html>
