@@ -159,7 +159,7 @@
                     
                     var option = document.createElement("option");
                     option.textContent = contract; // Set the text content of the new option
-                    option.value = `${i}.html`
+                    option.value = contract;
                     select.appendChild(option); // Add the new option to the select element
                 }
 
@@ -173,10 +173,13 @@
         var select = document.getElementById("info-selector");
             select.addEventListener("change", function() {
                 var selectedOption = select.options[select.selectedIndex];
-                var url = selectedOption.value;
-                if (url !== "") {
-                    window.location.href = url;
-                }
+                var contract = selectedOption.value;
+
+                // store the contract address and seller address for next html page to access
+                localStorage.setItem('contractAddress', contract);
+                localStorage.setItem('sellerAddress', sellerAccount);
+
+                window.location.href = "sellerContractDetailPage.html";
         });
 
     </script>
