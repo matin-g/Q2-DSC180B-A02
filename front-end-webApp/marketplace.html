@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+    <title>Marketplace</title>
+    <link href="background.css" rel="stylesheet" type="text/css">
+    <style>
+header {
+  background-color: #fff;
+  padding: 1em;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input[type="text"] {
+  padding: 0.5em;
+  font-size: 1em;
+  border: none;
+  border-radius: 2px 0 0 2px;
+}
+
+.search-bar button {
+  padding: 0.5em;
+  background-color: #dfd;
+  border: none;
+  border-radius: 0 2px 2px 0;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background-color: #cfc;
+}
+
+.search-bar button:focus {
+  outline: none;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.listing-section {
+  width: 100%;
+  float: left;
+  padding: 1%;
+}
+
+.product {
+  float: left;
+  width: 23%;
+  border-radius: 2%;
+  margin: 1%;
+}
+
+.product:hover {
+  box-shadow: 1.5px 1.5px 2.5px 3px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 1.5px 1.5px 2.5px 3px rgba(0, 0, 0, 0.4);  
+  -moz-box-shadow:    1.5px 1.5px 2.5px 3px rgba(0, 0, 0, 0.4);
+}
+
+.image-box {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 2% 2% 0 0;
+}
+
+.images {
+  height: 15em;
+  background-size: cover; 
+  background-position: center center; 
+  background-repeat: no-repeat;
+  border-radius: 2% 2% 0 0;
+  transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  -webkit-transition: all 1s ease;
+  -o-transition: all 1s ease;
+}
+
+.images:hover {
+  transform: scale(1.2);
+  overflow: hidden;
+  border-radius: 2%;
+}
+
+
+.text-box {
+  width: 100%;
+  float: left;
+  border: 0.01em solid #dddbdb;
+  border-radius: 0 0 2% 2%;
+  padding: 1em;
+}
+
+h2, h3 {
+  float: left;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 1em;
+  text-transform: uppercase;
+  margin: 0.2em auto;
+}
+
+.item, .price {
+  clear: left;
+  width: 100%;
+  text-align: center;
+}
+
+.price {
+  color: Grey;
+}
+
+.description, label, button {
+  float: left;
+  clear: left;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: 1em;
+  text-align: center;
+  margin: 0.2em auto;
+}
+
+
+label {
+  width: 60%;
+}
+
+.text-box button {
+  margin-top: 1em;
+}
+
+button {
+  padding: 2%;
+  background-color: #dfd;
+  border: none;
+  border-radius: 2%;
+}
+
+button:hover {
+  bottom: 0.1em;
+}
+
+button:focus {
+  outline: 0;
+}
+
+button:active {
+  bottom: 0;
+  background-color: #fdf;
+}
+
+
+    </style>
+    <head>
+    <title>Marketplace</title>
+    <link href="background.css" rel="stylesheet" type="text/css">
+    <style>
+      /* CSS styles */
+    </style>
+    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="banner">
+        <h1>Search for new items to Buy!</h1>
+        <form class="search-bar">
+          <input type="text" placeholder="Search...">
+          <button type="submit">Search</button>
+        </form>
+      </div>
+    </header>
+    <!-- <div class="listing-section"> -->
+    <div id="listing-section"></div>
+    <script>
+      // Initialize Parse
+      Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi");
+      Parse.serverURL = "https://parseapi.back4app.com/";
+
+  // Define query
+  var query = new Parse.Query("Product_details");
+
+  console.log('1');
+  console.log(query);
+  // Find all products
+  query.find({
+    success: function(products) {
+      // Get products list element
+      var productsList = document.getElementById("listing-section");
+      console.log('2', productsList);
+
+      // Loop through products and create HTML for each one
+      for (var i = 0; i < products.length; i++) {
+        // Get product data
+        var product = products[i];
+        var name = product.get("productName");
+        var price = product.get("productPrice");
+        var description = product.get("description");
+
+        // Create HTML for product
+        var productHtml = '<div class="product">' +
+          '<div class="image-box">' +
+          '<div class="images" id="image-' + product.id + '"></div>' +
+          '</div>' +
+          '<div class="text-box">' +
+          '<h2 class="item">' + name + '</h2>' +
+          '<h3 class="price">' + price + '</h3>' +
+          '<p class="description">' + description + '</p>' +
+          '<button type="button" name="item-'+ product.id +'-button" id="item-'+ product.id +'-button">Add to Cart</button>' +
+          '</div>' +
+          '</div>';
+
+        // Add product HTML to products list
+        productsList.insertAdjacentHTML('beforeend', productHtml);
+      }
+    },
+    error: function(error) {
+      alert("Error: " + error.code + " " + error.message);
+    }
+  });
+</script>
+    </script>
+  </body>
+</html>

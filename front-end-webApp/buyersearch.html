@@ -1,54 +1,74 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>Search Page</title>
-    <!-- Include the Parse SDK -->
-    <script src="https://unpkg.com/parse/dist/parse.min.js"></script>
-
-      
-      <script>
-    Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
-    Parse.serverURL = "https://parseapi.back4app.com/";
-
-    //search bar works, but we need to create a column for products to reference
-    // (and our smart contract code). Just to get it working, it works with usernames now.
-
-
-      // Define a function to execute the search
-      function search() {
-        // Get the search term from the input element
-        const searchTerm = document.getElementById('search-input').value;
-        //console.log(searchTerm);
-        // Create a Parse query to search for the matching user
-        const query = new Parse.Query("User");
-        query.equalTo('username', searchTerm);
-        console.log(searchTerm)
-        console.log(query)
-        // Execute the query
-        query.first().then(user => {
-          if (user) {
-            // If a matching user is found, go to the new HTML link
-            
-            window.location.href = "BuyerPage.html";
-          } else {
-            // Display an error message if no matching user was found
-            console.log('No matching user found');
-          }
-        }).catch(error => {
-          // Display an error message if there was an issue executing the query
-          console.error('Error executing query:', error);
-        });
+    <title>Seller Search Page</title>
+    <link href="background.css" rel="stylesheet" type="text/css">
+    <style>
+      body {
+        background-color: #202020;
+        color: #fff;
+        font-family: Arial, sans-serif;
       }
-    </script>
+      
+      h1 {
+        font-size: 4em;
+        text-align: center;
+        margin-top: 100px;
+        animation: slideIn 2s ease;
+      }
+      
+      .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+      }
+      
+      .button {
+        margin: 0 20px;
+        padding: 10px 20px;
+        border: 2px solid #fff;
+        border-radius: 5px;
+        background-color: transparent;
+        color: #fff;
+        font-size: 1.5em;
+      }
+      
+      .button:hover {
+        background-color: #fff;
+        color: #202020;
+        cursor: pointer;
+        animation: pulse 0.6s ease infinite;
+      }
+
+      @keyframes slideIn {
+        0% {
+          transform: translateX(-100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
   </head>
   <body>
-    <button onclick="location.href = 'BuyerPage.html';">Open my Active Contracts</button>
-
-    <h1>Search Bar Example</h1>
-    <input type="text" id="search-input" placeholder="Enter a username">
-    <button type="button" onclick="search()">Search for New Available Contract</button>
+    <h1> Hello Buyer </h1>
+    <div class="button-container">
+      <button class="button" onclick="location.href = 'marketplace.html';">Shop the Marketplace</button>
+      <button class="button" onclick="location.href = 'buyerActiveContracts.html';">View Active Contracts</button>
+    </div>
   </body>
 </html>
-
-

@@ -10,214 +10,172 @@
 
     <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
     <style>
-/*        body {
-            background-color: black;
-            font-family: fantasy;
-            font-size: 15px;
-            display: flex;
-            text-align: row;
-        }
 
-        button {
-            background-color: white;
-            font-size: 20px;
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-        }
-
-        button:hover {
-            background-color: yellow;
-        }
-    */
-/*        #readArea {
-            flex-basis: 50%;
-        }
-
-        #writeArea {
-            flex-basis: 50%;
-        }
-        */
-/*                body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
-        h1 {
-            text-align: center;
-            font-size: 50px;
-            font-weight: bold;
-            color: #007bff;
-            margin-top: 100px;
-        }
-        button {
-            background-color: #007bff;
-            color: #fff;
-            padding: 20px 40px;
-            font-size: 25px;
-            border-radius: 50px;
-            border: none;
-            margin-top: 50px;
-            cursor: pointer;
-            box-shadow: 0px 8px #0069e0;
-            transition: all 0.3s ease;
-        }
-        button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 12px #0069e0;
-        }
-        .button-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }*/
-        body {
-    font-family: 'Helvetica Neue', sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
+body {
+  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center; 
+  min-height: 100vh;
 }
 
 h1 {
-    text-align: center;
-    font-size: 3.5rem;
-    font-weight: bold;
-    margin-top: 10vh;
-
-    /* Fallback: Set a background color. */
-    background-color: white;
-    
-    /* Create the gradient. */
-    background-image: linear-gradient(45deg, #b6f50a, #e303fc);
-    
-    /* Set the background size and repeat properties. */
-    background-size: 100%;
-    background-repeat: repeat;
-
-    /* Use the text as a mask for the background. */
-    /* This will show the gradient as a text color rather than element bg. */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; 
-    -moz-background-clip: text;
-    -moz-text-fill-color: transparent;
-    
+  top: 0;
+  margin-top:  1.5em;
+  z-index: 9999;
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: bold;
+  background-color: white;
+  background-image: linear-gradient(45deg, #b6f50a, #e303fc);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
 }
 
-/* This part is for the vertical rotating text */
 .Iam {
-    padding: 4em 14em;
-	font: normal 40px/50px Montserrat, sans-serif;
-	color: #faad48;
+  padding: 10vh 5vw;
+  font: normal 40px/50px Montserrat, sans-serif;
+  color: #faad48;
+  top: 10;
+  position: relative;
 }
+
 .Iam p {
-	height: 30px;
-	float: left;
-	margin-right: 0.5em;
+  float: left;
+  margin-right: 0.5em;
+    height: 40px;
+  top: 20px;
 }
+
 .Iam b {
-	float: left;
-	overflow: hidden;
-	position: relative;
-	height: 50px;
-	top: 40px;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  height: 50px;
+  top: 0px;
 }
+
 .Iam .innerIam {
-	display: inline-block;
-	color: #eaebe4;
-	position: relative;
-	white-space: nowrap;
-	top: 0;
-	left: 0;
-
-
+  display: inline-block;
+  color: #eaebe4;
+  position: relative;
+  white-space: nowrap;
+  top: 0;
+  left: 0;
 /*animation*/
 -webkit-animation:move 10s;
-	-moz-animation:move 10s;
-	-ms-animation:move 10s;
-	-o-animation:move 10s;
-		animation:move 10s;
+    -moz-animation:move 10s;
+    -ms-animation:move 10s;
+    -o-animation:move 10s;
+        animation:move 10s;
 /*animation-iteration-count*/
 -webkit-animation-iteration-count:infinite;
-	-moz-animation-iteration-count:infinite;
-	-ms-animation-iteration-count:infinite;
-	-o-animation-iteration-count:infinite;
-		animation-iteration-count:infinite;
+    -moz-animation-iteration-count:infinite;
+    -ms-animation-iteration-count:infinite;
+    -o-animation-iteration-count:infinite;
+        animation-iteration-count:infinite;
 /*animation-delay*/
 -webkit-animation-delay:1s;
-	-moz-animation-delay:1s;
-	-ms-animation-delay:1s;
-	-o-animation-delay:1s;
-		animation-delay:2s;
+    -moz-animation-delay:1s;
+    -ms-animation-delay:1s;
+    -o-animation-delay:1s;
+        animation-delay:2s;
 }
+
 @keyframes move{
-	0%  { top: 0px; }
-	20% { top: -50px; }
-	40% { top: -100px; }
-	60% { top: -150px; }
-	80% { top: -200px; }
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
 }
 
 @-webkit-keyframes move {
-	0%  { top: 0px; }
-	20% { top: -50px; }
-	40% { top: -100px; }
-	60% { top: -150px; }
-	80% { top: -200px; }
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
 }
 @-moz-keyframes move {
-	0%  { top: 0px; }
-	20% { top: -50px; }
-	40% { top: -100px; }
-	60% { top: -150px; }
-	80% { top: -200px; }
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
 }
 @-o-keyframes move {
-	0%  { top: 0px; }
-	20% { top: -50px; }
-	40% { top: -100px; }
-	60% { top: -150px; }
-	80% { top: -200px; }
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
 }
 @keyframes move {
-	0%  { top: 0px; }
-	20% { top: -50px; }
-	40% { top: -100px; }
-	60% { top: -150px; }
-	80% { top: -200px; }
+    0%  { top: 0px; }
+    20% { top: -50px; }
+    40% { top: -100px; }
+    60% { top: -150px; }
+    80% { top: -200px; }
 }
 
 .button-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  min-height: 10vh;
+  padding: 2rem;
 }
 
 button {
-    display: inline-block;
-    background-color: #007bff;
-    text-align: center;
-    color: #fff;
-    font-size: 1.5rem;
-    padding: 1rem 2.5rem;
-    border-radius: 5rem;
-    border: none;
-    margin: 0 1rem;
-    cursor: pointer;
-    box-shadow: 0 0.5rem #0069e0;
-    transition: all 0.3s ease;
+  display: inline-block;
+  background-color: #007bff;
+  text-align: center;
+  color: #fff;
+  font-size: 1.5rem;
+  padding: 1rem 2.5rem;
+  border-radius: 5rem;
+  border: none;
+  margin: 1rem;
+  cursor: pointer;
+  box-shadow: 0 0.5rem #0069e0;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.8rem #0069e0;
+  transform: translateY(-2px);
+  box-shadow: 0 0.8rem #0069e0;
 }
+
+
 
     </style>
 
 
         <script>
-      function navigateToSignInOrSignUp(role) {
+      // function navigateToSignInOrSignUp(role) {
+      //   localStorage.setItem("role", role);
+      //   window.location.href = "sign-in-or-sign-up.html";
+      // }
+            function navigateToSignInOrSignUp(role) {
         localStorage.setItem("role", role);
-        window.location.href = "sign-in-or-sign-up.html";
+        if (role === "buyer") {
+          document.write("Hi Buyer");
+          window.location.href = "buyerSearch.html";
+        } else if (role === "seller") {
+          document.write("Hi Seller");
+          window.location.href = "sellerSearch.html";
+      }
       }
     </script>
 </head>
@@ -234,7 +192,23 @@ button:hover {
 
     <div class="Iam">
     
-    <p>This is</p>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container p {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>This is</p>
+    </div>
+
+
     <b>
       <div class="innerIam">
         the future to e-Commerce<br /> 
