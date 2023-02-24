@@ -231,11 +231,16 @@ function renderProducts(products) {
 
   for (let i = 0; i < products.length; i++) {
     const product = products[i];
+    var photo = product.image.url;
+    //$("profileImg")[0].src = profilePhoto.url();
+
+    console.log(photo);
+
     const productHTML = `
       <div class="product">
         <div class="image-box">
-          <div class="images" id="image-${i}"></div>
-        </div>
+      <img src="${photo}">
+    </div>
         <div class="text-box">
           <h2 class="item">${product.ProductName}</h2>
           <h3 class="price">${product.ProductPrice} Wei</h3>

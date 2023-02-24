@@ -145,14 +145,51 @@
         transform: translateY(-2px);
         }
     }
+
+    form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+input[type="file"] {
+  margin-bottom: 10px;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
 </style>
   </head>
   <body>
-    <h1>Add Item to My Contract<span id="underscore">_</span></h1>
-    <input type="text" placeholder="Enter Your Item's name" id="setItemName">
-    <input type="text" placeholder="Enter Your Item's price in Wei" id="setItemPrice">
-    <input type="text" placeholder="Enter Your Item's detail" id="setItemDetails">
-    <input type="text" placeholder="Enter a brief description of your item" id="setItemDescription">
+<h1>Add Item to My Contract<span id="underscore">_</span></h1>
+
+<input type="text" id="setItemName" placeholder="Enter Your Item's Name">
+<input type="text" id="setItemPrice" placeholder="Enter Your Item's Price in Wei">
+<input type="text" id="setItemDetails" placeholder="Enter Your Item's Details">
+<input type="text" id="setItemDescription" placeholder="Enter a Brief Description of Your Item">
+
+<form>
+  <label for="imageUpload">Choose an Image to Upload:</label>
+  <input type="file" id="imageUpload" name="imageUpload">
+</form>
     
     <p id="warnMessage"></p>
 
@@ -168,6 +205,32 @@
 
         Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
         Parse.serverURL = "https://parseapi.back4app.com/";
+
+        // function saveImageToParse(event) {
+        //   event.preventDefault(); // prevent default form submission behavior
+          
+        //   // get the selected image file from the input element
+        //   const imageFile = document.getElementById("imageUpload").files[0];
+          
+        //   // create a new Parse File object with the selected image
+        //   const parseFile = new Parse.File("image.jpg", imageFile);
+          
+        //   // create a new instance of the Product_details class and set the image column to the Parse File object
+        //   const ProductDetails = Parse.Object.extend("Product_details");
+        //   const productDetails = new ProductDetails();
+        //   productDetails.set("image", parseFile);
+          
+        //   // save the instance to Parse DB
+        //   productDetails.save().then(function() {
+        //     // instance was saved successfully, continue with default form submission behavior
+        //     event.target.submit();
+        //   }, function(error) {
+        //     // there was an error saving the instance to Parse DB, display an error message
+        //     console.error("Error saving product details to Parse:", error);
+        //     alert("There was an error saving the product details. Please try again.");
+        //   });
+        // }
+
 
         // var contractAddress = "0x734988dcc2681b9ed5318b45026546d9322d2fcc";
         // var account = "0xeD91FF98A7932D1c7C1d14957422023735DA6De6";
@@ -241,6 +304,11 @@
             const price = document.getElementById("setItemPrice").value;
             const detail = document.getElementById("setItemDetails").value;
             const description = document.getElementById("setItemDescription").value;
+
+            const imageFile = document.getElementById("imageUpload").files[0];
+          
+          // create a new Parse File object with the selected image
+            const parseFile = new Parse.File("image.jpg", imageFile);
             
             if (name === "" || price === "" || detail === "") {
                 
@@ -264,13 +332,13 @@
                     
                     await window.contract.methods.add_item(price, name, detail, description).send({ from: account });
 
-                    pushProduct(price,name, detail, description, account);
+                    pushProduct(price,name, detail, description, account,parseFile);
 
                     outputText("warnMessage", "Item added successfully, Congrats!");
 
                     jumpToItemListing();
 
-                    async function pushProduct(price,name, detail, description,sellerAddress) {
+                    async function pushProduct(price,name, detail, description,sellerAddress,parseFile) {
 
                         const product = new Parse.Object("Product_details");
                         var contractAddress = localStorage.getItem('contractAddress');
@@ -281,6 +349,7 @@
                         product.set("ProductDetails", detail);
                         product.set("SellerAddress", sellerAddress);
                         product.set("contractAddress", contractAddress);
+                        product.set("image", parseFile);
 
                         try {
                             let result = await product.save();
