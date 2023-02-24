@@ -134,10 +134,10 @@
         async function readFromDB() {
 
             // fetch seller's active contracts' data from database
-            var query = new Parse.Query("sellerContract");
+            var query = new Parse.Query("Product_details");
 
             // fetch rows that has column sellerAddress equal to seller Account
-            query.equalTo("sellerAddress", sellerAccount);
+            query.equalTo("SellerAddress", sellerAccount);
             
             // Fetch the data from the parse class
             query.find().then(async function(results) {
@@ -162,7 +162,7 @@
                     const contract = columnData[i];
                     
                     var option = document.createElement("option");
-                    option.textContent = contract.ProductName + " = "+ contract.ProductPrice+" Wei";  // Set the text content of the new option
+                    option.textContent = contract.ProductName + " = "+ contract.ProductPrice+" Wei"; // Set the text content of the new option
                     option.value = contract.ContractAddress;
                     select.appendChild(option); // Add the new option to the select element
                 }
