@@ -187,7 +187,7 @@ button:active {
       <div class="banner">
         <h1>Search for new items to Buy!</h1>
         <form class="search-bar">
-          <input type="text" placeholder="Search...">
+          <input id ='inn' type="text" placeholder="Search...">
           <button id="submit">Search</button>
         </form>
       </div>
@@ -195,130 +195,179 @@ button:active {
     <!-- <div class="listing-section"> -->
     <div id="listing-section"></div>
     <script>
+
       // Initialize Parse
-      Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi");
-      Parse.serverURL = "https://parseapi.back4app.com/";
+Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi");
+Parse.serverURL = "https://parseapi.back4app.com/";
 
+// Query the database to get all the data
+const query = new Parse.Query("Product_details");
+query.find().then(results => {
+  const products = results.map(result => result.toJSON());
+  renderProducts(products);
 
-// readFromDB();
-filterReadDB();
+  // Filter products based on search query
+  const searchForm = document.querySelector('.search-bar');
+  const searchInput = document.querySelector('#inn');
+  const submitBtn = document.querySelector('#submit');
 
+  submitBtn.addEventListener('click', function (event) {
+    event.preventDefault();
 
-const searchButton = document.getElementById("submit");
+    const query = searchInput.value.toLowerCase();
+    const filteredProducts = products.filter(product =>
+      product.ProductName.toLowerCase().includes(query) ||
+      product.ProductDescription.toLowerCase().includes(query)
+    );
 
-searchButton.addEventListener("click", () => {
-  console.log('300o0');
-  const searchInput = document.getElementById("submit").value;
-  console.log(searchInput);
-  // Perform search logic here with the searchInput value
-
- // await filterReadDB(searchInput);
- filterReadDB(searchInput);
-  
+    renderProducts(filteredProducts);
+  });
 });
 
+// Render products on the page
+function renderProducts(products) {
+  const listingSection = document.getElementById("listing-section");
+  listingSection.innerHTML = "";
 
-
-
-//   async function readFromDB() {
-
-//   // Define query
-//   var query = new Parse.Query("Product_details");
-
-//   console.log('1');
-
-//   // Find all products
-//   // query.find({
-//   //   success: function(products) {
-//     query.find().then((products) => {
-//       // Get products list element
-//       console.log('10');
-//       var productsList = document.getElementById("listing-section");
-//       console.log('2', productsList);
-
-//       // Loop through products and create HTML for each one
-//       for (var i = 0; i < products.length; i++) {
-//         // Get product data
-//         var product = products[i];
-//         var name = product.get("ProductName");
-//         var price = product.get("ProductPrice");
-//         var description = product.get("ProductDescription");
-
-//         // Create HTML for product
-//         var productHtml = '<div class="product">' +
-//           '<div class="image-box">' +
-//           '<div class="images" id="image-' + product.id + '"></div>' +
-//           '</div>' +
-//           '<div class="text-box">' +
-//           '<h2 class="item">' + name + '</h2>' +
-//           '<h3 class="price">' + price + '</h3>' +
-//           '<p class="description">' + description + '</p>' +
-//           '<button type="button" name="item-'+ product.id +'-button" id="item-'+ product.id +'-button">Add to Cart</button>' +
-//           '</div>' +
-//           '</div>';
-
-//         // Add product HTML to products list
-//         productsList.insertAdjacentHTML('beforeend', productHtml);
-//       }
-// }).catch((error) =>  {
-//  alert("Error: " + error.code + " " + error.message);// error is an instance of parse.error.
-// });
-// }
-
-async function filterReadDB(searchInput) {
-  // Define query
-  var query = new Parse.Query("Product_details");
-
-  // If searchInput is provided, modify query to search for matching products
-  if (searchInput) {
-    var nameQuery = new Parse.Query("Product_details");
-    nameQuery.contains("ProductName", searchInput);
-
-    var descQuery = new Parse.Query("Product_details");
-    descQuery.contains("ProductDescription", searchInput);
-
-    query = Parse.Query.or(nameQuery, descQuery);
+  for (let i = 0; i < products.length; i++) {
+    const product = products[i];
+    const productHTML = `
+      <div class="product">
+        <div class="image-box">
+          <div class="images" id="image-${product.id}"></div>
+        </div>
+        <div class="text-box">
+          <h2 class="item">${product.ProductName}</h2>
+          <h3 class="price">$${product.ProductPrice}</h3>
+          <p class="description">${product.ProductDescription}</p>
+          <button>Add to Cart</button>
+        </div>
+      </div>
+    `;
+    listingSection.innerHTML += productHTML;
   }
-
-  // Find all matching products
-  query.find().then((products) => {
-    // Get products list element
-    var productsList = document.getElementById("listing-section");
-
-    // Clear current products from the list
-    productsList.innerHTML = "";
-
-    // Loop through matching products and create HTML for each one
-    for (var i = 0; i < products.length; i++) {
-      // Get product data
-      var product = products[i];
-      var name = product.get("ProductName");
-      var price = product.get("ProductPrice");
-      var description = product.get("ProductDescription");
-
-      // Create HTML for product
-      var productHtml = '<div class="product">' +
-        '<div class="image-box">' +
-        '<div class="images" id="image-' + product.id + '"></div>' +
-        '</div>' +
-        '<div class="text-box">' +
-        '<h2 class="item">' + name + '</h2>' +
-        '<h3 class="price">' + price + '</h3>' +
-        '<p class="description">' + description + '</p>' +
-        '<button type="button" name="item-'+ product.id +'-button" id="item-'+ product.id +'-button">Add to Cart</button>' +
-        '</div>' +
-        '</div>';
-
-      // Add product HTML to products list
-      productsList.insertAdjacentHTML('beforeend', productHtml);
-    }
-  }).catch((error) =>  {
-    alert("Error: " + error.code + " " + error.message);
-  });
 }
 
 
 
+      // // Initialize Parse
+      // Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi");
+      // Parse.serverURL = "https://parseapi.back4app.com/";
+
+
+      //       // Query the database to get all the data
+      // const query = new Parse.Query("Product_details");
+      // query.find().then(results => {
+      //   const products = results.map(result => result.toJSON());
+      //   renderProducts(products);
+      // });
+
+      // // Render products on the page
+      // function renderProducts(products) {
+      //   const listingSection = document.getElementById("listing-section");
+      //   listingSection.innerHTML = "";
+
+      //   for (let i = 0; i < products.length; i++) {
+      //     const product = products[i];
+      //     const productHTML = `
+      //       <div class="product">
+      //         <div class="image-box">
+      //           <div class="images" id="image-${product.id}"></div>
+      //         </div>
+      //         <div class="text-box">
+      //           <h2 class="item">${product.ProductName}</h2>
+      //           <h3 class="price">$${product.ProductPrice}</h3>
+      //           <p class="description">${product.ProductDescription}</p>
+      //           <button>Add to Cart</button>
+      //         </div>
+      //       </div>
+      //     `;
+      //     listingSection.innerHTML += productHTML;
+      //   }
+      // }
+
+      // // Filter products based on search query
+      // const searchForm = document.querySelector('.search-bar');
+      // const searchInput = document.querySelector('#inn');
+      // const submitBtn = document.querySelector('#submit');
+
+      // submitBtn.addEventListener('click', function (event) {
+      //   event.preventDefault();
+
+      //   const query = searchInput.value.toLowerCase();
+      //   const filteredProducts = products.filter(product =>
+      //     product.name.toLowerCase().includes(query) ||
+      //     product.description.toLowerCase().includes(query)
+      //   );
+
+      //   renderProducts(filteredProducts);
+      // });
+
+// filterReadDB();
+
+// async function filterReadDB() {
+
+
+  
+//   console.log(searchInput);
+//   var searchInput = document.getElementById("inn").value;
+
+//   //var searchInput = "Apple";
+
+
+//   // Define query
+//   var query = new Parse.Query("Product_details");
+
+//   // Filter by search input
+//   if (searchInput) {
+//     console.log('yooo');
+//     var nameQuery = new Parse.Query("Product_details");
+//     nameQuery.contains("ProductName", searchInput);
+
+//     var descriptionQuery = new Parse.Query("Product_details");
+//     descriptionQuery.contains("ProductDescription", searchInput);
+
+//     query = Parse.Query.or(nameQuery, descriptionQuery);
+//   }
+
+//   // Find products
+// query.find().then((products) => {
+//     // Get products list element
+
+//     console.log('dssdsdsdsd');
+//     var productsList = document.getElementById("listing-section");
+
+//     // Clear current products from the list
+//     productsList.innerHTML = "";
+
+//     // Loop through matching products and create HTML for each one
+//     for (var i = 0; i < products.length; i++) {
+//       // Get product data
+//       var product = products[i];
+//       var name = product.get("ProductName");
+//       var price = product.get("ProductPrice");
+//       var description = product.get("ProductDescription");
+
+//       // Create HTML for product
+//       var productHtml = '<div class="product">' +
+//         '<div class="image-box">' +
+//         '<div class="images" id="image-' + product.id + '"></div>' +
+//         '</div>' +
+//         '<div class="text-box">' +
+//         '<h2 class="item">' + name + '</h2>' +
+//         '<h3 class="price">' + price + '</h3>' +
+//         '<p class="description">' + description + '</p>' +
+//         '<button type="button" name="item-'+ product.id +'-button" id="item-'+ product.id +'-button">Add to Cart</button>' +
+//         '</div>' +
+//         '</div>';
+
+//       // Add product HTML to products list
+//       productsList.insertAdjacentHTML('beforeend', productHtml);
+//     }
+//   }).catch((error) =>  {
+//     alert("Error: " + error.code + " " + error.message);
+//   });
+// }
 
     </script>
   </body>
