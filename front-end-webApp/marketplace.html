@@ -234,18 +234,39 @@ function renderProducts(products) {
     const productHTML = `
       <div class="product">
         <div class="image-box">
-          <div class="images" id="image-${product.id}"></div>
+          <div class="images" id="image-${i}"></div>
         </div>
         <div class="text-box">
           <h2 class="item">${product.ProductName}</h2>
           <h3 class="price">$${product.ProductPrice}</h3>
           <p class="description">${product.ProductDescription}</p>
-          <button>Add to Cart</button>
+          <button class="add-to-cart-btn" data-product-id="${product.contractAddress}">Add to Cart</button>
         </div>
       </div>
     `;
     listingSection.innerHTML += productHTML;
   }
+
+
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', function(event) {
+      const productId = event.target.dataset.productId;
+      //const productId = event.target.dataset;
+      console.log(productId);
+
+      localStorage.setItem('contractAddress', productId);
+
+    //       setTimeout(function(){
+    //     // Code to run after the pause
+    //     alert("This is really slow!");
+    // }, 30000);
+
+      window.location.href = "buyerPage.html";
+      //window.location.href = `/cart?productId=${productId}`;
+    });
+  });
+
 }
 
 
@@ -368,6 +389,8 @@ function renderProducts(products) {
 //     alert("Error: " + error.code + " " + error.message);
 //   });
 // }
+
+
 
     </script>
   </body>
