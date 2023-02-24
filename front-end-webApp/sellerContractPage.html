@@ -18,7 +18,12 @@
 			font-family: Arial, sans-serif;
 			margin: 0;
 			padding: 0;
+			text-align: center;
 		}
+
+		h1 {
+  display: block;
+}
 
 		h2 {
 			text-align: center;
@@ -119,9 +124,9 @@
 </head>
 <body>
 	<div class="container">
-			<h1 id="Contract">Contract: </h1>
 			<h1 id="Address">Address: </h1>
-<!-- 			<h1 id="Balance">Balance: </h1> -->
+			<h1 id="Balance">Balance: </h1>
+			<h1 id="Contract">Contract: </h1>
 		<div class="half">
 			<div class="section">
 			<h2>Product</h2>
@@ -138,9 +143,6 @@
 			</div>
 			<div class="section">
 				<h2>Contract functions</h2>
-				<p>Functions related to the contract go here...</p>
-		<button onclick="getBalance()">GET BALANCE OF THE CONTRACT</button>
-        <p id="balanceArea">Balance: Not Connected to Contract</p>
          <button onclick="confirmShipped()">CONFIRM SHIPPED</button> <br>
         <input type="text" id="addressInputCS" placeholder="Enter Address"> <br>
         <p id="dataArea6"></p>
@@ -211,6 +213,11 @@
             console.log("connected to smart contract");
             console.log(Address);
 
+
+window.onload = () => {
+  getBalance();
+};
+
             //document.getElementById("Balance").textContent = window.contract.methods.getBalance().call();
 
             //getBalance();
@@ -251,7 +258,7 @@
         const getBalance= async () => {
         	// console.log('sddsd');
             const data = await window.contract.methods.getBalance().call();
-            document.getElementById("balanceArea").textContent = `Contract Balance (Wei): ${data}`;
+            document.getElementById("Balance").textContent = 'Contract Balance (Wei): ' + data;
             // console.log('fdfddfdfdfdffd');
         }
 
