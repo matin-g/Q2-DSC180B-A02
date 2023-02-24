@@ -143,11 +143,7 @@
             query.find().then(async function(results) {
                 // Extract the data from the results and store it in an array
                 columnData = results.map(function(result) {
-                  return {
-                         ContractAddress: result.get("contractAddress"),
-                         ProductName: result.get("ProductName"),
-                         ProductPrice: result.get("ProductPrice")
-                     };
+                    return result.get("contractAddress");
                 });
                 
                 var text = `Dear Buyer: ${buyerAccount}, as of now, our system indicates that you have ${columnData.length} active 
@@ -162,8 +158,8 @@
                     const contract = columnData[i];
                     
                     var option = document.createElement("option");
-                    option.textContent = contract.ProductName + " = "+ contract.ProductPrice+" Wei"; // Set the text content of the new option
-                    option.value = contract.ContractAddress;
+                    option.textContent = contract; // Set the text content of the new option
+                    option.value = contract;
                     select.appendChild(option); // Add the new option to the select element
                 }
 

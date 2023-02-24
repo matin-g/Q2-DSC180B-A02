@@ -305,8 +305,19 @@ input[type="submit"]:hover {
             const detail = document.getElementById("setItemDetails").value;
             const description = document.getElementById("setItemDescription").value;
 
-            const imageFile = document.getElementById("imageUpload").files[0];
-          
+            const imageFile = document.getElementById("imageUpload").files[0] ;//|| getDefaultImageFile();
+
+            // function getDefaultImageFile() {
+            //   // create a new XMLHttpRequest object to load the default image file as a binary string
+            //   const xhr = new XMLHttpRequest();
+            //   xhr.open("GET", "stock1.png", false);
+            //   xhr.responseType = "blob";
+            //   xhr.send(null);
+              
+            //   // create a new File object with the binary string and return it as the default image file
+            //   return new File([xhr.response], "default.jpg", { type: "image/jpeg" });
+            // }
+                      
           // create a new Parse File object with the selected image
             const parseFile = new Parse.File("image.jpg", imageFile);
             
