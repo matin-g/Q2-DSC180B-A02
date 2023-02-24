@@ -273,12 +273,14 @@
                     async function pushProduct(price,name, detail, description,sellerAddress) {
 
                         const product = new Parse.Object("Product_details");
+                        var contractAddress = localStorage.getItem('contractAddress');
 
                         product.set("ProductName", name);
                         product.set("ProductPrice", price);
                         product.set("ProductDescription", description);
                         product.set("ProductDetails", detail);
                         product.set("SellerAddress", sellerAddress);
+                        product.set("contractAddress", contractAddress);
 
                         try {
                             let result = await product.save();
