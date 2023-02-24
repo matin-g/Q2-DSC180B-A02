@@ -157,7 +157,7 @@
         }
         
         // test address
-        const address = "0xeaab1bc36bad69a9430a008e6227d19dabee81d3";
+        const contract = "0xeaab1bc36bad69a9430a008e6227d19dabee81d3";
 
         const submitPayment = async () => {
             
@@ -175,41 +175,47 @@
 
 
             window.web3 = await new Web3(window.ethereum);
-            window.contract = await new window.web3.eth.Contract(ABI, address); 
+            window.contract = await new window.web3.eth.Contract(ABI, contract); 
             
             await window.contract.methods.confirmPurchase(quantity).send({ from: account })
             .on('receipt', function(receipt){
                 console.log(receipt);
-                outputText("receiptMessage", "Congrats! Your payment just went through!");
-
-                // store buyer details to our parse database
-                const buyer = new Parse.Object("buyerAddress");
-
-                buyer.set("buyerAddress", account);
-                buyer.set("contract_address", contract);
-                buyer.set("road", road);
-                buyer.set("apt", apt);
-                buyer.set("city", city);
-                buyer.set("state", state);
-                buyer.set("country", country);
-                buyer.set("quantity", quantity);
-
-                try {
-                    let result = buyer.save();
-
-                } catch (error) {
-                    alert(`Error: ${error.message}`);
-
-                }
-
+                pushBuyerInfo(account,contract,road,apt,city,state,country,quantity);
             })
             .on('error', function(error, receipt){
-                outputText("receiptMessage", "Payment failed, check Metamask for details");
+                // outputText("receiptMessage", "Payment failed, check Metamask for details");
+
+                pushBuyerInfo(account,contract,road,apt,city,state,country,quantity);
             })
 
-            
-        }
 
+        }
+        
+        // function to push buyer into db
+        async function pushBuyerInfo(account,contract,road,apt,city,state,country,quantity) {
+            outputText("receiptMessage", "Congrats! Your payment just went through!");
+
+            // store buyer details to our parse database
+            const buyer = new Parse.Object("buyerAddress");
+
+            buyer.set("buyerAddress", account);
+            buyer.set("contract_address", contract);
+            buyer.set("road", road);
+            buyer.set("apt", apt);     
+            buyer.set("city", city);
+            buyer.set("state", state);
+            buyer.set("country", country);
+            buyer.set("quantity", quantity);
+
+            try {
+                let result = buyer.save();
+
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+
+            }
+
+        }
         
     </script>
 </body>
