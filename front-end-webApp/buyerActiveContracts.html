@@ -106,11 +106,11 @@
 
         // connect to metamask when loading the page 
 
-        let sellerAccount;
+        let buyerAccount;
         const connectMetamask = async () => {
             if (window.ethereum !== "undefined") {
                 const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-                sellerAccount = accounts[0];
+                buyerAccount = accounts[0];
 
                 await readFromDB();
                 
@@ -134,23 +134,19 @@
         async function readFromDB() {
 
             // fetch seller's active contracts' data from database
-            var query = new Parse.Query("Product_details");
+            var query = new Parse.Query("buyerContract");
 
             // fetch rows that has column sellerAddress equal to seller Account
-            query.equalTo("SellerAddress", sellerAccount);
+            query.equalTo("buyerAddress", buyerAccount);
             
             // Fetch the data from the parse class
             query.find().then(async function(results) {
                 // Extract the data from the results and store it in an array
                 columnData = results.map(function(result) {
-                    return {
-                        ContractAddress: result.get("contractAddress"),
-                        ProductDetails: result.get("ProductDetails"),
-                        ProductPrice: result.get("ProductPrice")
-                    };
+                    return result.get("contractAddress");
                 });
                 
-                var text = `Dear Buyer: ${sellerAccount}, as of now, our system indicates that you have ${columnData.length} active 
+                var text = `Dear Buyer: ${buyerAccount}, as of now, our system indicates that you have ${columnData.length} active 
                 contract(s).`;
 
                 outputText("connectMetamask", text, 30);
@@ -160,10 +156,10 @@
                 
                 for (let i = 0; i < columnData.length; i++) { 
                     const contract = columnData[i];
-                    console.log(contract)
+                    
                     var option = document.createElement("option");
-                    option.textContent = contract.ProductDetails + " "+ contract.ProductPrice; // Set the text content of the new option
-                    option.value = contract.ContractAddress;
+                    option.textContent = contract; // Set the text content of the new option
+                    option.value = contract;
                     select.appendChild(option); // Add the new option to the select element
                 }
 
@@ -181,9 +177,9 @@
 
                 // store the contract address and seller address for next html page to access
                 localStorage.setItem('contractAddress', contract);
-                localStorage.setItem('sellerAddress', sellerAccount);
+                localStorage.setItem('buyerAddress', sellerAccount);
 
-                window.location.href = "sellerContractDetailPage.html";
+                window.location.href = "buyerPage.html";
         });
 
     </script>
