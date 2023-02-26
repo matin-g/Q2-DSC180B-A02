@@ -1,359 +1,160 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
-    <title>WELCOME</title>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
-    <link href="background.css" rel="stylesheet" type="text/css">
-    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
-    <style>
-/*        body {
-            background-color: black;
-            font-family: fantasy;
-            font-size: 15px;
-            display: flex;
-            text-align: row;
-        }
+	<title>Double Deposit Escrow E-commerce Platform</title>
+	<style>
+		/* Styling for navigation bar */
+		nav {
+			background-color: #333;
+			overflow: hidden;
+		}
 
-        button {
-            background-color: white;
-            font-size: 20px;
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-        }
+		nav a {
+			float: left;
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+			font-size: 17px;
+			font-weight: bold;
+			transition: background-color 0.3s;
+		}
 
-        button:hover {
-            background-color: yellow;
-        }
-    */
-/*        #readArea {
-            flex-basis: 50%;
-        }
+		nav a:hover {
+			background-color: #ddd;
+			color: black;
+		}
 
-        #writeArea {
-            flex-basis: 50%;
-        }
-        */
-/*                body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
-        h1 {
-            text-align: center;
-            font-size: 50px;
-            font-weight: bold;
-            color: #007bff;
-            margin-top: 100px;
-        }
-        button {
-            background-color: #007bff;
-            color: #fff;
-            padding: 20px 40px;
-            font-size: 25px;
-            border-radius: 50px;
-            border: none;
-            margin-top: 50px;
-            cursor: pointer;
-            box-shadow: 0px 8px #0069e0;
-            transition: all 0.3s ease;
-        }
-        button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 12px #0069e0;
-        }
-        .button-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }*/
-        body {
-    font-family: 'Helvetica Neue', sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
-}
+		/* Styling for header */
+		header {
+			background-color: #333;
+			color: white;
+			text-align: center;
+			padding: 30px;
+			font-size: 40px;
+			animation: fadeIn 2s ease-in;
+		}
 
-h1 {
-    text-align: center;
-    font-size: 3.5rem;
-    font-weight: bold;
-    color: #007bff;
-    margin-top: 10vh;
-}
+		/* Animation for header */
+		@keyframes fadeIn {
+			from { opacity: 0; }
+			to { opacity: 1; }
+		}
 
-.button-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
-}
+		/* Styling for sections */
+		section {
+			padding: 50px;
+			font-size: 20px;
+			animation: slideIn 1s ease-in;
+			max-width: 800px;
+			margin: 0 auto;
+			text-align: justify;
+		}
 
-button {
-    display: inline-block;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 1.5rem;
-    padding: 1rem 2.5rem;
-    border-radius: 5rem;
-    border: none;
-    margin: 0 1rem;
-    cursor: pointer;
-    box-shadow: 0 0.5rem #0069e0;
-    transition: all 0.3s ease;
-}
+		/* Animation for sections */
+		@keyframes slideIn {
+			from { opacity: 0; transform: translateX(-100px); }
+			to { opacity: 1; transform: translateX(0px); }
+		}
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.8rem #0069e0;
-}
+		/* Styling for links within sections */
+		section a {
+			color: #333;
+			text-decoration: none;
+			border-bottom: 2px solid #333;
+			transition: border-bottom 0.3s;
+		}
 
-    </style>
+		section a:hover {
+			border-bottom: 2px solid #4CAF50;
+		}
 
+		Styling for author
+		 footer {
+			margin-top: 50px;
+			text-align: center;
+			font-size: 14px;
+			color: #666;
+			animation: fadeIn 2s ease-in;
+		}
 
-        <script>
-      function navigateToSignInOrSignUp(role) {
-        localStorage.setItem("role", role);
-        window.location.href = "sign-in-or-sign-up.html";
-      }
-    </script>
+		/* Animation for author */
+		@keyframes fadeIn {
+			from { opacity: 0; }
+			to { opacity: 1; }
+		} 
+		button {
+			background-color: #008CBA;
+			border: none;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			cursor: pointer;
+			border-radius: 10px;
+			box-shadow: 0px 0px 10px #888;
+			transition: box-shadow 0.3s;
+		}
+
+		button:hover {
+			box-shadow: 0px 0px 20px #888;
+		}
+	</style>
+	
 </head>
 <body>
 
-<!-- <h1 style="text-align: center; font-size: 40px; font-weight: bold; padding: 50px 0;">Welcome</h1>
-<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-  <button style="background-color: #007bff; color: white; padding: 15px 30px; font-size: 20px; border-radius: 50px; border: none; margin-right: 20px; cursor: pointer; box-shadow: 0px 4px #0069e0;" onclick="navigateToSignInOrSignUp('buyer')">Buyer</button>
-  <button style="background-color: #007bff; color: white; padding: 15px 30px; font-size: 20px; border-radius: 50px; border: none; margin-left: 20px; cursor: pointer; box-shadow: 0px 4px #0069e0;" onclick="navigateToSignInOrSignUp('seller')">Seller</button>
-</div>
- -->
-<h1>Welcome</h1>
-    <div class="button-wrapper">
-      <button onclick="navigateToSignInOrSignUp('buyer')">I'm a Buyer</button>
-      <button onclick="navigateToSignInOrSignUp('seller')">I'm a Seller</button>
-    </div>
+	<nav>
+		<a href="#introduction">Introduction</a>
+		<a href="#infrastructure">Infrastructure</a>
+		<a href="#method">Method</a>
+		<a href="#conclusion">Conclusion</a>
+		<a href="#demo">E-commerce platform demo</a>
+	</nav>
 
-    <script>
+	<header>
+		<h1>Double Deposit Escrow E-commerce Platform</h1>
+		<p>By <span title="Click to email"><a href="mailto:mghaffari@ucsd.edu">Matin Ghaffari</a></span>,
+			<span title="Click to email"><a href="mailto:w6chen@ucsd.edu">Wenyuan "Sandy" Chen</a></span>,
+			<span title="Click to email"><a href="mailto:aeamiria@ucsd.edu">Alan Amirian</a></span>,
+			<span title="Click to email"><a href="mailto:yuh014@ucsd.edu">Yu Huang</a></span>
+		</p>
+		<button onclick="location.href='https://github.com/matin-g/Q2-DSC180B-A02'">Github Repo</button>
+		<button onclick="location.href='https://github.com/matin-g/DSC180a-Q1-final-code/blob/main/report.pdf'">Report</button>
 
-        Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
-        Parse.serverURL = "https://parseapi.back4app.com/";
+		
+	</header>
 
-        async function createParseUser() {
-          // Creates a new Parse "User" object, which is created by default in your Parse app
-          let user = new Parse.User();
-          // Set the input values to the new "User" object
-          user.set("username", document.getElementById("username").value);
-          user.set("email", document.getElementById("email").value);
-          user.set("password", document.getElementById("password").value);
-          try {
-            // Call the save method, which returns the saved object if successful
-            user = await user.save();
-            if (user !== null) {
-              // Notify the success by getting the attributes from the "User" object, by using the get method (the id attribute needs to be accessed directly, though)
-              alert(
-                `New object created with success! ObjectId: ${
-                  user.id
-                }, ${user.get("username")}`
-              );
-            }
-          } catch (error) {
-            alert(`Error: ${error.message}`);
-          }
-        }
+	<section id="introduction">
+		<h2>Introduction</h2>
+		<p>[Insert text here]</p>
+		<a href="#top">Back to top</a>
+	</section>
 
-        // Add on click listener to call the create parse user function
-        document.getElementById("createButton").addEventListener("click", async function () {
-          createParseUser();
-        });
+	<section id="infrastructure">
+		<h2>Infrastructure</h2>
+		<p>[Insert text here]</p>
+		<a href="#top">Back to top</a>
+	</section>
 
-        //1- connect metamask
-        let account;
-        const connectMetamask = async () => {
-            if(window.ethereum !== "undefined") {
-                const accounts = await ethereum.request({method: "eth_requestAccounts"});
-                account = accounts[0];
-                document.getElementById("accountArea").innerHTML = `User Account: ${account}`;
-            }
-        }
+	<section id="method">
+		<h2>Method</h2>
+		<p>[Insert text here]</p>
+		<a href="#top">Back to top</a>
+	</section>
 
-        let value;
-        //2- connect to smart contract
-        const connectContract = async () => {
-            const ABI = [{"inputs":[],"stateMutability":"payable","type":"constructor"},{"inputs":[],"name":"InvalidState","type":"error"},{"inputs":[],"name":"OnlyBuyer","type":"error"},{"inputs":[],"name":"OnlySeller","type":"error"},{"inputs":[],"name":"ValueNotEven","type":"error"},{"inputs":[],"name":"notEnoughEscrow","type":"error"},{"anonymous":false,"inputs":[],"name":"Aborted","type":"event"},{"anonymous":false,"inputs":[],"name":"ConfirmShipped","type":"event"},{"anonymous":false,"inputs":[],"name":"ItemReceived","type":"event"},{"anonymous":false,"inputs":[],"name":"PurchaseConfirmed","type":"event"},{"anonymous":false,"inputs":[],"name":"SellerRefunded","type":"event"},{"anonymous":false,"inputs":[],"name":"addedEscrow","type":"event"},{"anonymous":false,"inputs":[],"name":"closedContract","type":"event"},{"inputs":[],"name":"addEscrow","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"buyerNumber","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"checkNoActiveBuyers","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"closeContract","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"confirmPurchase","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"confirmReceived","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"address_","type":"address"}],"name":"confirmShipped","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"createBuyer","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"deposit","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"key","type":"address"}],"name":"doesExist","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"escrowLeft","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBuyerNumber","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"addr","type":"address"}],"name":"getBuyerState","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getItemDescription","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getItemDetails","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getItemName","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getItemPriceInETH","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getValue","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"item_received_buyer","type":"address"}],"name":"refundSeller","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"seller","outputs":[{"internalType":"address payable","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"value","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address payable","name":"_to","type":"address"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"withdraw","outputs":[],"stateMutability":"nonpayable","type":"function"}];
-            const Address = "0x182cc93685355256d9c782dcd8d5e5b43016277c";
-            //"0x2b4E2bE99aA3ce3cffA9715981A7De2BaD07b454";
-            //"0x703950a4937F7197cfc79926cF276bb004e76C68";
-            //"0x043f8f6e4b4b6be617af797c3ea689565710aeb0";//"0x3d4FfF8ECB813CbB7C21DCe68F56cA28B33F019D";
-            window.web3 = await new Web3(window.ethereum);
-            window.contract = await new window.web3.eth.Contract(ABI, Address); 
+	<section id="conclusion">
+		<h2>Conclusion</h2>
+		<p>[Insert text here]</p>
+		<a href="#top">Back to top</a>
+	</section>
 
-            document.getElementById("contractArea").innerHTML = "connected to smart contract";
-        }
-
-        //3-read data from smart contract
-        const getItemName = async () => {
-            const data = await window.contract.methods.getItemName().call();
-            document.getElementById("dataArea1").innerHTML = data;
-        }
-
-        const getItemPriceInETH = async () => {
-            const data = await window.contract.methods.getItemPriceInETH().call();
-            document.getElementById("dataArea10").innerHTML = data;
-        }
-
-        const getItemDetails = async () => {
-            const data = await window.contract.methods.getItemDetails().call();
-            document.getElementById("dataArea11").innerHTML = data;
-        }
-
-        const getItemDescription = async () => {
-            const data = await window.contract.methods.getItemDescription().call();
-            document.getElementById("dataArea12").innerHTML = data;
-        }
-
-        // const getBuyerNumber = async () => {
-        //     const data = await window.contract.methods.getBuyerNumber().call();
-        //     document.getElementById("dataArea4").innerHTML = data;
-        // }
-
-        // const getCurrentAddress = async () => {
-        //     const data = await window.contract.methods.getAddress().call();
-        //     document.getElementById("dataArea9").innerHTML = data;
-        // }
-
-
-        const getContractAccount= async () => {
-            const data = await window.contract.methods.getAddress().call();
-            document.getElementById("contractAccount").innerHTML = `Contract Account: ${data}`;
-        }
-        
-        const getBalance= async () => {
-            const data = await window.contract.methods.getBalance().call();
-            document.getElementById("balanceArea").innerHTML = `Contract Balance (Wei): ${data}`;
-        }
-
-        // const depositContract = async () => {
-        //     const amount = document.getElementById("depositInput").value;
-        //     await window.contract.methods.deposit().send({ from: account, value: amount });
-        // }
-
-        // const withdraw = async () => {
-        //     const amount = document.getElementById("amountInput").value;
-        //     const address = document.getElementById("addressInput").value;
-        //     await window.contract.methods.withdraw(address, amount).send({ from: account })
-        // }
-
-
-        //4-read data from smart contract
-        const createBuyer = async () => {
-            await window.contract.methods.createBuyer().send( {from: account} );
-            console.log("Registered as Buyer successfully!");
-            document.getElementById("dataArea2").innerHTML = "Registered as Buyer successfully!";
-        }
-
-        const confirmPurchase = async () => {
-          try {
-            let result;
-            await window.contract.methods.getValue().call()
-              .then(function(value) {
-                result = value;
-              });
-            console.log(result);
-            await window.contract.methods.confirmPurchase().send({ from: account, value: result * 2});
-
-            console.log("Purchase confirmed successfully!");
-            document.getElementById("dataArea5").innerHTML = "Purchase confirmed successfully!";
-          } catch (error) {
-            console.error(error);
-            document.getElementById("dataArea5").innerHTML = "Error confirming purchase: " + error;
-          }
-        };
-
-        const confirmShipped = async () => {
-            try {
-                const address_ = document.getElementById("addressInputCS").value;
-                await window.contract.methods.confirmShipped(address_).send({ from: account });
-                console.log("Shipping confirmed successfully!");
-                document.getElementById("dataArea6").innerHTML = "Shipping confirmed successfully!";
-            } catch (error) {
-                console.error(error);
-                document.getElementById("dataArea6").innerHTML = "Error confirming shipping: " + error;
-            }
-        };
-
-        // const confirmShipped = async () => {
-        // const address_ = document.getElementById("addressInputCS").value;
-        // await window.contract.methods.confirmShipped(address_).send({ from: account });
-        // console.log("Shipping confirmed successfully!");
-        // document.getElementById("dataArea2").innerHTML = "Shipping confirmed successfully!";
-        // }
-
-
-        const confirmReceived = async () => {
-            try {
-                await window.contract.methods.confirmReceived().send({ from: account });
-                console.log("Item received successfully!");
-                document.getElementById("dataArea7").innerHTML = "Item received successfully!";
-            } catch (error) {
-                console.error(error);
-                document.getElementById("dataArea7").innerHTML = "Error confirming item received: " + error;
-            }
-        };
-
-
-        const refundSeller = async () => {
-            try {
-                const address_ = document.getElementById("addressInputRS").value;
-                await window.contract.methods.refundSeller(address_).send({ from: account });
-                console.log("Seller Refunded successfully!");
-                document.getElementById("dataArea8").innerHTML = "Seller Refunded successfully!";
-            } catch (error) {
-                console.error(error);
-                document.getElementById("dataArea8").innerHTML = "Error Refunding Seller: " + error;
-            }
-        };
-
-        // const refundSeller = async (address_) => {
-        //     await window.contract.methods.refundSeller(address_).send({ from: account });
-        //     console.log("Seller Refunded Successfully!");
-        //     document.getElementById("dataArea8").innerHTML = "Seller Refunded Successfully!";
-        // }
-
-        const addEscrow = async () => {
-
-            console.log('hi');
-
-
-            let result;
-            await window.contract.methods.getValue().call()
-              .then(function(value) {
-                result = value;
-              });
-            console.log('hi');
-
-            await window.contract.methods.addEscrow().send( {from: account, value: 20 * result} );
-            console.log("Escrow added successfully!");
-            document.getElementById("dataArea13").innerHTML = "Escrow added successfully!";
-        }
-
-        const closeContract = async () => {
-            await window.contract.methods.closeContract().send({from: account});
-            console.log("Contract closed successfully!");
-            document.getElementById("dataArea14").innerHTML = "Contract closed successfully!";
-        }
-
-        //5-read data from smart contract
-        const getBuyerState = async () => {
-            const address = document.getElementById("addressBuyerState").value;
-            var data = await window.contract.methods.getBuyerState(address).call();
-            document.getElementById("dataArea3").innerHTML = `Buyer State: ${data}`;
-        }
-
-        //6-read data from smart contract
-        const getBuyerNumber = async () => {
-            const data = await window.contract.methods.getBuyerNumber().call();
-            document.getElementById("dataArea4").innerHTML = `Current buyer number is ${data}`;
-        }
-
-    </script>
-
-</body>
-</html>
+	<section id="demo">
+		<h2>demo</h2>
+		<p>[Insert text here]</p>
+		<a href="#top">Back to top</a>
+	</section>
