@@ -222,6 +222,14 @@ contract Purchase {
        return address(this);
    }
 
+   function getQuantity() public view returns (uint) {
+       return quantity;
+   }
+
+   function getEscrowLeft() public view returns (uint) {
+       return escrowLeft;
+   }
+
 //     function getBuyerNumAddress(uint buyerNum) public view returns (address) {
 //        return map[map[buyerNum]].addr;
 //    }
