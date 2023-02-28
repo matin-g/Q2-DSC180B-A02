@@ -6,7 +6,242 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
     <link href="background.css" rel="stylesheet" type="text/css">
 	<style>
-		.container {
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /*  background-color: #f2f2f2;*/
+}
+
+/* Add a container to center the content on the page */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+/* Style the heading */
+h1 {
+  font-size: 48px;
+  font-weight: bold;
+  margin: 0 0 30px;
+  color: #333;
+  text-align: center;
+  text-shadow: 2px 2px #ccc;
+}
+
+/* Style the input container */
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  width: 100%;
+  max-width: 400px;
+}
+
+
+/* Style the input fields */
+input[type="text"] {
+  padding: 15px  70px;;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  align-items: center;
+  font-size: 16px;
+  width: 60%;
+  text-align: center;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Add a hover effect to the input fields */
+input[type="text"]:hover {
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Style the labels */
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  /*text-align: center;*/
+}
+
+/* Style the button */
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Add a hover effect to the button */
+.button:hover {
+  background-color: #666;
+}
+
+/* Style the wallet icon */
+#wallet {
+  position: fixed;
+  top: 20px;
+  right: 50px;
+  width: 50px;
+  height: 50px;
+  background-image: url("wallet_icon.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  border: none;
+  cursor: pointer;
+  background-color: inherit;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Add a hover effect to the wallet icon */
+#wallet:hover {
+  transform: scale(1.2);
+}
+
+p {
+    font-family: Arial, sans-serif;
+    font-size: 28px;
+    color:  #f0f1ec;
+}
+
+/* Style the success message */
+.success {
+  color: #1abc9c;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 30px;
+}
+
+/* Style the error message */
+.error {
+  color: #e74c3c;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 30px;
+}
+
+/* Style the label for the wallet icon button */
+.label-wallet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 5px;
+  right: 35px;
+  font-size: 12px;
+  color: #333;
+  text-align: center;
+}
+
+/* Style the label text */
+.label-wallet span {
+  margin-top: 5px;
+}
+
+
+		/* Apply a global font and background color */
+
+/*		.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 0 0 30px;
+    color: #333;
+    text-align: center;
+}
+
+input {
+    padding: 15px 20px;
+    font-size: 24px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+    margin-bottom: 30px;
+    width: 40%;
+    height: 5%;
+    text-align: center;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #666;
+}
+
+p {
+    font-family: Arial, sans-serif;
+    font-size: 28px;
+    color: #f0f1ec;
+}
+
+#wallet {
+    position: fixed;
+    top: 20px;
+    right: 100px;
+    width: 50px;
+    height: 50px;
+    background-image: url("wallet_icon.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border: none;
+    cursor: pointer;
+    background-color: inherit;
+}
+
+input[type="text"] {
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 300px;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+*/
+/*		.container {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -86,11 +321,13 @@
 			font-size: 16px;
 			font-weight: bold;
 		}
-    
+    */
 	</style>
 </head>
 <body>
-	
+	<div class="label-wallet">
+  <span>Connect To Wallet</span>
+</div>
     <button id="wallet" onclick="connectMetamask()"></button>
 
 	<div class="container">
@@ -107,17 +344,21 @@
             <input type="text" id="state" name="state" required>
             <label for="country">Country</label>
             <input type="text" id="country" name="country" required>
+<!--                     <label for="quantity">Quantity</label>
+        <input type="text" id="quantity" name="quantity" placeholder="Enter the amount you want to purchase"required> -->
         </form>
 
         <br>
         <p id="walletConnected"></p>
-        <label for="quantity">Quantity</label>
+
+        <h1>Quantity</h1>
+<!--         <label for="quantity">Quantity</label> -->
         <input type="text" id="quantity" name="quantity" placeholder="Enter the amount you want to purchase" required>
+
 		<button class="button" onclick="submitPayment()">Submit Payment</button>
         <p id="receiptMessage"></p>
         <br>
         <button id="jumpToItemListing" style="visibility: hidden;" onclick="location.href = 'marketplace.html';">View More Products</button>
-
 
 
 	</div>

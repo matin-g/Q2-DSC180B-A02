@@ -79,13 +79,23 @@ h1 {
   -moz-box-shadow:    1.5px 1.5px 2.5px 3px rgba(0, 0, 0, 0.4);
 }
 
-.image-box {
+/*.image-box {
   width: 100%;
   overflow: hidden;
   border-radius: 2% 2% 0 0;
+}*/
+
+.image-box {
+  height: 300px; /* set a fixed height for the container */
+  width: 100%; /* make the container as wide as its parent element */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 2% 2% 0 0;
+  transition: all 1s ease;
 }
 
-.images {
+/*.images {
   height: 15em;
   background-size: cover; 
   background-position: center center; 
@@ -96,6 +106,31 @@ h1 {
   -ms-transition: all 1s ease;
   -webkit-transition: all 1s ease;
   -o-transition: all 1s ease;
+}*/
+
+.images {
+  height: 0;
+  padding-bottom: 100%; /* set the aspect ratio to be square */
+  background-size: cover; 
+  background-position: center center; 
+  background-repeat: no-repeat;
+  border-radius: 2% 2% 0 0;
+  transition: all 1s ease;
+
+}
+
+.images img {
+  max-width: 500px;
+  max-height: 500px;
+  width: auto;
+  height: auto;
+}
+
+.product-image {
+  max-width: 500px;
+  max-height: 500px;
+  width: auto;
+  height: auto;
 }
 
 .images:hover {
@@ -141,6 +176,10 @@ h2, h3 {
   font-size: 1em;
   text-align: center;
   margin: 0.2em auto;
+  height: 4em; /* adjust the height based on your needs */
+  overflow: scroll;
+  overflow-x: scroll;
+/*  border: ridge;*/
 }
 
 
@@ -239,13 +278,14 @@ function renderProducts(products) {
     const productHTML = `
       <div class="product">
         <div class="image-box">
-      <img src="${photo}" width="225" height="225">
+  <div class="image-box" style="background-image: url('${photo}')"></div>
+
     </div>
         <div class="text-box">
           <h2 class="item">${product.ProductName}</h2>
           <h3 class="price">${product.ProductPrice} Wei</h3>
           <p class="description">${product.ProductDescription}</p>
-          <button class="add-to-cart-btn" data-product-id="${product.contractAddress}">View Contract</button>
+          <button class="add-to-cart-btn" data-product-id="${product.contractAddress}">Buy Item</button>
         </div>
       </div>
     `;
