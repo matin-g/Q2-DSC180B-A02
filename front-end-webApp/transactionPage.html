@@ -431,6 +431,7 @@ label {
 
             await window.contract.methods.confirmPurchase(quantity).send({ from: account, value: sendValue*2*quantity})
 
+
             .on('receipt', function(receipt){
                 console.log(receipt);
                 pushBuyerInfo(account,contract,road,apt,city,state,country,quantity, sendValue,name);
@@ -464,6 +465,7 @@ label {
             buyer.set("quantity", quantity);
             buyer.set("item_name", name);
             buyer.set("item_price", price);
+            buyer.set("buyerState", "paid");
 
    //          buyerContracts.set("buyerAddress", account);
    //          buyerContracts.set("contract_address", contract);
