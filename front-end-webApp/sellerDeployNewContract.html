@@ -5,155 +5,125 @@
     <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
     <link href="background.css" rel="stylesheet" type="text/css">
+
     <style>
-        
-        #myProgress {
-            width: 100%;
-            background-color: #ddd;
-            opacity: 0;
-        }
-
-        #myBar {
-            width: 0%;
-            height: 40px;
-            background-color: #51e7ec;
-            text-align: center;
-            line-height: 40px;
-            color: white;
-            opacity: 0;
-        }
-
-        .cool-input {
-            display: block;
-            width: 300px;
-            padding: 10px;
-            margin: 0 auto;
-            font-size: 16px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            background-color: #f5f5f5;
-            color: #333;
-            outline: none;
-        }
-        .cool-input:focus {
-            border-color: #5bc0de;
-            box-shadow: 0 0 5px #5bc0de;
-        }
-
-        #addItem {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            border-radius: 25px;
-            border: none;
-            text-align: center;
-            text-decoration: none;
-            overflow: hidden;
-            position: relative;
-            animation-name: motivate;
-            animation-duration: 3s;
-            animation-iteration-count: infinite;
-            animation-direction: alternate;
-        }
-        #addItem:hover {
-            cursor: pointer;
-            background-color: #2cd1fa;
-        }
-        @keyframes motivate {
-            0% {
-            transform: translateY(0);
-            }
-            20% {
-            transform: translateY(-10px);
-            }
-            40% {
-            transform: translateY(0);
-            }
-            60% {
-            transform: translateY(-5px);
-            }
-            80% {
-            transform: translateY(0);
-            }
-            100% {
-            transform: translateY(-2px);
-            }
-        }
-
-        body {
-            background-color: rgb(16, 17, 17);
-            font-family: Arial, sans-serif;
-            font-size: 30px;
-            display: flex;
-            text-align: center;
-            height: 200vh;
-        }
-        
-        p {
-            font-family: Arial, sans-serif;
-            font-size: 28px;
-            color:  #f0f1ec;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 3.0rem;
-            font-weight: bold;
-            margin-top: 10vh;
-
-            /* Fallback: Set a background color. */
-            background-color: white;
-            
-            /* Create the gradient. */
-            background-image: linear-gradient(100deg, #f2f3ed, #4a62eb);
-            
-            /* Set the background size and repeat properties. */
-            background-size: 100%;
-            background-repeat: repeat;
-
-            /* Use the text as a mask for the background. */
-            /* This will show the gradient as a text color rather than element bg. */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent; 
-            -moz-background-clip: text;
-            -moz-text-fill-color: transparent;
-            
-        }
-
-        
-
-        button {
-            display: inline-block;
-            background-color: #007bff;
-            text-align: center;
-            color: #fff;
-            font-size: 1.5rem;
-            padding: 1rem 2.5rem;
-            border-radius: 5rem;
-            border: none;
-            margin: 0 1rem;
-            cursor: pointer;
+		body {
+			background-color: #1e1e1e;
+			color: #fff;
+			font-family: 'Roboto', sans-serif;
+			font-size: 16px;
+		}
+		h1 {
+			font-size: 36px;
+			font-weight: bold;
+			color: #fff;
+			text-align: center;
+			margin-top: 50px;
+			margin-bottom: 30px;
+		}
+		#readArea {
+			margin: 0 auto;
+			max-width: 800px;
+			text-align: center;
+		}
+		button {
+			background-color: #007bff;
+			border: none;
+			border-radius: 5px;
+			color: #fff;
+			cursor: pointer;
+			font-size: 18px;
+			font-weight: bold;
+			margin-bottom: 20px;
+			padding: 10px 30px;
             box-shadow: 0 0.5rem #0069e0;
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
+			transition: background-color 0.3s ease-in-out;
+		}
+		button:hover {
+			transform: translateY(-2px);
             box-shadow: 0 0.8rem #0069e0;
+		}
+
+        ::placeholder {
+            color: rgb(240, 238, 235);
+            text-align: center;
         }
 
-        #readArea {
-            flex-basis: 50%;
-        }
+		.cool-input {
+			background-color: transparent;
+			border: none;
+			border-bottom: 2px solid #fff;
+			color: #f5f0f0;
+			font-size: 18px;
+			margin-bottom: 20px;
+			padding: 10px;
+			width: 50%;
+		}
+		#cost, #deployValueText {
+			font-size: 24px;
+			font-weight: bold;
+			margin-top: 30px;
+		}
+		#deployValue {
+			background-color: #ecb44f;
+			border: none;
+			border-radius: 5px;
+			color: #fff;
+			cursor: pointer;
+			font-size: 18px;
+			font-weight: bold;
+			margin-top: 20px;
+			padding: 10px 30px;
+			transition: background-color 0.3s ease-in-out;
+		}
+		#deployValue:hover {
+			background-color: #c99134;
+		}
+		#deployContract, #addItem {
+			background-color: #19d852;
+			border: none;
+			border-radius: 5px;
+			color: #fff;
+			cursor: pointer;
+			font-size: 18px;
+			font-weight: bold;
+			margin-top: 20px;
+			padding: 10px 30px;
+			transition: background-color 0.3s ease-in-out;
+		}
+		#deployContract:hover, #addItem:hover {
+			background-color: #149c0f;
+		}
+		#myProgress {
+			background-color: #ddd;
+			border-radius: 5px;
+			height: 40px;
+			margin-top: 20px;
+			overflow: hidden;
+			width: 100%;
+            opacity: 0;
+		}
+		#myBar {
+			background-color: #51e7ec;
+			height: 40px;
+			line-height: 40px;
+			text-align: center;
+			transition: width 0.3s ease-in-out;
+			width: 0%;
+            opacity: 0;
+		}
+		#contractWaitingArea {
+			margin-top: 20px;
+		}
+		#contractDeployStateArea {
+			margin-top: 20px;
+		}
+		#toContractDetail {
+			margin-top: 20px;
+		}
+	</style>
 
-        #writeArea {
-            flex-basis: 50%;
-        }
 
-
-    </style>
 
 </head>
 
@@ -212,7 +182,7 @@
         function outputText(id, text) {
 
             var index = 0;
-            var speed = 50;
+            var speed = 30;
             var container = document.getElementById(id);
             
             if (container.innerHTML !== "") {
@@ -289,7 +259,8 @@
         let price;
         const createMyOwnContract = async () => {
 
-            var text = "Enter the price of one item and the total quantity of the item, we will calculate the total amount you will need to depoly";
+
+            var text = "Enter the price of one item and the total quantity you want to sell, we will calculate the total amount of escrow you need to depoly";
 
             outputText("contractDeployValue", text);
             
@@ -329,7 +300,6 @@
         let contractAddress;
         const deployContract = async () => {
 
-            
             value = deployedValue;
             console.log(value);
 
@@ -436,9 +406,14 @@
                     i = 0;
                 } else {
                     width = width + 0.08;
-                    elem.style.width = width + "%";
-                    elem.innerHTML = Number((width).toFixed(1))  + "%";
-                    }   
+                    if (width > 100) {
+                        width = 100;
+                        elem.style.width = width + "%";
+                        elem.innerHTML = Number((width).toFixed(1))  + "%";
+                    } else {
+                        elem.style.width = width + "%";
+                        elem.innerHTML = Number((width).toFixed(1))  + "%";
+                    }
                 }
                 
             }
@@ -460,6 +435,7 @@
             } 
             
         }
+    }
 
         
 
