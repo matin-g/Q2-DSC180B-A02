@@ -360,7 +360,6 @@
 
             await connectContract();
 
-            document.getElementById("buyerNumber").innerHTML = buyer.length;
 
             for (var i=0; i<buyer.length; i++) {
                 var addr = rd[i] + " " + apt[i] + ", " + city[i] + " " + state[i] + ", " + country[i];
@@ -492,10 +491,12 @@
                 const getQuantity = await window.contract.methods.getQuantity().call();
                 const getBalance = await window.contract.methods.getBalance().call();
                 const getEscrow = await window.contract.methods.getEscrowLeft().call();
+                const getBuyerNumber = await window.contract.methods.getBuyerNumber().call();
 
                 document.getElementById("productQuantity").innerHTML = getQuantity;
                 document.getElementById("contractBalance").innerHTML = getBalance;
                 document.getElementById("escrowLeft").innerHTML = getEscrow;
+                document.getElementById("buyerNumber").innerHTML = getBuyerNumber;
             }
 
         readContractInfo();

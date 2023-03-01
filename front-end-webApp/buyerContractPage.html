@@ -375,12 +375,11 @@
         
         const confirmReceived = async () => {
             try {
-                await window.contract.methods.confirmReceived().send({ from: account });
+                console.log(buyerAddress);
+                await window.contract.methods.confirmReceived().send({ from: buyerAddress });
                 console.log("Item received successfully!");
-                document.getElementById("dataArea7").innerHTML = "Item received successfully!";
             } catch (error) {
                 console.error(error);
-                document.getElementById("dataArea7").innerHTML = "Error confirming item received: " + error;
             }
         };
 
