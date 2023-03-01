@@ -34,27 +34,33 @@
 
       #setItemPrice {
         opacity: 0;
+        animation: fadeIn 1.0s 1.5s forwards;
+        width: 25%;
+      }
+
+      #setItemQuantity {
+        opacity: 0;
         animation: fadeIn 1.0s 2s forwards;
         width: 25%;
       }
 
       #setItemDetails {
         opacity: 0;
-        animation: fadeIn 1.0s 3s forwards;
+        animation: fadeIn 1.0s 2.5s forwards;
         width: 25%;
         height: 5%;
       }
 
       #setItemDescription {
         opacity: 0;
-        animation: fadeIn 1.0s 3.5s forwards;
+        animation: fadeIn 1.0s 3s forwards;
         width: 25%;
         height: 10%;
       }
 
       #submit {
         opacity: 0;
-        animation: fadeIn 1.0s 4s forwards;
+        animation: fadeIn 1.0s 5s forwards;
       }
 
       input {
@@ -182,7 +188,8 @@ input[type="submit"]:hover {
 <h1>Add Item to My Contract<span id="underscore">_</span></h1>
 
 <input type="text" id="setItemName" placeholder="Enter Your Item's Name">
-<input type="text" id="setItemPrice" placeholder="Enter Your Item's Price in Wei">
+<input type="text" id="setItemPrice"  placeholder = localStorage.getItem("itemPrice") readonly>
+<input type="text" id="setItemQuantity" placeholder="quant" readonly>
 <input type="text" id="setItemDetails" placeholder="Enter Your Item's Details">
 <input type="text" id="setItemDescription" placeholder="Enter a Brief Description of Your Item">
 
@@ -237,6 +244,14 @@ input[type="submit"]:hover {
 
         var contractAddress = localStorage.getItem('contractAddress');
         var account = localStorage.getItem('sellerAddress');
+
+        console.log(account);
+        console.log(localStorage.getItem("itemPrice"));
+        console.log(localStorage.getItem("itemQuantity"));
+
+        document.getElementById("setItemPrice").value = "Item price is " + localStorage.getItem("itemPrice");
+        document.getElementById("setItemQuantity").value = "Item quantity is " + localStorage.getItem("itemQuantity");
+
       
 
         function outputText(id, text) {
@@ -301,7 +316,7 @@ input[type="submit"]:hover {
         // write to the contract through setter functions within our back-end solidity code
         const submit = async () => {
             const name = document.getElementById("setItemName").value;
-            const price = document.getElementById("setItemPrice").value;
+            const price = localStorage.getItem("itemPrice");
             const detail = document.getElementById("setItemDetails").value;
             const description = document.getElementById("setItemDescription").value;
 

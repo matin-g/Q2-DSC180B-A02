@@ -169,9 +169,17 @@
 
         <button onclick="createMyOwnContract()">CREATE MY OWN CONTRACT</button> <br>
         <p id="contractDeployValue"></p>
-        <input style="visibility: hidden;" type="text" class="cool-input" id="deployValue" placeholder="Enter the amount in Wei"> <br>
+        <input style="visibility: hidden;" type="text" class="cool-input" id="deployPrice" placeholder="Enter the price of one item in Wei"> <br>
         <br>
-        <button style="visibility: hidden;" id="deployContract" onclick="deployContract()">DEPLOY CONTRACT</button> <br>
+        <input style="visibility: hidden;" type="text" class="cool-input" id="deployQuant" placeholder="Enter the total quantity to sell"> <br>
+        <br>
+        <!-- <input style="visibility: hidden;" type="text" class="cool-input" id="deployValue"> <br> -->
+        <button style="visibility: hidden" id = "deployValue" onclick="calculateDeployValue()" >CALCULATE FOR ME </button><br>
+        <br>
+        <p id="cost"></p>
+        <p id="deployValueText"></p>
+        <button style="visibility: hidden;" id="deployContract" onclick="deployContract()">DEPLOY CONTRACT</button> 
+        <br>
 
         <p id="contractFollowMetamaskArea"></p>
         <p id="contractStartsDeployingArea"></p>
@@ -208,7 +216,7 @@
             var container = document.getElementById(id);
             
             if (container.innerHTML !== "") {
-                container = "";
+                container.innerHTML = "";
             }
 
             var interval = setInterval(function() {
@@ -277,18 +285,43 @@
             
         }
 
-        let value = 0;
+        let quant;
+        let price;
         const createMyOwnContract = async () => {
 
-            var text = "Enter the amount you want to deploy to the contract below, it can be 0 for now and you can always add more balance to your contract later";
+            var text = "Enter the price of one item and the total quantity of the item, we will calculate the total amount you will need to depoly";
 
             outputText("contractDeployValue", text);
             
             scrollDown();
 
-            document.getElementById("deployValue").style.visibility = "visible";
+ 
+            document.getElementById("deployPrice").style.visibility = "visible";
+            document.getElementById("deployQuant").style.visibility = "visible";
+            
+
 
             document.getElementById("deployContract").style.visibility = "visible";
+            document.getElementById("deployValue").style.visibility = "visible";
+
+
+        }
+
+        let cost;
+        let deployedValue;
+        const calculateDeployValue = async() => {
+
+            quant = document.getElementById("deployQuant").value;
+            price = document.getElementById("deployPrice").value;
+
+            cost = quant*price;
+            deployedValue = cost * 2;
+
+            var text = `Total cost is ${cost} wei`;
+            var text2 = `Total deposit value is ${deployedValue} wei`;
+
+            outputText("cost",text)
+            outputText("deployValueText",text2);
 
         }
     
@@ -296,7 +329,9 @@
         let contractAddress;
         const deployContract = async () => {
 
-            value = document.getElementById("deployValue").value;
+            
+            value = deployedValue;
+            console.log(value);
 
             var text = "Please follow through the Metamask page ";
             
@@ -314,7 +349,7 @@
             
 
             window.web3 = await new Web3(window.ethereum);
-
+            
 
             window.web3.eth.sendTransaction({
                 from: sellerAddress,
@@ -349,6 +384,12 @@
                     // store the contract address and seller address to local storage and ensure the next page can access them
                     localStorage.setItem('contractAddress', contractAddress);
                     localStorage.setItem('sellerAddress', account);
+                    localStorage.setItem('itemQuantity', quant);
+                    localStorage.setItem('itemPrice', price);
+
+                    console.log(localStorage.getItem("itemPrice"));
+                    console.log(localStorage.getItem("itemQuantity"));
+
 
                     var button = document.getElementById("addItem");
                     button.style.visibility = "visible";
