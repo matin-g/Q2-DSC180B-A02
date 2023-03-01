@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
+        <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
     <title>Marketplace</title>
     <link href="background.css" rel="stylesheet" type="text/css">
+        <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
+
+    <!-- CSS
+    ============================================ -->
+
+    <!-- Bootstrap CSS -->
+
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/font-awesome.css">
+    <link rel="stylesheet" href="assets/css/vendor/flaticon/flaticon.css">
+    <link rel="stylesheet" href="assets/css/vendor/slick.css">
+    <link rel="stylesheet" href="assets/css/vendor/slick-theme.css">
+    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/sal.css">
+    <link rel="stylesheet" href="assets/css/vendor/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/vendor/base.css">
+    <link rel="stylesheet" href="assets/css/style.min.css">
     <style>
 header {
   background-color: #fff;
   padding: 1em;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+
 }
 
 .banner {
@@ -17,41 +41,75 @@ header {
   align-items: center;
 }
 
-h1 {
-  font-size: 2em;
+ /* Center the content horizontally and vertically */
+      /* Style the h1 element */
+      h1 {
+/*        font-size: 2em;
+        font-weight: bold;
+        color: #333;*/
+        margin: 0;
+        text-align: center;
+          font-size: 3.5rem;
   font-weight: bold;
-  color: #333;
-  margin: 0;
-}
+  background-color: white;
+  background-image: linear-gradient(45deg, #b6f50a, #e303fc);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
 
-.search-bar {
-  display: flex;
-  align-items: center;
-}
+      }
+      
+      /* Style the search bar */
+      .search-bar {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        padding: 0.25em;
+        margin-top: 16px;
+      }
+      
+      .search-bar input[type="text"] {
+        font-size: 1.2em;
+        padding: 0.25em;
+        width: 30em;
+        border: none;
+        background-image: url('search-icon.png');
+        background-position: 10px 10px;
+        background-repeat: no-repeat;
+        padding-left: 40px;
+        flex-grow: 1;
+      }
+      
+      .search-bar button {
+        padding: 0.25em ;
+        width: 5em;
+        background-color: #dfd;
+        border: none;
+        color: black
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        margin-left: -1px;
+      }
+      
+      .search-bar button:hover {
+        background-color: #dff;
+      }
+      
+      .search-bar button:focus {
+        outline: none;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      }
+      
+      .search-bar input[type="text"]::placeholder {
+        color: #999;
+      }
 
-.search-bar input[type="text"] {
-  padding: 0.5em;
-  font-size: 1em;
-  border: none;
-  border-radius: 2px 0 0 2px;
-}
-
-.search-bar button {
-  padding: 0.5em;
-  background-color: #dfd;
-  border: none;
-  border-radius: 0 2px 2px 0;
-  cursor: pointer;
-}
-
-.search-bar button:hover {
-  background-color: #cfc;
-}
-
-.search-bar button:focus {
-  outline: none;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-}
 
 * {
   padding: 0;
@@ -160,9 +218,10 @@ h2, h3 {
   clear: left;
   width: 100%;
   font-family: 'Roboto', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1em;
   text-align: center;
+  color: black;
   margin: 0.2em auto;
   height: 4em; /* adjust the height based on your needs */
   overflow: scroll;
@@ -211,15 +270,54 @@ button:active {
   </head>
   <body>
     <header>
+
+
+
       <div class="banner">
         <h1>Search for new items to Buy!</h1>
         <form class="search-bar">
-          <input id ='inn' type="text" placeholder="Search...">
+          <input id ='inn' type="text" placeholder="Search by any key words...">
           <button id="submit">Search</button>
         </form>
+              <div class="header-action">
+                        <ul class="action-list">
+                            <li class="my-account">
+                                <a href="javascript:void(0)">
+                                    <i class="flaticon-person"></i>
+                                </a>
+                                <div class="my-account-dropdown">
+                                    <span class="title">QUICKLINKS</span>
+                                    <ul>
+<!--                                         <li>
+                                            <a href="index.html">Home</a>
+                                        </li> -->
+                                        <li>
+                                            <a href="marketplace.html">Shop the Marketplace</a>
+                                        </li>
+                                        <li>
+                                            <a href="buyerActiveContracts.html">My Active Contracts as a Buyer</a>
+                                        </li>
+                                        <li>
+                                            <a href="sellerDeployNewContract.html">List an Item for Sale</a>
+                                        </li>
+                                        <li>
+                                            <a href="sellerActiveContracts.html">My Active Contracts as a Seller</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="axil-mobile-toggle">
+                                <button class="menu-btn mobile-nav-toggler">
+                                    <i class="flaticon-menu-2"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+        
+
       </div>
     </header>
-    <!-- <div class="listing-section"> -->
+    <div class="listing-section">
     <div id="listing-section"></div>
     <script>
 
@@ -424,7 +522,30 @@ function renderProducts(products) {
 // }
 
 
-
     </script>
+
+    <!-- JS
+============================================ -->
+    <!-- Modernizer JS -->
+    <script src="assets/js/vendor/modernizr.min.js"></script>
+    <!-- jQuery JS -->
+    <script src="assets/js/vendor/jquery.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/slick.min.js"></script>
+    <script src="assets/js/vendor/js.cookie.js"></script>
+    <script src="assets/js/vendor/jquery-ui.min.js"></script>
+    <script src="assets/js/vendor/jquery.countdown.min.js"></script>
+    <script src="assets/js/vendor/sal.js"></script>
+    <script src="assets/js/vendor/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/vendor/imagesloaded.pkgd.min.js"></script>
+    <script src="assets/js/vendor/isotope.pkgd.min.js"></script>
+    <script src="assets/js/vendor/counterup.js"></script>
+    <script src="assets/js/vendor/waypoints.min.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+
   </body>
 </html>
