@@ -407,7 +407,7 @@
             var h5 = document.createElement("h5");
             h5.className = "title";
 
-            if (state == "shipped") {
+            if (state != "paid") {
                 h5.innerHTML = `Buyer Account: ${buyer} <span class='verified-icon'><i class='fas fa-badge-check'></i>
                     <p> Quantity: ${quant} <br> State: ${state} <br> Shipping Address: ${address} <br> Time: ${time} </p></span>`;
             } else {
@@ -429,7 +429,22 @@
             confirmLi.className = "select-option";
             var confirmA = document.createElement("a");
             confirmA.innerHTML = "Confirm Shipped";
-            confirmA.onclick = function() { confirmShipped(buyer); };
+
+
+            if (state != "paid") {
+                confirmA.style.backgroundColor = 'silver';
+
+                confirmA.addEventListener('mouseover', function() {
+                    confirmA.setAttribute("title", "Seems like you already shipped, just wait for buyer to confirm");
+                });
+
+                confirmA.onclick = null;
+            } else if (state == "paid") {
+                confirmA.onclick = function() { confirmShipped(buyer); };
+            }
+            
+            
+            
             confirmLi.appendChild(confirmA);
             cartUl.appendChild(confirmLi);
 
@@ -437,8 +452,20 @@
             var claimLi = document.createElement("li");
             claimLi.className = "select-option";
             var claimA = document.createElement("a");
-            claimA.innerHTML = "Claim Profit";
-            claimA.onclick = function() { refundSeller(buyer); };
+            claimA.innerHTML = "Claim Payment";
+
+            if (state != "received") {
+                claimA.style.backgroundColor = 'silver';
+
+                claimA.addEventListener('mouseover', function() {
+                    claimA.setAttribute("title", "Seems like your buyer hasn't Confirm Received yet");
+                });
+
+                claimA.onclick = null;
+            } else if (state == "received") {
+                claimA.onclick = function() { refundSeller(buyer); };
+            }
+            
             claimLi.appendChild(claimA);
             cartUl.appendChild(claimLi);
 
