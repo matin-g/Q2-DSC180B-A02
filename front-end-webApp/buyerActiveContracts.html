@@ -133,20 +133,27 @@
 
         async function readFromDB() {
 
+          let contracts = [];
+          let products = [];
+          let prices = [];
+          let quants = [];
+
             // fetch seller's active contracts' data from database
-            var query = new Parse.Query("buyerContract");
+            var query = new Parse.Query("buyerAddress");
 
             // fetch rows that has column sellerAddress equal to seller Account
             query.equalTo("buyerAddress", buyerAccount);
             
-            // Fetch the data from the parse class
             query.find().then(async function(results) {
                 // Extract the data from the results and store it in an array
-                columnData = results.map(function(result) {
-                    return result.get("contractAddress");
+                results.forEach(obj => {
+                  contracts.push(obj.get("contract_address"));
+                  products.push(obj.get("item_name"));
+                  prices.push(obj.get("item_price"));
+                  quants.push(obj.get("quantity"));
                 });
                 
-                var text = `Dear Buyer: ${buyerAccount}, as of now, our system indicates that you have ${columnData.length} active 
+                var text = `Dear Buyer: ${buyerAccount}, as of now, our system indicates that you have ${contracts.length} active 
                 contract(s).`;
 
                 outputText("connectMetamask", text, 30);
@@ -154,18 +161,18 @@
                 // add all the contract address to the option bar
                 var select = document.getElementById("info-selector"); // Get the select element
                 
-                for (let i = 0; i < columnData.length; i++) { 
-                    const contract = columnData[i];
-                    
+                for (let i = 0; i < contracts.length; i++) { 
+                    const info = `${products[i]} (${quants[i]}x) at price ${prices[i]} - ${contracts[i]}`;
                     var option = document.createElement("option");
-                    option.textContent = contract; // Set the text content of the new option
-                    option.value = contract;
+                    option.textContent = info; // Set the text content of the new option
+                    option.value = contracts[i];
                     select.appendChild(option); // Add the new option to the select element
                 }
 
                 }, function(error) {
                 console.log("Error: " + error.code + " " + error.message);
             });
+            
             
         }
 
@@ -177,9 +184,9 @@
 
                 // store the contract address and seller address for next html page to access
                 localStorage.setItem('contractAddress', contract);
-                localStorage.setItem('buyerAddress', sellerAccount);
+                localStorage.setItem('buyerAddress', buyerAccount);
 
-                window.location.href = "buyerPage.html";
+                window.location.href = "buyerContractPage.html";
         });
 
     </script>

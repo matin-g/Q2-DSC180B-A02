@@ -425,13 +425,15 @@ label {
             window.contract = await new window.web3.eth.Contract(ABI, contract); 
 
             const sendValue = await window.contract.methods.getValue().call();
+
+            const name = await window.contract.methods.getItemName().call();
             
 
             await window.contract.methods.confirmPurchase(quantity).send({ from: account, value: sendValue*2*quantity})
 
             .on('receipt', function(receipt){
                 console.log(receipt);
-                pushBuyerInfo(account,contract,road,apt,city,state,country,quantity);
+                pushBuyerInfo(account,contract,road,apt,city,state,country,quantity, sendValue,name);
                 document.getElementById("jumpToItemListing").style.visibility = "visible";
             })
             .on('error', function(error, receipt){
@@ -443,11 +445,14 @@ label {
         }
         
         // function to push buyer into db
-        async function pushBuyerInfo(account,contract,road,apt,city,state,country,quantity) {
+        async function pushBuyerInfo(account,contract,road,apt,city,state,country,quantity, price, name) {
             outputText("receiptMessage", "Congrats! Your payment just went through!");
 
             // store buyer details to our parse database
             const buyer = new Parse.Object("buyerAddress");
+
+            // const buyerContracts = new Parse.Object("buyerContract");
+
 
             buyer.set("buyerAddress", account);
             buyer.set("contract_address", contract);
@@ -457,9 +462,19 @@ label {
             buyer.set("state", state);
             buyer.set("country", country);
             buyer.set("quantity", quantity);
+            buyer.set("item_name", name);
+            buyer.set("item_price", price);
+
+   //          buyerContracts.set("buyerAddress", account);
+   //          buyerContracts.set("contract_address", contract);
+   //          buyerContracts.set("item_name", name);
+			// buyerContracts.set("item_price", price);
+   //          buyerContracts.set("quantity", quantity);
+
 
             try {
                 let result = buyer.save();
+                //let result2 = await buyerContracts.save();
 
             } catch (error) {
                 alert(`Error: ${error.message}`);

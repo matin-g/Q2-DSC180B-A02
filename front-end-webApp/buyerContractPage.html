@@ -1,0 +1,488 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Buyer Contract Page</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
+
+    <!-- CSS
+    ============================================ -->
+
+    <!-- Bootstrap CSS -->
+
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/font-awesome.css">
+    <link rel="stylesheet" href="assets/css/vendor/flaticon/flaticon.css">
+    <link rel="stylesheet" href="assets/css/vendor/slick.css">
+    <link rel="stylesheet" href="assets/css/vendor/slick-theme.css">
+    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/sal.css">
+    <link rel="stylesheet" href="assets/css/vendor/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/vendor/base.css">
+    <link rel="stylesheet" href="assets/css/style.min.css">
+
+</head>
+
+
+<body class="sticky-header overflow-md-visible">
+    <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
+    
+        <!-- Start Mainmenu Area  -->
+        <div id="axil-sticky-placeholder"></div>
+        <div class="axil-mainmenu">
+            <div class="container">
+                <div class="header-navbar">
+                    <div class="header-brand">
+
+                        <! -- Once we have our logo we will put our logo here, top left of the page -->
+                        <!-- <a href="index.html" class="logo logo-dark">
+                            <img src="assets/images/logo/logo.png" alt="Site Logo">
+                        </a>
+                        <a href="index.html" class="logo logo-light">
+                            <img src="assets/images/logo/logo-light.png" alt="Site Logo">
+                        </a> -->
+                    </div>
+                    <div class="header-main-nav">
+                        <!-- Start Mainmanu Nav -->
+                        <nav class="mainmenu-nav">
+                            <button class="mobile-close-btn mobile-nav-toggler"><i class="fas fa-times"></i></button>
+                            <div class="mobile-nav-brand">
+                                <a href="index.html" class="logo">
+                                    <img src="assets/images/logo/logo.png" alt="Site Logo">
+                                </a>
+                            </div>
+                            <ul class="mainmenu">
+                                
+                            </ul>
+                        </nav>
+                        <!-- End Mainmanu Nav -->
+                    </div>
+                    <div class="header-action">
+                        <ul class="action-list">
+                            <li class="my-account">
+                                <a href="javascript:void(0)">
+                                    <i class="flaticon-person"></i>
+                                </a>
+                                <div class="my-account-dropdown">
+                                    <span class="title">QUICKLINKS</span>
+                                    <ul>
+                                        <li>
+                                            <a href="marketplace.html">Marketplace</a>
+                                        </li>
+                                        <li>
+                                            <a href="buyerActiveContracts.html">My Contracts</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="axil-mobile-toggle">
+                                <button class="menu-btn mobile-nav-toggler">
+                                    <i class="flaticon-menu-2"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- End Header -->
+
+    <main class="main-wrapper" >
+        <!-- Start Shop Area  -->
+        <div class="axil-single-product-area bg-color-white" style="background: linear-gradient(to right, #1c9ef5, #05e8f0);">
+            <div class="single-product-thumb axil-section-gap pb--30 pb_sm--20">
+                <div class="container">
+                    <div class="row row--50">
+                        <div class="col-lg-6 mb--40">
+                            <div class="h-100">
+                                <div class="position-sticky sticky-top">
+                                    <div class="single-product-thumbnail axil-product" >
+                                        <div class="thumbnail">
+                                            <img src="assets/images/product/nft/product-10.png" alt="Product Images" id="productImage">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb--40">
+                            <div class="h-100">
+                                <div class="position-sticky sticky-top">
+                                    <div class="single-product-content nft-single-product-content">
+                                        <div class="inner">
+                                            <h2 class="product-title" id="productName"></h2>
+                                            <div class="price-amount price-offer-amount">
+                                                <span class="price current-price" id="productPrice"></span>
+                                            </div>
+
+                                            <!-- Start Product Action Wrapper  -->
+                                            <div class="product-action-wrapper d-flex-center">
+
+                                            </div>
+
+                                            <div class="nft-short-meta">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-6">
+                                                        <div class="nft-category">
+                                                            <label>Category :</label>
+                                                            <div class="category-list">
+                                                                <a href="#">Digital Art</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="nft-verified-option">
+                                                            <button class="verify-btn axil-btn btn-bg-secondary" onclick="confirmReceived()">Confirm Recieved</button> 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="woocommerce-tabs wc-tabs-wrapper bg-vista-white nft-info-tabs">
+                                                <div class="container">
+                                                    <ul class="nav tabs" id="myTab" role="tablist">
+                                                        <li class="nav-item" role="presentation">
+                                                            <a class="active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
+                                                        </li>
+                                                        <li class="nav-item " role="presentation">
+                                                            <a id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab" aria-controls="additional-info" aria-selected="false">Additional Information</a>
+                                                        </li>
+                                                        <li class="nav-item" role="presentation">
+                                                            <a id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Property</a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content" id="myTabContent">
+                                                        <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                                                            <div class="product-additional-info">
+                                                                <p class="mb--15"><strong>About this Product</strong></p>
+                                                                <p id="productDescription"></p>
+                                                                <div class="table-responsive">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>Product ID</th>
+                                                                                <td id="productID"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Product Details</th>
+                                                                                <td id="productDetail"></td>
+                                                                            </tr>
+                                                                            
+                                                                            <tr>
+                                                                                <th>Product Quantity</th>
+                                                                                <td id="productQuantity"></td>
+                                                                            </tr>
+                                                                            
+                                                                            
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="additional-info" role="tabpanel" aria-labelledby="additional-info-tab">
+                                                            <div class="product-additional-info">
+                                                                <div class="table-responsive">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>Current Buyer Number</th>
+                                                                                <td id="buyerNumber"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Contract Balance</th>
+                                                                                <td id="contractBalance"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Escrow Left</th>
+                                                                                <td id="escrowLeft"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Published Time</th>
+                                                                                <td id="createdTime"></td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                                                            <div class="product-additional-info">
+                                                                <div class="table-responsive">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>Blockchain</th>
+                                                                                <td>Ethereum</td>
+                                                                            </tr>
+                                                        
+                                                                            <tr>
+                                                                                <th>Contract Address</th>
+                                                                                <td id="contractAddress"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Creator</th>
+                                                                                <td id="sellerAddress"></td>
+                                                                            </tr>
+                                                                        
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- woocommerce-tabs -->
+
+
+                                            <!-- End Product Action Wrapper  -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End .single-product-thumb -->
+        </div>
+        <!-- End Shop Area  -->
+    </main>
+
+
+    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+
+    <script>
+        
+        Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
+        Parse.serverURL = "https://parseapi.back4app.com/";
+
+        const contractAddress = localStorage.getItem('contractAddress');
+        const sellerAddress = localStorage.getItem('sellerAddress');
+
+        
+        var query = new Parse.Query("Product_details");
+
+        // fetch rows that has column sellerAddress equal to seller Account
+        query.equalTo("contractAddress", contractAddress);
+        
+        const name = [];
+        const id = [];
+        const detail = [];
+        const price = [];
+        const time = [];
+        const description = [];
+        
+        // Fetch the data from the parse class
+        query.find().then(async function(results) {
+            // Extract the data from the results and store it in an array
+            results.forEach(obj => {
+                name.push(obj.get("ProductName"));
+                id.push(obj.id);
+                detail.push(obj.get("ProductDetails"));
+                price.push(obj.get("ProductPrice"));
+                time.push(obj.get("createdAt"));
+                description.push(obj.get("ProductDescription"));
+
+                var image = obj.get("image");
+                var imageurl = image.url();
+                document.getElementById("productImage").src = imageurl;
+            });
+
+            document.getElementById("productName").innerHTML = name[0];
+            document.getElementById("productID").innerHTML = id[0];
+            
+            document.getElementById("productPrice").innerHTML = "Price: " + price[0] + " Wei";
+            document.getElementById("productDescription").innerHTML = description[0];
+            
+
+            document.getElementById("productDetail").innerHTML = detail[0];
+            document.getElementById("createdTime").innerHTML = time[0];
+            document.getElementById("productDetail").innerHTML = detail[0];
+
+            }, function(error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+
+        document.getElementById("contractAddress").innerHTML = contractAddress;
+        document.getElementById("sellerAddress").innerHTML = sellerAddress;
+        
+
+        var query = new Parse.Query("buyerAddress");
+        query.equalTo("contract_address", contractAddress);
+
+        let rd = [];
+        let buyer = [];
+        let apt = [];
+        let city = [];
+        let state = [];
+        let country = [];
+        let buy_quantity = [];
+        let buy_time = [];
+        query.find().then(async function(results) {
+            // Extract the data from the results and store it in an array
+            results.forEach(obj => {
+                rd.push(obj.get("road"));
+                apt.push(obj.get("apt"));
+                city.push(obj.get("city"));
+                state.push(obj.get("state"));
+                country.push(obj.get("country"));
+                buy_quantity.push(obj.get("quantity"));
+                buy_time.push(obj.get("createdAt"));
+                buyer.push(obj.get("buyerAddress"));
+            });
+
+            await connectContract();
+
+            document.getElementById("buyerNumber").innerHTML = buyer.length;
+
+            for (var i=0; i<buyer.length; i++) {
+                var addr = rd[i] + " " + apt[i] + ", " + city[i] + " " + state[i] + ", " + country[i];
+
+                const getBuyerState = await window.contract.methods.getBuyerState(buyer[i]).call();
+
+                addBuyerInfo(buyer[i], buy_quantity[i], getBuyerState, addr, buy_time[i]);
+                
+            }
+
+            document.getElementById("productQuantity").innerHTML = getQuantity;
+
+            }, function(error) {
+            console.log("Error: " + error.code + " " + error.message);
+        });
+
+
+        // generate buyer info card
+        function addBuyerInfo(buyer, quant, state, address, time) {
+            var div = document.getElementById("buyerInfo");
+
+            console.log(div);
+            
+            
+            // Create the slick-single-layout div
+            var slickDiv = document.createElement("div");
+            slickDiv.className = "slick-single-layout";
+
+            // Create the axil-product div
+            var axilDiv = document.createElement("div");
+            axilDiv.className = "axil-product product-style-six";
+
+            // Create the thumbnail div
+            var thumbDiv = document.createElement("div");
+            thumbDiv.className = "thumbnail";
+
+            // Create the product-content div
+            var contentDiv = document.createElement("div");
+            contentDiv.className = "product-content";
+
+            // Create the inner div
+            var innerDiv = document.createElement("div");
+            innerDiv.className = "inner";
+
+            // Create the h5 element
+            var h5 = document.createElement("h5");
+            h5.className = "title";
+
+            if (state == "shipped") {
+                h5.innerHTML = `Buyer Account: ${buyer} <span class='verified-icon'><i class='fas fa-badge-check'></i>
+                    <p> Quantity: ${quant} <br> State: ${state} <br> Shipping Address: ${address} <br> Time: ${time} </p></span>`;
+            } else {
+                h5.innerHTML = `Buyer Account: ${buyer} 
+                <p> Quantity: ${quant} <br> State: ${state} <br> Shipping Address: ${address} <br> Time: ${time} </p>`;
+
+            }
+
+            // Create the product-hover-action div
+            var hoverDiv = document.createElement("div");
+            hoverDiv.className = "product-hover-action";
+
+            // Create the cart-action ul
+            var cartUl = document.createElement("ul");
+            cartUl.className = "cart-action";
+
+            // Create the select-option li for Confirm Shipped
+            var confirmLi = document.createElement("li");
+            confirmLi.className = "select-option";
+            var confirmA = document.createElement("a");
+            confirmA.innerHTML = "Confirm Shipped";
+            confirmA.onclick = function() { confirmShipped(buyer); };
+            confirmLi.appendChild(confirmA);
+            cartUl.appendChild(confirmLi);
+
+            // Create the select-option li for Claim Profit
+            var claimLi = document.createElement("li");
+            claimLi.className = "select-option";
+            var claimA = document.createElement("a");
+            claimA.innerHTML = "Claim Profit";
+            claimA.onclick = function() { refundSeller(buyer); };
+            claimLi.appendChild(claimA);
+            cartUl.appendChild(claimLi);
+
+            // Append all the elements to the container
+            hoverDiv.appendChild(cartUl);
+            innerDiv.appendChild(h5);
+            innerDiv.appendChild(hoverDiv);
+            contentDiv.appendChild(innerDiv);
+            axilDiv.appendChild(thumbDiv);
+            axilDiv.appendChild(contentDiv);
+            slickDiv.appendChild(axilDiv);
+
+            div.appendChild(slickDiv);
+
+        }
+
+        const connectContract = async () => {
+            const ABI = [ { "inputs": [], "stateMutability": "payable", "type": "constructor" }, { "inputs": [], "name": "InvalidState", "type": "error" }, { "inputs": [], "name": "ItemNotAdded", "type": "error" }, { "inputs": [], "name": "OnlyBuyer", "type": "error" }, { "inputs": [], "name": "OnlySeller", "type": "error" }, { "inputs": [], "name": "ValueNotEven", "type": "error" }, { "inputs": [], "name": "notEnoughEscrow", "type": "error" }, { "anonymous": false, "inputs": [], "name": "ConfirmShipped", "type": "event" }, { "anonymous": false, "inputs": [], "name": "ItemReceived", "type": "event" }, { "anonymous": false, "inputs": [], "name": "PurchaseConfirmed", "type": "event" }, { "anonymous": false, "inputs": [], "name": "SellerRefunded", "type": "event" }, { "anonymous": false, "inputs": [], "name": "addedEscrow", "type": "event" }, { "anonymous": false, "inputs": [], "name": "closedContract", "type": "event" }, { "inputs": [], "name": "addEscrow", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "inp_value", "type": "uint256" }, { "internalType": "string", "name": "inp_item_name", "type": "string" }, { "internalType": "string", "name": "inp_item_details", "type": "string" }, { "internalType": "string", "name": "inp_item_descriptions", "type": "string" } ], "name": "add_item", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "buyerNumber", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "checkNoActiveBuyers", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "closeContract", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "quant", "type": "uint256" } ], "name": "confirmPurchase", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [], "name": "confirmReceived", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "address_", "type": "address" } ], "name": "confirmShipped", "outputs": [], "stateMutability": "payable", "type": "function" }, { "inputs": [], "name": "escrowLeft", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getAddress", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getBalance", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getBuyerNumber", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "addr", "type": "address" } ], "name": "getBuyerState", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getEscrowLeft", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getItemDescription", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getItemDetails", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getItemName", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getItemPriceInWEI", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getQuantity", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "getValue", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "quantity", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "item_received_buyer", "type": "address" } ], "name": "refundSeller", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "seller", "outputs": [ { "internalType": "address payable", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "value", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" } ];
+            const Address = contractAddress;
+
+            window.web3 = await new Web3(window.ethereum);
+            window.contract = await new window.web3.eth.Contract(ABI, Address); 
+        }
+        
+        const confirmReceived = async () => {
+            try {
+                await window.contract.methods.confirmReceived().send({ from: account });
+                console.log("Item received successfully!");
+                document.getElementById("dataArea7").innerHTML = "Item received successfully!";
+            } catch (error) {
+                console.error(error);
+                document.getElementById("dataArea7").innerHTML = "Error confirming item received: " + error;
+            }
+        };
+
+
+
+    </script>
+    <!-- JS
+============================================ -->
+    <!-- Modernizer JS -->
+    <script src="assets/js/vendor/modernizr.min.js"></script>
+    <!-- jQuery JS -->
+    <script src="assets/js/vendor/jquery.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/slick.min.js"></script>
+    <script src="assets/js/vendor/js.cookie.js"></script>
+    <script src="assets/js/vendor/jquery-ui.min.js"></script>
+    <script src="assets/js/vendor/jquery.countdown.min.js"></script>
+    <script src="assets/js/vendor/sal.js"></script>
+    <script src="assets/js/vendor/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/vendor/imagesloaded.pkgd.min.js"></script>
+    <script src="assets/js/vendor/isotope.pkgd.min.js"></script>
+    <script src="assets/js/vendor/counterup.js"></script>
+    <script src="assets/js/vendor/waypoints.min.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
