@@ -9,11 +9,11 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 contract Purchase {
 
 
-   uint public value;
-   uint public escrowLeft;
-   uint public buyerNumber = 0;
-   uint public quantity;
-   uint maxBuyerNumber = 10;
+   uint value;
+   uint escrowLeft;
+   uint buyerNumber = 0;
+   uint quantity;
+   uint totalBuyerNumber = 0;
    string item_price_in_Wei;
    string item_name;
    string item_details;
@@ -22,7 +22,7 @@ contract Purchase {
    bool ready = false;
 
 
-   address payable public seller;
+   address payable seller;
    // address payable public buyer;
 
 
@@ -42,7 +42,7 @@ contract Purchase {
 
    mapping (address => Buyer) map;
 
-   address[] addresses;
+//    address[] addresses;
 
 
    // since seller is launching --> there should be item name and description, item details --> make those readable by buyer
@@ -60,11 +60,26 @@ contract Purchase {
    error InvalidState();
    /// The provided value has to be even.
    error ValueNotEven();
-      /// The provided value has to be even.
+   /// There isn't enough escrow from the seller.
    error notEnoughEscrow();
+   /// Seller has not added items yet.
    error ItemNotAdded();
+   /// The contract has been terminated.
+   error ContractTerminated();
+   /// Exceed max quantity.
+   error ExceedMaxQuantity();
+   /// Items have been added. Can't modify the old item.
+   error ItemAddedAlready();
+   /// This buyer address is invalid.
+   error InvalidAddress();
+   /// There are still active buyers in the contract. Can't terminate.
+   error ActiveBuyer();
 
-
+   modifier ActiveBuyerCheck() {
+       if (!checkNoActiveBuyers())
+            revert ActiveBuyer();
+        _;
+   }
    modifier onlyBuyer() {
        if (msg.sender == seller)
            revert OnlyBuyer();
@@ -86,7 +101,7 @@ contract Purchase {
    }
 
     modifier enoughEscrow() {
-       if ( (escrowLeft / 2 / value) <= buyerNumber)
+       if ( (escrowLeft / 2 / value) < 1)
            revert notEnoughEscrow();
        _;
    }
@@ -96,9 +111,34 @@ contract Purchase {
         _;
    }
 
+    modifier ItemAddedAlreadyCheck(){
+       if(ready)
+            revert ItemAddedAlready();
+        _; 
+   }
+
+    modifier ContractTerminatedCheck(){
+       if (terminated)
+            revert ContractTerminated();
+        _;
+   }
+    modifier quantityCheck(uint quant){
+       if (quant > quantity)
+            revert ExceedMaxQuantity();
+        _;
+   }
+
+   modifier InvalidAddressCheck(address address_){
+       if (!doesExist(address_))
+            revert InvalidAddress();
+        _;
+   }
+
+
 
 
 //    event Aborted();
+   event Added_item();
    event PurchaseConfirmed();
    event ConfirmShipped();
    event ItemReceived();
@@ -144,11 +184,12 @@ contract Purchase {
    // }
    // Setters for quantity and value 
    
-   function setValue_Quant(uint inp_value) internal
+   // I added the inp_quant make sure html changes too.
+   function setValue_Quant(uint inp_value, uint inp_quant) internal
        onlySeller
    {
        value = inp_value;
-       quantity = escrowLeft/value/2;
+       quantity = inp_quant;
        item_price_in_Wei = string.concat(Strings.toString(inp_value) , " Wei");
    }
 
@@ -172,10 +213,17 @@ contract Purchase {
 
     function add_item
     (uint inp_value, 
+    uint inp_quant,
     string memory inp_item_name, 
     string memory inp_item_details, 
-    string memory inp_item_descriptions) public onlySeller {
-        setValue_Quant(inp_value);
+    string memory inp_item_descriptions) public 
+    onlySeller
+    ContractTerminatedCheck
+    ItemAddedAlreadyCheck
+    
+    {
+        emit Added_item();
+        setValue_Quant(inp_value, inp_quant);
         setItem_Name(inp_item_name);
         setItem_Details(inp_item_details);
         setItem_Descriptions(inp_item_descriptions);
@@ -229,44 +277,21 @@ contract Purchase {
    function getEscrowLeft() public view returns (uint) {
        return escrowLeft;
    }
-
-//     function getBuyerNumAddress(uint buyerNum) public view returns (address) {
-//        return map[map[buyerNum]].addr;
-//    }
-
-//    function deposit() public payable {
-//    }
-
-//    function withdraw(address payable _to, uint _amount) public {
-    //    _to.transfer(_amount);
-//    }
+   function getTotalBuyer() public view returns (uint) {
+       return totalBuyerNumber;
+   }
 
 
-
-   // SETTERS potentially need implementation for future use (quarter 2)
-
-
-   // function editItemDetails(string memory new_item_details) public {
-   //     item_details = new_item_details;
-   // }
-   // function editItemName(string memory new_item_name) public {
-   //     item_name = new_item_name;
-   // }
-   // function editItemDescription(string memory new_item_description) public {
-   //     item_description = new_item_description;
-   // }
-
-
-//    function doesExist(address key) public view returns (bool) {
-//        if (map[key].addr != address(0)) {
-//            return true;
-//        }  else {
-//            return false;
-//        }
-//    }
+   function doesExist(address key) public view returns (bool) {
+       if (map[key].addr != address(0)) {
+           return true;
+       }  else {
+           return false;
+       }
+   }
 
    function getBuyerState(address addr) public
-    //    condition(doesExist(addr))
+       InvalidAddressCheck(addr)
        view returns(string memory)
    {
        State stateIdx = map[addr].state;
@@ -282,18 +307,6 @@ contract Purchase {
        return "";
    }
   
-//    function createBuyer() public
-//        onlyBuyer
-//        addedItem
-//        enoughEscrow
-//        condition(!doesExist(msg.sender))
-//        condition(buyerNumber < maxBuyerNumber)
-//        condition(!terminated)
-//    {
-//        buyerNumber ++;
-//        map[msg.sender] = Buyer(payable(msg.sender), State.created);
-//        addresses.push(msg.sender);
-//    }
 
 
    /// Confirm the purchase as buyer.
@@ -307,16 +320,15 @@ contract Purchase {
        onlyBuyer
        addedItem
        enoughEscrow
-    //    condition(!doesExist(msg.sender))
-       condition(quant <= quantity)
-       condition(buyerNumber < maxBuyerNumber)
-       condition(!terminated)
+       quantityCheck(quant)
+       ContractTerminatedCheck
        condition(msg.value == (2 * value* quant))
        payable
    {
        quantity -= quant;
        buyerNumber ++ ;
-       addresses.push(msg.sender);
+       totalBuyerNumber ++;
+    //    addresses.push(msg.sender);
        map[msg.sender] = Buyer(payable(msg.sender), State.paid, quant);
        emit PurchaseConfirmed();
     //    map[msg.sender].state = State.paid;
@@ -334,13 +346,16 @@ contract Purchase {
        map[address_].state = State.shipped; 
    }
 
-    function addEscrow()
+    function addEscrow(uint quant)
        external
        onlySeller
-       condition(msg.value >= (2 * value))
+       addedItem
+       ContractTerminatedCheck
+    //    condition(!terminated)
+       condition(msg.value == (2 * value * quant))
        payable
    {
-       uint new_quantity = msg.value / 2 / value;
+       uint new_quantity = quant;
        quantity += new_quantity;
        escrowLeft += msg.value;
        emit addedEscrow();
@@ -349,71 +364,22 @@ contract Purchase {
    // function that seller can end/complete the contract
    // when there's no buyer
 
-    // function checkNoActiveBuyers(){
-    //     flagActiveBuyers = False;
-    //     for (uint i = 0 ; i<buyerNumber; i++) {
-    //         curr = map[i].state;
-    //     ...
-    // }
     
-    // function checkNoActiveBuyers() public view returns (bool) {
-    //     bool flagActiveBuyers = false;
-    //     for (uint i = 0; i < map.length; i++) {
-    //         if (map[address(i)].state != State.created && map[address(i)].state != State.refunded) {
-    //             flagActiveBuyers = true;
-    //             break;
-    //         }
-    //     }
-    //     return flagActiveBuyers;
-    // }
-
-    // function checkNoActiveBuyers() public view returns (bool) {
-    // bool allStatesCreated = true;
-    // bytes32 hash = 0x0;
-    //     while (hash < 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff) {
-    //         if (map[address(hash)].state != State.created && map[address(hash)].state != State.refunded) {
-    //         //if (map[address(hash)].state != State.created) {
-    //             allStatesCreated = false;
-    //             break;
-    //         }
-    //         hash = keccak256(abi.encodePacked(hash + 1));
-    //     }
-    //     return allStatesCreated;
-    // }
-
-//     function checkNoActiveBuyers() public view returns (bool) {
-//     bool flagActiveBuyers = false;
-//     bytes32 hash = 0x0;
-//     while (hash < 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff) {
-//     if (map[address(hash)].state != State.created && map[address(hash)].state != State.refunded) {
-//             flagActiveBuyers = true;
-//             break;
-//         }
-//         hash = keccak256(abi.encodePacked(hash + 1));
-//     }
-//     return !flagActiveBuyers;
-// }
-
-// function checkActiveBuyers() public view returns (bool) {
-//     bool flagActiveBuyers = false;
-//     for (address buyerAddr in map) {
-//         if (map[buyerAddr].state != State.created && map[buyerAddr].state != State.refunded) {
-//             flagActiveBuyers = true;
-//             break;
-//         }
-//     }
-//     return flagActiveBuyers;
-// }
-
     function checkNoActiveBuyers() public view returns (bool) {
-        bool flagActiveBuyers = true;
-
-        for (uint i = 0; i < addresses.length; i++) {
-            address currentAddress = addresses[i];
-            if (map[currentAddress].state != State.received) {
-                flagActiveBuyers = false;
-                break;
-            }
+        bool flagActiveBuyers = false;
+        // test = addresses.length;
+        // if (addresses.length >= 1){
+        //     flagActiveBuyers = false;
+        // }
+        // for (uint i = 0; i < addresses.length; i++) {
+        //     address currentAddress = addresses[i];
+        //     if (map[currentAddress].state != State.received) {
+        //         flagActiveBuyers = false;
+        //         break;
+        //     }
+        // }
+        if (buyerNumber == 0) {
+            flagActiveBuyers  = true;
         }
         return flagActiveBuyers;
     }
@@ -421,7 +387,7 @@ contract Purchase {
     function closeContract()
        external
        onlySeller
-       condition(checkNoActiveBuyers())
+       ActiveBuyerCheck
        payable
    {
        terminated = true;
@@ -464,6 +430,8 @@ contract Purchase {
        uint bought_quant =  map[item_received_buyer].quant;
        seller.transfer(3 * value * bought_quant);
        escrowLeft = escrowLeft - value * 2 *bought_quant;
+    //    map[item_received_buyer].state = State.completed;
+
        delete map[item_received_buyer];
 
        // remove the item_received_buyer from the hashmap
