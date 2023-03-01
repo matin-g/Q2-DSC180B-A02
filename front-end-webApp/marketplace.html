@@ -95,18 +95,6 @@ h1 {
   transition: all 1s ease;
 }
 
-/*.images {
-  height: 15em;
-  background-size: cover; 
-  background-position: center center; 
-  background-repeat: no-repeat;
-  border-radius: 2% 2% 0 0;
-  transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -ms-transition: all 1s ease;
-  -webkit-transition: all 1s ease;
-  -o-transition: all 1s ease;
-}*/
 
 .images {
   height: 0;
@@ -273,7 +261,7 @@ function renderProducts(products) {
     var photo = product.image.url;
     //$("profileImg")[0].src = profilePhoto.url();
 
-    console.log(photo);
+    //console.log(photo);
 
     const productHTML = `
       <div class="product">
@@ -307,7 +295,7 @@ function renderProducts(products) {
     //     alert("This is really slow!");
     // }, 30000);
 
-      window.location.href = "transactionPage.html";
+      window.location.href = "confirmPurchase.html";
       //window.location.href = `/cart?productId=${productId}`;
     });
   });
