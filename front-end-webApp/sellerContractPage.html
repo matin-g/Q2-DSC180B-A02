@@ -73,10 +73,16 @@
                                     <span class="title">QUICKLINKS</span>
                                     <ul>
                                         <li>
+                                            <a href="homePage.html">Home</a>
+                                        </li>
+                                        <li>
                                             <a href="marketplace.html">Marketplace</a>
                                         </li>
                                         <li>
-                                            <a href="sellerActiveContracts.html">My Contracts</a>
+                                            <a href="buyerActiveContracts.html">My Contracts as Buyer</a>
+                                        </li>
+                                        <li>
+                                            <a href="sellerActiveContracts.html">My Contracts as Seller</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -137,9 +143,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <div class="nft-verified-option">
-                                                            <p> &nbsp </p> <input id="escrowAmount" placeholder="Enter Amount"> <button class="verify-btn axil-btn btn-bg-secondary" onclick="addEscrow()">AddEscrow</button>
+                                                        <div class="nft-verified-option" id="verifyAmount">
+                                                            <p> &nbsp </p> <input id="escrowAmount" placeholder="Enter quantity to be added"> <button class="verify-btn axil-btn btn-bg-secondary" id="addEscrowButton" onclick="addEscrow()">AddEscrow</button>
+                                        
                                                         </div>
+                                                
                                                         <div class="nft-verified-option">
                                                             <button class="verify-btn axil-btn btn-bg-secondary" onclick="closeContract()">Terminate</button> 
                                                         </div>
@@ -528,12 +536,28 @@
         readContractInfo();
 
 
+        const addEscrow2= async () => {
+            const cost = quant * await window.contract.methods.getValue().call();
+            const val = cost * 2;
+            document.getElementById("escrowAmount").innerHTML = "Proceed To Add Escrow?"
+            document.getElementById("escrowAmount").innerHTML = "Add Escrow!"
+            
+        }
+
         const addEscrow = async () => {
 
-            const val = document.getElementById("escrowAmount").value;
+            const quant = document.getElementById("escrowAmount").value;
+            const cost = quant * await window.contract.methods.getValue().call();
+            const val = cost * 2;
+            const elem = document.getElementById("escrowAmount");
+            elem.remove();
 
+            document.getElementById("addEscrowButton").textContent = "Proceed with " + val + " Wei";
+            document.getElementById("addEscrowButton").onclick = async () => {
             await window.contract.methods.addEscrow().send( {from: sellerAddress, value: val} );
             console.log("Escrow added successfully!");
+            };
+
         }
 
         const closeContract = async () => {
