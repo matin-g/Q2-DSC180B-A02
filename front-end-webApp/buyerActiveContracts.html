@@ -162,6 +162,8 @@
             <th>Item Name</th>
             <th>Contract Address</th>
             <th>Item Price</th>
+            <th>Quantity</th>
+            
           </tr>
         </thead>
         <tbody></tbody>
@@ -229,6 +231,7 @@
           const itemCell = row.insertCell()
           const descriptionCell = row.insertCell();
           const amountCell = row.insertCell();
+          const quantityCell = row.insertCell();
           
           const date = transaction.get("createdAt");
           dateCell.innerText = date.toDateString();
@@ -241,6 +244,8 @@
           
           const amount = transaction.get("item_price");
           amountCell.innerText = amount;
+          const quantity = transaction.get("quantity");
+          quantityCell.innerText = quantity;
         });
       });
     }, 100);
