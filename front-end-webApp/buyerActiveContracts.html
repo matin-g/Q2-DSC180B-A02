@@ -30,6 +30,23 @@
     <link rel="stylesheet" href="assets/css/vendor/base.css">
     <link rel="stylesheet" href="assets/css/style.min.css">
     <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      th, td {
+        text-align: left;
+        padding: 8px;
+        border: 1px solid #ddd;
+      }
+      
+      th {
+        background-color: #8d9cf1;
+      }
+      h1{
+        color:#fff
+      }
       body {
         background-color: #000;
         color: #fff;
@@ -135,10 +152,34 @@
       <div class="text-line" id="chooseActiveContracts">Choose contract to view more details</div>
     </div>
 
+
+    <body>
+      <h1>Transaction History</h1>
+      <table id="transaction-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Item Name</th>
+            <th>Contract Address</th>
+            <th>Item Price</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </body>
+
+    <script src="https://unpkg.com/parse/dist/parse.min.js"></script>
     <script>
 
         Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
         Parse.serverURL = "https://parseapi.back4app.com/";
+
+
+     
+
+
+
+
 
         /* function that helps dynamically output text */
         async function outputText(id, text, speed) {
@@ -171,6 +212,38 @@
             }
             
         }
+
+        
+        
+        setTimeout(() => {
+  const Transaction = Parse.Object.extend("buyerAddress");
+  const query = new Parse.Query(Transaction);
+  query.equalTo("buyerAddress", buyerAccount);
+
+      query.descending("createdAt");
+      query.find().then((transactions) => {
+        const table = document.getElementById("transaction-table");
+        transactions.forEach((transaction) => {
+          const row = table.insertRow();
+          const dateCell = row.insertCell();
+          const itemCell = row.insertCell()
+          const descriptionCell = row.insertCell();
+          const amountCell = row.insertCell();
+          
+          const date = transaction.get("createdAt");
+          dateCell.innerText = date.toDateString();
+
+          const item = transaction.get("item_name");
+          itemCell.innerText = item;
+
+          const description = transaction.get("contract_address");
+          descriptionCell.innerText = description;
+          
+          const amount = transaction.get("item_price");
+          amountCell.innerText = amount;
+        });
+      });
+    }, 100);
 
         function printTime() {
             var date = new Date();
