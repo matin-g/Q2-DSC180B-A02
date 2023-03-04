@@ -293,8 +293,7 @@
 
         const contractAddress = localStorage.getItem('contractAddress');
         const sellerAddress = localStorage.getItem('sellerAddress');
-
-        
+            
         var query = new Parse.Query("Product_details");
 
         // fetch rows that has column sellerAddress equal to seller Account
@@ -534,7 +533,7 @@
             }
 
         readContractInfo();
-        
+
         const addEscrow = async () => {
 
             const quant = document.getElementById("escrowAmount").value;
