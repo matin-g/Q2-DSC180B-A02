@@ -295,6 +295,22 @@
             outputText("deployValueText",text2);
 
         }
+
+        async function pushSellerContract(sellerAddress, contractAddress) {
+
+            const sellerContract = new Parse.Object("sellerContract");
+
+            sellerContract.set("sellerAddress", sellerAddress);
+            sellerContract.set("contractAddress", contractAddress);
+
+            try {
+                let result = await sellerContract.save();
+
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+
+            }
+        } 
     
 
         let contractAddress;
