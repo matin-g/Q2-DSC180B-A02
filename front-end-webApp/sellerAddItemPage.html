@@ -322,6 +322,8 @@ input[type="submit"]:hover {
 
             const imageFile = document.getElementById("imageUpload").files[0] ;//|| getDefaultImageFile();
 
+            const quantity = localStorage.getItem("itemQuantity");
+
             // function getDefaultImageFile() {
             //   // create a new XMLHttpRequest object to load the default image file as a binary string
             //   const xhr = new XMLHttpRequest();
@@ -336,9 +338,9 @@ input[type="submit"]:hover {
           // create a new Parse File object with the selected image
             const parseFile = new Parse.File("image.jpg", imageFile);
             
-            if (name === "" || price === "" || detail === "") {
+            if (name === "" || detail === "") {
                 
-                outputText("warnMessage", "Please ensure that you input product name and price correctly");
+                outputText("warnMessage", "Please ensure that you input product name and detail correctly");
 
             } else {
 
@@ -356,7 +358,7 @@ input[type="submit"]:hover {
 
                     outputText("warnMessage", "Storing the item data to your smart contract now...");
                     
-                    await window.contract.methods.add_item(price, name, detail, description).send({ from: account });
+                    await window.contract.methods.add_item(price, quantity, name, detail, description).send({ from: account });
 
                     pushProduct(price,name, detail, description, account,parseFile);
 

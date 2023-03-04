@@ -352,6 +352,9 @@
         let country = [];
         let buy_quantity = [];
         let buy_time = [];
+
+        let buyerState = [];
+        let buyerTransactRowID = [];
         query.find().then(async function(results) {
             // Extract the data from the results and store it in an array
             results.forEach(obj => {
@@ -363,18 +366,24 @@
                 buy_quantity.push(obj.get("quantity"));
                 buy_time.push(obj.get("createdAt"));
                 buyer.push(obj.get("buyerAddress"));
+                buyerState.push(obj.get("buyerState"));
+                buyerTransactRowID.push(obj.id);
             });
 
             await connectContract();
 
 
             for (var i=0; i<buyer.length; i++) {
-                var addr = rd[i] + " " + apt[i] + ", " + city[i] + " " + state[i] + ", " + country[i];
-
-                const getBuyerState = await window.contract.methods.getBuyerState(buyer[i]).call();
-
-                addBuyerInfo(buyer[i], buy_quantity[i], getBuyerState, addr, buy_time[i]);
                 
+                if (buyerState != "paid") {
+
+                    var addr = rd[i] + " " + apt[i] + ", " + city[i] + " " + state[i] + ", " + country[i];
+
+                    const getBuyerState = await window.contract.methods.getBuyerState(buyer[i]).call();
+
+                    addBuyerInfo(buyerTransactRowID[i], buyer[i], buy_quantity[i], getBuyerState, addr, buy_time[i]);
+                }
+
             }
 
 
@@ -384,10 +393,8 @@
 
 
         // generate buyer info card
-        function addBuyerInfo(buyer, quant, state, address, time) {
+        function addBuyerInfo(transactId, buyer, quant, state, address, time) {
             var div = document.getElementById("buyerInfo");
-
-            console.log(div);
             
             
             // Create the slick-single-layout div
@@ -447,7 +454,7 @@
 
                 confirmA.onclick = null;
             } else if (state == "paid") {
-                confirmA.onclick = function() { confirmShipped(buyer); };
+                confirmA.onclick = function() { confirmShipped(buyer, transactId); };
             }
             
             
@@ -470,7 +477,7 @@
 
                 claimA.onclick = null;
             } else if (state == "received") {
-                claimA.onclick = function() { refundSeller(buyer); };
+                claimA.onclick = function() { refundSeller(buyer, transactId); };
             }
             
             claimLi.appendChild(claimA);
@@ -489,11 +496,31 @@
 
         }
 
-        async function confirmShipped(buyer) {
+
+        async function confirmShipped(buyer, transactId) {
+
             try {
                 await connectContract();
                 
                 await window.contract.methods.confirmShipped(buyer).send({ from: sellerAddress });
+                // .on("receipt", function () {
+
+                //     var query = new Parse.Query("buyerAddress");
+
+                //     // fetch rows that has column sellerAddress equal to seller Account
+                //     query.equalTo(id, transactId);
+
+                //     // Fetch the data from the parse class
+                //     query.find().then(async function(results) {
+                //         // Extract the data from the results and store it in an array
+                //         results.forEach(obj => {
+                //             obj.set("buyerState", "shipped");
+                //         });
+                //     }).catch((error) => {
+                //         console.error(error);
+                //     });
+
+                // });
 
             } catch (error) {
                 console.error(error);
@@ -508,11 +535,29 @@
             window.contract = await new window.web3.eth.Contract(ABI, Address); 
         }
         
-        async function refundSeller(buyer) {
+        async function refundSeller(buyer, transactId) {
             try {
                 await connectContract();
 
                 await window.contract.methods.refundSeller(buyer).send({ from: sellerAddress });
+                // .on("receipt", function () {
+
+                //     var query = new Parse.Query("buyerAddress");
+
+                //     // fetch rows that has column sellerAddress equal to seller Account
+                //     query.equalTo(id, transactId);
+
+                //     // Fetch the data from the parse class
+                //     query.find().then(async function(results) {
+                //         // Extract the data from the results and store it in an array
+                //         results.forEach(obj => {
+                //             obj.set("buyerState", "completed");
+                //         });
+                //     }).catch((error) => {
+                //         console.error(error);
+                //     });
+                // });
+
             } catch (error) {
                 console.error(error);
             }
