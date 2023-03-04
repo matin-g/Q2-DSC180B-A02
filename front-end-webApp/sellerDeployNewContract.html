@@ -338,7 +338,7 @@
             
 
             window.web3.eth.sendTransaction({
-                from: sellerAddress,
+                from: account,
                 data: code,
                 value: value
             }).on('transactionHash', async function (hash) {
@@ -365,7 +365,7 @@
                     outputText("contractAddressArea", text);
 
                     // store the contract address to the database
-                    pushSellerContract(sellerAddress, contractAddress); 
+                    pushSellerContract(account, contractAddress); 
                     
                     // store the contract address and seller address to local storage and ensure the next page can access them
                     localStorage.setItem('contractAddress', contractAddress);
