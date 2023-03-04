@@ -106,24 +106,68 @@
       }
     </style>
   </head>
-  <body>
-    <div class="header-action">
+  <body class="sticky-header">
+    <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
+    <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
+    <!-- Start Header -->
+    <header class="header axil-header header-style-5">
+        
+        <!-- Start Mainmenu Area  -->
+        <div id="axil-sticky-placeholder"></div>
+        <div class="axil-mainmenu">
+            <div class="container">
+                <div class="header-navbar">
+                    <div class="header-brand">
+
+                        <!-- will include our logo below when ready -->
+                        <!-- <a href="index.html" class="logo logo-dark">
+                            <img src="assets/images/logo/logo.png" alt="Site Logo">
+                        </a>
+                        <a href="index.html" class="logo logo-light">
+                            <img src="assets/images/logo/logo-light.png" alt="Site Logo">
+                        </a> -->
+
+
+                    </div>
+                    <div class="header-main-nav">
+                        <!-- Start Mainmanu Nav -->
+                        <nav class="mainmenu-nav">
+                            <button class="mobile-close-btn mobile-nav-toggler"><i class="fas fa-times"></i></button>
+                            <div class="mobile-nav-brand">
+                                <a href="index.html" class="logo">
+                                    <img src="assets/images/logo/logo.png" alt="Site Logo">
+                                </a>
+                            </div>
+                            <ul class="mainmenu">
+                            </ul>
+                        </nav>
+                        <!-- End Mainmanu Nav -->
+                    </div>
+                    <div class="header-action">
                         <ul class="action-list">
                             <li class="my-account">
-                                <a href="javascript:void(0)">
-                                    <i class="flaticon-person"></i>
+                                <a href="javascript:void(0)" style="position: absolute; top: 30px; right: -450px;">
+                                    <i class="flaticon-person" style="color:rgb(244, 245, 242)"></i>
                                 </a>
-                                <div class="my-account-dropdown">
+                                <div class="my-account-dropdown" style="position: absolute; top: 40px; right: -440px;">
                                     <span class="title">QUICKLINKS</span>
                                     <ul>
-                                        <li>
-                                            <a href="index.html">Home</a>
-                                        </li>
-<!--                                         <li>
-                                            <a href="marketplace.html">Marketplace</a>
+                                        <!-- <li>
+                                            <a href="my-account.html">My Account</a>
                                         </li> -->
                                         <li>
-                                            <a href="buyerActiveContracts.html">My Contracts</a>
+                                            <a href="homePage.html">Home Page</a>
+                                        </li>
+                                        <li>
+                                          <a href="marketplace.html">Shop the Marketplace</a>
+                                        </li>
+                                        <li>
+                                            <a href="sellerActiveContracts.html">My Active Contracts as Seller</a>
+                                        </li>
+                                        <li>
+                                            <a href="sellerDeployNewContract.html">List New Item for Sale</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -135,7 +179,13 @@
                             </li>
                         </ul>
                     </div>
-  </body>
+                </div>
+            </div>
+        </div>
+        <!-- End Mainmenu Area -->
+    </header>
+
+
   <body onload="connectMetamask()">
     <div class="container">
       <div class="text-container">
