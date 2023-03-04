@@ -293,7 +293,8 @@
 
         const contractAddress = localStorage.getItem('contractAddress');
         const sellerAddress = localStorage.getItem('sellerAddress');
-            
+
+        
         var query = new Parse.Query("Product_details");
 
         // fetch rows that has column sellerAddress equal to seller Account
@@ -375,7 +376,7 @@
 
             for (var i=0; i<buyer.length; i++) {
                 
-                if (buyerState != "paid") {
+                if (buyerState != "completed") {
 
                     var addr = rd[i] + " " + apt[i] + ", " + city[i] + " " + state[i] + ", " + country[i];
 
@@ -503,24 +504,6 @@
                 await connectContract();
                 
                 await window.contract.methods.confirmShipped(buyer).send({ from: sellerAddress });
-                // .on("receipt", function () {
-
-                //     var query = new Parse.Query("buyerAddress");
-
-                //     // fetch rows that has column sellerAddress equal to seller Account
-                //     query.equalTo(id, transactId);
-
-                //     // Fetch the data from the parse class
-                //     query.find().then(async function(results) {
-                //         // Extract the data from the results and store it in an array
-                //         results.forEach(obj => {
-                //             obj.set("buyerState", "shipped");
-                //         });
-                //     }).catch((error) => {
-                //         console.error(error);
-                //     });
-
-                // });
 
             } catch (error) {
                 console.error(error);
@@ -539,24 +522,33 @@
             try {
                 await connectContract();
 
-                await window.contract.methods.refundSeller(buyer).send({ from: sellerAddress });
-                // .on("receipt", function () {
+                await window.contract.methods.refundSeller(buyer).send({ from: sellerAddress })
+                .on("receipt", function() {
 
-                //     var query = new Parse.Query("buyerAddress");
+                    // modify the state of the buyer stored in our db to "completed"
+                    const MyObject = Parse.Object.extend("buyerAddress");
 
-                //     // fetch rows that has column sellerAddress equal to seller Account
-                //     query.equalTo(id, transactId);
+                    // Create a new query object
+                    const query2 = new Parse.Query(MyObject);
 
-                //     // Fetch the data from the parse class
-                //     query.find().then(async function(results) {
-                //         // Extract the data from the results and store it in an array
-                //         results.forEach(obj => {
-                //             obj.set("buyerState", "completed");
-                //         });
-                //     }).catch((error) => {
-                //         console.error(error);
-                //     });
-                // });
+                    // Set the query condition for the object you want to update
+                    query2.equalTo("objectId", transactId);
+
+                    // Retrieve the object you want to update
+                    query2.first().then((objectToUpdate) => {
+                        // Update the value of the column
+                        objectToUpdate.set("buyerState", "completed");
+
+                        // Save the updated object to the database
+                        objectToUpdate.save().then((updatedObject) => {
+                            console.log("Object updated:", updatedObject);
+                        }, (error) => {
+                            console.error("Error updating object:", error);
+                        });
+                        }, (error) => {
+                        console.error("Error retrieving object:", error);
+                    });
+                });
 
             } catch (error) {
                 console.error(error);
@@ -578,7 +570,7 @@
             }
 
         readContractInfo();
-
+        
         const addEscrow = async () => {
 
             const quant = document.getElementById("escrowAmount").value;
