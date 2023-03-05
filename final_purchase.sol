@@ -45,7 +45,6 @@ contract Purchase {
 //    address[] addresses;
 
 
-   // since seller is launching --> there should be item name and description, item details --> make those readable by buyer
    modifier condition(bool condition_) {
        require(condition_);
        _;
@@ -74,6 +73,8 @@ contract Purchase {
    error InvalidAddress();
    /// There are still active buyers in the contract. Can't terminate.
    error ActiveBuyer();
+   /// You have already purchased this item.
+   error AlreadyPurchased();
 
    modifier ActiveBuyerCheck() {
        if (!checkNoActiveBuyers())
@@ -131,6 +132,12 @@ contract Purchase {
    modifier InvalidAddressCheck(address address_){
        if (!doesExist(address_))
             revert InvalidAddress();
+        _;
+   }
+
+    modifier AlreadyPurchasedCheck(address address_){
+       if (doesExist(address_))
+            revert AlreadyPurchased();
         _;
    }
 
@@ -316,15 +323,16 @@ contract Purchase {
    function confirmPurchase(uint quant)
        external
     //    inState(msg.sender, State.created)
-       // require((msg.value == (2 * value), "Please send in 2x the purchase amount"))
        onlyBuyer
        addedItem
        enoughEscrow
        quantityCheck(quant)
        ContractTerminatedCheck
-       condition(msg.value == (2 * value* quant))
+       AlreadyPurchasedCheck(msg.sender)
+    //    condition(msg.value == (2 * value* quant))
        payable
    {
+       require(msg.value == (2 * value * quant), "Please send in 2x the purchase amount");
        quantity -= quant;
        buyerNumber ++ ;
        totalBuyerNumber ++;
@@ -352,9 +360,10 @@ contract Purchase {
        addedItem
        ContractTerminatedCheck
     //    condition(!terminated)
-       condition(msg.value == (2 * value * quant))
+    //    condition(msg.value == (2 * value * quant))
        payable
    {
+       require(msg.value == (2 * value * quant), "Please send in 2x the purchase amount");
        uint new_quantity = quant;
        quantity += new_quantity;
        escrowLeft += msg.value;
