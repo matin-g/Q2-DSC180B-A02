@@ -40,7 +40,7 @@
                 <div class="header-navbar">
                     <div class="header-brand">
 
-                        <! -- Once we have our logo we will put our logo here, top left of the page -->
+                        <!-- Once we have our logo we will put our logo here, top left of the page -->
                         <!-- <a href="index.html" class="logo logo-dark">
                             <img src="assets/images/logo/logo.png" alt="Site Logo">
                         </a>
@@ -83,6 +83,9 @@
                                         </li>
                                         <li>
                                             <a href="sellerActiveContracts.html">My Contracts as Seller</a>
+                                        </li>
+                                        <li>
+                                            <a href="sellerDeployNewContract.html">List an Item for Sale</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -376,7 +379,7 @@
 
             for (var i=0; i<buyer.length; i++) {
                 
-                if (buyerState != "completed") {
+                if (buyerState[i] != "completed") {
 
                     var addr = rd[i] + " " + apt[i] + ", " + city[i] + " " + state[i] + ", " + country[i];
 
