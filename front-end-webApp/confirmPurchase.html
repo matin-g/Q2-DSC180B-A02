@@ -40,7 +40,7 @@
                 <div class="header-navbar">
                     <div class="header-brand">
 
-                        <! -- Once we have our logo we will put our logo here, top left of the page -->
+                        <!-- Once we have our logo we will put our logo here, top left of the page -->
                         <!-- <a href="index.html" class="logo logo-dark">
                             <img src="assets/images/logo/logo.png" alt="Site Logo">
                         </a>
@@ -73,14 +73,21 @@
                                     <span class="title">QUICKLINKS</span>
                                     <ul>
                                         <li>
-                                            <a href="index.html">Home</a>
+                                            <a href="homePage.html">Home</a>
                                         </li>
                                         <li>
                                             <a href="marketplace.html">Marketplace</a>
                                         </li>
                                         <li>
-                                            <a href="buyerActiveContracts.html">My Contracts</a>
+                                            <a href="buyerActiveContracts.html">My Contracts as Buyer</a>
                                         </li>
+                                        <li>
+                                            <a href="sellerActiveContracts.html">My Contracts as Seller</a>
+                                        </li>
+                                        <li>
+                                            <a href="sellerDeployNewContract.html">List New Item for Sale</a>
+                                        </li>
+
                                     </ul>
                                 </div>
                             </li>
@@ -314,9 +321,11 @@
             });
 
             await connectContract();
+            console.log(await window.contract.methods.getQuantity().call());
+            document.getElementById("productQuantity").innerHTML =  await window.contract.methods.getQuantity().call();
 
 
-            document.getElementById("productQuantity").innerHTML =  buy_quantity[0];
+            // document.getElementById("productQuantity").innerHTML =  buy_quantity[0];
             // document.getElementById("buyerAddy").innerHTML =  buyerAddress;
             // document.getElementById("buyTime").innerHTML =  buy_time[0];
             // document.getElementById("buyerStatus").innerHTML =  status[0];
