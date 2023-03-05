@@ -1,71 +1,196 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title> View Active Contracts </title>
-    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
-    <link href="background.css" rel="stylesheet" type="text/css">
-    <style>
-      body {
-        background-color: #000;
-        color: #fff;
-        font-family: Arial, sans-serif;
-      }
+    <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title> View Active Contracts </title>
+  <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+  <link href="background.css" rel="stylesheet" type="text/css">
 
-      .container {
-        max-width: 800px;
-        margin: 0 auto;
-        text-align: center;
-      }
+      <meta name="robots" content="noindex, follow" />
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
 
-      .text-container {
-        margin-top: 100px;
+  <!-- CSS
+  ============================================ -->
+
+  <!-- Bootstrap CSS -->
+
+  <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/vendor/font-awesome.css">
+  <link rel="stylesheet" href="assets/css/vendor/flaticon/flaticon.css">
+  <link rel="stylesheet" href="assets/css/vendor/slick.css">
+  <link rel="stylesheet" href="assets/css/vendor/slick-theme.css">
+  <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css">
+  <link rel="stylesheet" href="assets/css/vendor/sal.css">
+  <link rel="stylesheet" href="assets/css/vendor/magnific-popup.css">
+  <link rel="stylesheet" href="assets/css/vendor/base.css">
+  <link rel="stylesheet" href="assets/css/style.min.css">
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    th, td {
+      text-align: left;
+      padding: 8px;
+      border: 1px solid #ddd;
+    }
+    
+    th {
+      background-color: #8d9cf1;
+    }
+    h1{
+      color:#fff
+    }
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .text-container {
+      margin-top: 100px;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+    }
+
+    .text-line {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    select {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #fff;
+      color: #000;
+      font-size: 1.5em;
+      margin-top: 50px;
+      cursor: pointer;
+    }
+
+    select:hover {
+      background-color: #ccc;
+    }
+
+    @keyframes fadeIn {
+      0% {
         opacity: 0;
-        animation: fadeIn 1s forwards;
       }
+      100% {
+        opacity: 1;
+      }
+    }
 
-      .text-line {
-        font-size: 2em;
-        margin-bottom: 20px;
+    @keyframes slideIn {
+      0% {
+        transform: translateY(50%);
+        opacity: 0;
       }
-
-      select {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        background-color: #fff;
-        color: #000;
-        font-size: 1.5em;
-        margin-top: 50px;
-        cursor: pointer;
+      100% {
+        transform: translateY(0);
+        opacity: 1;
       }
-
-      select:hover {
-        background-color: #ccc;
-      }
-
-      @keyframes fadeIn {
-        0% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 1;
-        }
-      }
-
-      @keyframes slideIn {
-        0% {
-          transform: translateY(50%);
-          opacity: 0;
-        }
-        100% {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-    </style>
+    }
+  </style>
   </head>
+
+  <body class="sticky-header">
+    <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+<![endif]-->
+    <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
+    <!-- Start Header -->
+    <header class="header axil-header header-style-5">
+        
+        <!-- Start Mainmenu Area  -->
+        <div id="axil-sticky-placeholder"></div>
+        <div class="axil-mainmenu">
+            <div class="container">
+                <div class="header-navbar">
+                    <div class="header-brand">
+
+                        <!-- will include our logo below when ready -->
+                        <!-- <a href="index.html" class="logo logo-dark">
+                            <img src="assets/images/logo/logo.png" alt="Site Logo">
+                        </a>
+                        <a href="index.html" class="logo logo-light">
+                            <img src="assets/images/logo/logo-light.png" alt="Site Logo">
+                        </a> -->
+
+
+                    </div>
+                    <div class="header-main-nav">
+                        <!-- Start Mainmanu Nav -->
+                        <!-- <nav class="mainmenu-nav">
+                            <button class="mobile-close-btn mobile-nav-toggler"><i class="fas fa-times"></i></button>
+                            <div class="mobile-nav-brand">
+                                <a href="index.html" class="logo">
+                                    <img src="assets/images/logo/logo.png" alt="Site Logo">
+                                </a>
+                            </div>
+                            <ul class="mainmenu">
+                            </ul>
+                        </nav> -->
+                        <!-- End Mainmanu Nav -->
+                    </div>
+                    <div class="header-action">
+                        <ul class="action-list">
+                            <li class="my-account">
+                                <a href="javascript:void(0)" style="position: relative; top: 30px; right: -450px;">
+                                    <i class="flaticon-person" style="color:rgb(244, 245, 242)"></i>
+                                </a>
+                                <div class="my-account-dropdown" style="position: absolute; top: 40px; right: -440px;">
+                                    <span class="title">QUICKLINKS</span>
+                                    <ul>
+                                        <!-- <li>
+                                            <a href="my-account.html">My Account</a>
+                                        </li> -->
+                                        <li>
+                                            <a href="homePage.html">Home Page</a>
+                                        </li>
+                                        <li>
+                                          <a href="marketplace.html">Shop the Marketplace</a>
+                                        </li>
+                                        <li>
+                                            <a href="sellerActiveContracts.html">My Active Contracts as Seller</a>
+                                        </li>
+                                        <li>
+                                            <a href="sellerDeployNewContract.html">List New Item for Sale</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="axil-mobile-toggle">
+                                <button class="menu-btn mobile-nav-toggler">
+                                    <i class="flaticon-menu-2"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Mainmenu Area -->
+    </header>
+
+
   <body onload="connectMetamask()">
+
+
+
     <div class="container">
       <div class="text-container">
         <div class="text-line" id="time"></div>
@@ -188,5 +313,26 @@
         });
 
     </script>
+
+    <script src="assets/js/vendor/modernizr.min.js"></script>
+    <!-- jQuery JS -->
+    <script src="assets/js/vendor/jquery.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/slick.min.js"></script>
+    <script src="assets/js/vendor/js.cookie.js"></script>
+    <script src="assets/js/vendor/jquery-ui.min.js"></script>
+    <script src="assets/js/vendor/jquery.countdown.min.js"></script>
+    <script src="assets/js/vendor/sal.js"></script>
+    <script src="assets/js/vendor/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/vendor/imagesloaded.pkgd.min.js"></script>
+    <script src="assets/js/vendor/isotope.pkgd.min.js"></script>
+    <script src="assets/js/vendor/counterup.js"></script>
+    <script src="assets/js/vendor/waypoints.min.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+
   </body>
 </html>
