@@ -711,8 +711,9 @@
                 centerPadding: '0',
                 arrows: false,
                 dots: true,
-                speed: 1500,
-                autoplay: false,
+                speed: 700,
+                autoplay: true,
+                autoplaySpeed: 1000,
                 centerMode: true,
                 responsive: [{
                         breakpoint: 575,
