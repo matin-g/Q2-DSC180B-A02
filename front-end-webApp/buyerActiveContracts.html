@@ -326,6 +326,7 @@
   const Transaction = Parse.Object.extend("buyerAddress");
   const query = new Parse.Query(Transaction);
   query.equalTo("buyerAddress", buyerAccount);
+  query.equalTo("buyerState", "completed");
   query.descending("createdAt");
   
   
@@ -425,6 +426,7 @@ function searchTransactions() {
 
             // fetch rows that has column sellerAddress equal to seller Account
             query.equalTo("buyerAddress", buyerAccount);
+            query.equalTo("buyerState", "paid");
             
             query.find().then(async function(results) {
                 // Extract the data from the results and store it in an array
