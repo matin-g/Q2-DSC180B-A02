@@ -411,6 +411,7 @@
 
         let cost;
         let deployedValue;
+        let wei;
         const calculateDeployValue = async() => {
 
             quant = document.getElementById("deployQuant").value;
@@ -427,6 +428,8 @@
 
             var costUSD = quant*price;
             var deployedValueUSD = costUSD*2;
+
+            wei = usdToWei;
 
                          //usdToWei
             cost = quant*usdToWei;
@@ -519,6 +522,7 @@
                     localStorage.setItem('sellerAddress', account);
                     localStorage.setItem('itemQuantity', quant);
                     localStorage.setItem('itemPrice', price);
+                    localStorage.setItem('itemPriceWEI', wei);
 
                     console.log(localStorage.getItem("itemPrice"));
                     console.log(localStorage.getItem("itemQuantity"));

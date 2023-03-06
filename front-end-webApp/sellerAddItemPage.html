@@ -249,7 +249,7 @@ input[type="submit"]:hover {
         console.log(localStorage.getItem("itemPrice"));
         console.log(localStorage.getItem("itemQuantity"));
 
-        document.getElementById("setItemPrice").value = "Item price is " + localStorage.getItem("itemPrice");
+        document.getElementById("setItemPrice").value = "Item price is $" + localStorage.getItem("itemPrice");
         document.getElementById("setItemQuantity").value = "Item quantity is " + localStorage.getItem("itemQuantity");
 
       
@@ -316,7 +316,7 @@ input[type="submit"]:hover {
         // write to the contract through setter functions within our back-end solidity code
         const submit = async () => {
             const name = document.getElementById("setItemName").value;
-            const price = localStorage.getItem("itemPrice");
+            const price = localStorage.getItem("itemPriceWEI");
             const detail = document.getElementById("setItemDetails").value;
             const description = document.getElementById("setItemDescription").value;
 
