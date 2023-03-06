@@ -235,7 +235,7 @@
 
         <button onclick="createMyOwnContract()">CREATE MY OWN CONTRACT</button> <br>
         <p id="contractDeployValue"></p>
-        <input style="visibility: hidden;" type="text" class="cool-input" id="deployPrice" placeholder="Enter the price of one item in Wei"> <br>
+        <input style="visibility: hidden;" type="text" class="cool-input" id="deployPrice" placeholder="Enter the price of one item in USD"> <br>
         <br>
         <input style="visibility: hidden;" type="text" class="cool-input" id="deployQuant" placeholder="Enter the total quantity to sell"> <br>
         <br>
@@ -351,6 +351,41 @@
             
         }
 
+
+        const API_URL = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
+
+        async function fetchETHPrice() {
+
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                const ethPrice = data.ethereum.usd;
+                console.log("Price of 1 ETH in USD:", ethPrice);
+                return ethPrice;
+            } catch (error) {
+                console.error("Error fetching ETH price:", error);
+            }
+       }
+
+
+        async function convertWeiToUSD(wei,  ethPrice) {
+ 
+            const weiToEth = wei / 10**18;
+            const weiToUSD = weiToEth * ethPrice;
+            console.log(`${wei} Wei is worth ${weiToUSD} USD`);
+            return weiToUSD;
+        }
+
+        async function convertUSDToWei(usd, ethPrice) {
+            const usdToEth = usd / ethPrice;
+           // const usdToWei = usdToEth * 10**18;
+            console.log(`${usd} USD is worth ${usdToEth} Wei`);
+            return usdToWei;
+        }
+
+
+
+
         let quant;
         let price;
         const createMyOwnContract = async () => {
@@ -381,11 +416,27 @@
             quant = document.getElementById("deployQuant").value;
             price = document.getElementById("deployPrice").value;
 
-            cost = quant*price;
+
+            // USD -> WEI           
+            const ethPrice = await fetchETHPrice();
+            const usdToEth = price / ethPrice;
+            const usdToWei = Math.ceil(usdToEth * 10**18);
+
+            console.log("hi1", ethPrice);
+            console.log("hi", usdToWei);
+
+            var costUSD = quant*price;
+            var deployedValueUSD = costUSD*2;
+
+                         //usdToWei
+            cost = quant*usdToWei;
             deployedValue = cost * 2;
 
-            var text = `Total cost is ${cost} wei`;
-            var text2 = `Total deposit value is ${deployedValue} wei`;
+            // var text = `Total cost is ${cost} wei`;
+            // var text2 = `Total deposit value is ${deployedValue} wei`;
+
+            var text = `Total cost is $${costUSD} (${usdToEth*quant} ETH)`;
+            var text2 = `Total deposit value required for escrow is $${deployedValueUSD} (${usdToEth*quant* 2} ETH)`;
 
             outputText("cost",text)
             outputText("deployValueText",text2);
