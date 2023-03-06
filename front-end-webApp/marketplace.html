@@ -91,7 +91,7 @@ header {
         width: 5em;
         background-color: #dfd;
         border: none;
-        color: black
+        color: black;
         border-radius: 0 4px 4px 0;
         cursor: pointer;
         margin-left: -1px;
@@ -192,15 +192,21 @@ header {
   border: 0.01em solid #dddbdb;
   border-radius: 0 0 2% 2%;
   padding: 1em;
+  overflow: scroll;
+  
 }
 
 h2, h3 {
   float: left;
   font-family: 'Roboto', sans-serif;
+  color: Black;
   font-weight: 400;
-  font-size: 1em;
-  text-transform: uppercase;
+  font-size: 1.1em;
+  text-transform: full-width;
   margin: 0.2em auto;
+  overflow: scroll;
+  /* border: 0.01em solid #dddbdb; */
+  
 }
 
 .item, .price {
@@ -211,6 +217,8 @@ h2, h3 {
 
 .price {
   color: Black;
+  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .description, label, button {
@@ -226,6 +234,8 @@ h2, h3 {
   height: 4em; /* adjust the height based on your needs */
   overflow: scroll;
   overflow-x: scroll;
+  overflow-y: scroll;
+  /* border: 0.01em solid #dddbdb; */
 /*  border: ridge;*/
 }
 
