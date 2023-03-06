@@ -366,10 +366,12 @@ async function renderProducts(products) {
     //console.log(photo);
     
     var wei = product.ProductPrice;
-    var eth = 500 / 10**18;; // Convert Wei to ETH
+    var eth = wei / 10**18;; // Convert Wei to ETH
     console.log(eth);
-    var usd = eth * ethPrice * 100;
+    var usd = eth * ethPrice;
     console.log(usd);
+
+    var ethh= product.ProductPrice/1000000000000000000;
 
     const productHTML = `
       <div class="product">
@@ -379,7 +381,7 @@ async function renderProducts(products) {
     </div>
         <div class="text-box">
           <h2 class="item">${product.ProductName}</h2>
-          <h3 class="price">${product.ProductPrice} Wei ($${usd.toFixed(2)})</h3>
+          <h3 class="price">${ethh.toFixed(4)} ETH ($${usd.toFixed(2)})</h3>
           <p class="description">${product.ProductDescription}</p>
           <button class="add-to-cart-btn" data-product-id="${product.contractAddress}">Buy Item</button>
         </div>

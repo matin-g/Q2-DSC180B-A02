@@ -488,6 +488,19 @@
     Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi");
     Parse.serverURL = "https://parseapi.back4app.com/";
 
+    const API_URL = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
+        async function fetchETHPrice() {
+        try {
+            const response = await fetch(API_URL);
+            const data = await response.json();
+            const ethPrice = data.ethereum.usd;
+            console.log("Price of 1 ETH in USD:", ethPrice);
+            return ethPrice;
+        } catch (error) {
+            console.error("Error fetching ETH price:", error);
+        }
+        }
+
 
     window.onload = async function() {
       // Code to be executed after all images have loaded
@@ -523,6 +536,8 @@
 
         async function renderProductsAtSlider(products) {
 
+            const ethPrice = await fetchETHPrice();
+
             for (let i = 0; i < 5; i++) {
                 const product = products[i];
                 var photo = product.image.url;
@@ -530,13 +545,13 @@
 
                 console.log(photo);
 
-                await createProductSlide(i, photo, product);
+                await createProductSlide(i, photo, product,ethPrice);
 
             }
         }
 
 
-        async function createProductSlide(idx, photo, product) {
+        async function createProductSlide(idx, photo, product,ethPrice) {
 
 
             document.getElementById(`slider${idx}img`).src = photo;
@@ -556,8 +571,14 @@
                 window.location.href = "confirmPurchase.html";
             }
 
+            var wei =   product.ProductPrice ;//price[0];
+            var eth = wei / 10**18;; // Convert Wei to ETH
+            console.log(eth);
+            console.log(ethPrice);
+            var usd = eth * ethPrice;
+
             document.getElementById(`slider${idx}title`).textContent = product.ProductName;
-            document.getElementById(`slider${idx}price`).textContent = product.ProductPrice + " Wei";
+            document.getElementById(`slider${idx}price`).textContent =  eth.toFixed(4) + " ETH ($" + usd.toFixed(2) + ")";//product.ProductPrice + " Wei";
             
         }
 

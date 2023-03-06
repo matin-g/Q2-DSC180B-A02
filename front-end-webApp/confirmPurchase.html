@@ -252,6 +252,20 @@
         const contractAddress = localStorage.getItem('contractAddress');
         const buyerAddress = localStorage.getItem('buyerAddress');
 
+        const API_URL = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
+        async function fetchETHPrice() {
+        try {
+            const response = await fetch(API_URL);
+            const data = await response.json();
+            const ethPrice = data.ethereum.usd;
+            console.log("Price of 1 ETH in USD:", ethPrice);
+            return ethPrice;
+        } catch (error) {
+            console.error("Error fetching ETH price:", error);
+        }
+        }
+
+
         
         var query = new Parse.Query("Product_details");
 
@@ -285,8 +299,17 @@
 
             document.getElementById("productName").innerHTML = name[0];
             document.getElementById("productID").innerHTML = id[0];
-            
-            document.getElementById("productPrice").innerHTML = "Price: " + price[0] + " Wei";
+
+            const ethPrice = await fetchETHPrice();
+        
+            var wei =  price[0];
+            var eth = wei / 10**18;; // Convert Wei to ETH
+            console.log(eth);
+            console.log(ethPrice);
+            var usd = eth * ethPrice;
+
+
+            document.getElementById("productPrice").innerHTML = "Price: " + eth.toFixed(8)  + " ETH " + "($" + usd.toFixed(2) + ")";
             document.getElementById("productDescription").innerHTML = description[0];
             
 

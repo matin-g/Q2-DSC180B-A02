@@ -399,7 +399,20 @@ function searchTransactions() {
 // JavaScript code for search function
 
 
+const API_URL = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
 
+async function fetchETHPrice() {
+
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        const ethPrice = data.ethereum.usd;
+        console.log("Price of 1 ETH in USD:", ethPrice);
+        return ethPrice;
+    } catch (error) {
+        console.error("Error fetching ETH price:", error);
+    }
+}
     
         function printTime() {
             var date = new Date();
@@ -444,9 +457,18 @@ function searchTransactions() {
 
                 // add all the contract address to the option bar
                 var select = document.getElementById("info-selector"); // Get the select element
-                
+
+                const ethPrice = await fetchETHPrice();
+
+
                 for (let i = 0; i < contracts.length; i++) { 
-                    const info = `${products[i]} (${quants[i]}x) at price ${prices[i]} - ${contracts[i]}`;
+
+                  var eth = prices[i] / 10**18;; // Convert Wei to ETH
+                  var usd = eth * ethPrice;
+                  console.log(usd);
+
+
+                    const info = `${products[i]} (${quants[i]}x) at price $${usd.toFixed(2)} - ${contracts[i]}`;
                     var option = document.createElement("option");
                     option.textContent = info; // Set the text content of the new option
                     option.value = contracts[i];
