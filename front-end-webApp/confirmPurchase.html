@@ -320,7 +320,33 @@
 
             document.getElementById("contractAddress").innerHTML = contractAddress;
             await connectContract();
+
+           // const QUANT =  await window.contract.methods.getQuantity().call();
             document.getElementById("productQuantity").innerHTML =  await window.contract.methods.getQuantity().call();
+
+            var confirmA = document.querySelector(".verify-btn");
+            //var confirmB = document.querySelector(".verify-btn.axil-btn.btn-bg-secondary::before");
+
+
+
+            var button = document.querySelector("button.axil-btn");
+
+
+            if (await window.contract.methods.getQuantity().call() == 0) {
+            console.log('hsiiisisi');
+            confirmA.disabled = true;
+            //button.style.backgroundColor = 'silver';
+
+            button.disabled = true;
+            button.style.opacity = '0.5';
+            button.style.cursor = 'not-allowed';
+            // confirmA.style.color = 'black';
+            confirmA.setAttribute("title", "Wait for the seller to Ship");
+            } else {
+            confirmA.disabled = false;
+            confirmA.onclick = function() { confirmReceived(); };
+            }
+
 
             }, function(error) {
             console.log("Error: " + error.code + " " + error.message);
