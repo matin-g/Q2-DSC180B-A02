@@ -79,6 +79,7 @@
         font-size: 1.5em;
         margin-top: 50px;
         cursor: pointer;
+        length: 50%;
       }
 
       select:hover {
@@ -433,22 +434,25 @@ async function fetchETHPrice() {
           let products = [];
           let prices = [];
           let quants = [];
+          // let buyerState = [];
 
             // fetch seller's active contracts' data from database
             var query = new Parse.Query("buyerAddress");
 
             // fetch rows that has column sellerAddress equal to seller Account
             query.equalTo("buyerAddress", buyerAccount);
-            query.equalTo("buyerState", "paid");
+            // query.equalTo("buyerState", "paid");
             
             query.find().then(async function(results) {
                 // Extract the data from the results and store it in an array
                 results.forEach(obj => {
+                  if (obj.get("buyerState") != "completed")
+                  {
                   contracts.push(obj.get("contract_address"));
                   products.push(obj.get("item_name"));
                   prices.push(obj.get("item_price"));
                   quants.push(obj.get("quantity"));
-                });
+               }});
                 
                 var text = `Dear Buyer: ${buyerAccount}, as of now, our system indicates that you have ${contracts.length} active 
                 contract(s).`;
