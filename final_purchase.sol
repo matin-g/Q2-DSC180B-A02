@@ -288,6 +288,13 @@ contract Purchase {
        return totalBuyerNumber;
    }
 
+   function getBuyerQuantity(address addr) public
+       InvalidAddressCheck(addr)
+       view returns (uint)
+   {
+       return map[addr].quant;
+   }
+
 
    function doesExist(address key) public view returns (bool) {
        if (map[key].addr != address(0)) {
