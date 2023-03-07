@@ -8,6 +8,6 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname + "/homePage.html"));
 })
 
-const server = app.listen(8087);
+const server = app.listen(80);
 const portNumber = server.address().port;
 console.log(`port is open on ${portNumber}`);
