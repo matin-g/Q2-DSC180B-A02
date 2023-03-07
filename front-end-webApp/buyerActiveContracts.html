@@ -355,6 +355,21 @@
   //     });
   //   
 
+  const API_URL2 = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
+  async function fetchETHPrice() {
+  try {
+    const response = await fetch(API_URL2);
+    const data = await response.json();
+    const ethPrice = data.ethereum.usd;
+    console.log("Price of 1 ETH in USD:", ethPrice);
+    return ethPrice;
+  } catch (error) {
+    console.error("Error fetching ETH price:", error);
+  }
+}
+
+
+
   async function readFromDB2() {
 
   const Transaction = Parse.Object.extend("buyerAddress");
@@ -363,7 +378,7 @@
   query.equalTo("buyerState", "completed");
   query.descending("createdAt");
   
-  
+  const ethPrice = await fetchETHPrice();
   
   query.find().then((transactions) => {
     const transactionList = document.getElementById("transaction-list");
@@ -378,12 +393,19 @@
       const description = transaction.get("contract_address");
       const amount = transaction.get("item_price");
       const quantity = transaction.get("quantity");
+
+
+      var wei = amount;
+      var eth = wei / 10**18;; // Convert Wei to ETH
+      console.log(eth);
+      var usd = eth * ethPrice;
+      console.log(usd);
       
       transactionDiv.innerHTML = `
         <div><strong>Date:</strong> ${date}</div>
         <div><strong>Item Name:</strong> ${item}</div>
         <div><strong>Contract Address:</strong> ${description}</div>
-        <div><strong>Item Price:</strong> ${amount}</div>
+        <div><strong>Item Price:</strong> ${eth.toFixed(6)} ETH ($${usd.toFixed(2)})</div>
         <div><strong>Quantity:</strong> ${quantity}</div>
       `;
       
