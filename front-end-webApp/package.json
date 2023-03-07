@@ -1,5 +1,11 @@
 {
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "latest"
+  },
+  "engines": { 
+    "node" : "16.1.0" 
+  },
+  "scripts": {
+    "start": "node server.js"
   }
 }
