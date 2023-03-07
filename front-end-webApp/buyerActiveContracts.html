@@ -201,21 +201,24 @@
       <br>
       <br>
       <div class="text-line" id="chooseActiveContracts">Choose contract to view more details</div>
+      <br>
     </div>
 
 
     <body>
 
       
-      <h1>Transaction History</h1>
-      <div style="display: flex; justify-content: flex-end;">
-        <form style="display: flex; align-items: center;">
-          <label for="search-input" style="font-size: 14px; margin-right: 5px;">Search by Item Name:</label>
-          <div style="display: flex; align-items: center;">
-            <input type="text" id="search-input" name="search" placeholder="Enter item name" style="font-size: 14px; padding: 5px; width: 150px;">
-            <button type="button" onclick="searchTransactions()" style="font-size: 14px; padding: 5px; height: 30px; width: 50px; border-radius: 5px;">Search</button>
-          </div>
-        </form>
+      <center><h1>Transaction History</h1></center>
+      <!-- <div style="display: flex; justify-content: flex-center;">
+        <form style="display: flex; align-items: center;"> -->
+          <!-- <label for="search-input" style="font-size: 14px; margin-right: 5px;">Search by Item Name:</label>
+          <div style="display: flex; align-items: center;"> -->
+            <!-- <input type="text" id="search-input" name="search" placeholder="Enter item name" style="font-size: 14px; padding: 5px; width: 150px;">
+            <button type="button" onclick="searchTransactions()" style="font-size: 14px; padding: 5px; height: 30px; width: 50px; border-radius: 5px;">Search</button> -->
+            <!-- <input id ='inn' type="text" placeholder="Search by any key words...">
+            <button id="submit">Search</button> -->
+          <!-- </div>
+        </form> -->
       </div>
       
       <div id="transaction-list">
@@ -258,6 +261,7 @@
 
 
 
+
         /* function that helps dynamically output text */
         async function outputText(id, text, speed) {
             var index = 0;
@@ -290,9 +294,35 @@
             
         }
 
+
+      //         // Query the database to get all the data
+      // const query = new Parse.Query("Product_details");
+      // query.find().then(results => {
+      //   const products = results.map(result => result.toJSON());
+      //   renderProducts(products);
+
+      //   // Filter products based on search query
+      //   const searchForm = document.querySelector('.search-bar');
+      //   const searchInput = document.querySelector('#inn');
+      //   const submitBtn = document.querySelector('#submit');
+
+      //   submitBtn.addEventListener('click', function (event) {
+      //     event.preventDefault();
+
+      //     const query = searchInput.value.toLowerCase();
+      //     const filteredProducts = products.filter(product =>
+      //       product.ProductName.toLowerCase().includes(query) ||
+      //       product.ProductDescription.toLowerCase().includes(query)
+      //     );
+
+      //     renderProducts(filteredProducts);
+      //   });
+      // });
+
+
+
         
-        
-        setTimeout(() => {
+  //      setTimeout(() => {
   // const Transaction = Parse.Object.extend("buyerAddress");
   // const query = new Parse.Query(Transaction);
   // query.equalTo("buyerAddress", buyerAccount);
@@ -324,6 +354,9 @@
   //       });
   //     });
   //   
+
+  async function readFromDB2() {
+
   const Transaction = Parse.Object.extend("buyerAddress");
   const query = new Parse.Query(Transaction);
   query.equalTo("buyerAddress", buyerAccount);
@@ -358,40 +391,40 @@
     });
   });
 
-
-
-
-function searchTransactions() {
-    const searchInput = document.getElementById("search-input").value;
-    query.equalTo("item_name", searchInput);
-    query.find().then((transactions) => {
-      const transactionList = document.getElementById("transaction-list");
-      transactionList.innerHTML = "";
-      transactions.forEach((transaction) => {
-        const transactionDiv = document.createElement("div");
-        transactionDiv.style.border = "1px solid black";
-        transactionDiv.style.borderRadius = "5px";
-        transactionDiv.style.padding = "10px";
-        
-        const date = transaction.get("createdAt").toDateString();
-        const item = transaction.get("item_name");
-        const description = transaction.get("contract_address");
-        const amount = transaction.get("item_price");
-        const quantity = transaction.get("quantity");
-        
-        transactionDiv.innerHTML = `
-          <div><strong>Date:</strong> ${date}</div>
-          <div><strong>Item Name:</strong> ${item}</div>
-          <div><strong>Contract Address:</strong> ${description}</div>
-          <div><strong>Item Price:</strong> ${amount}</div>
-          <div><strong>Quantity:</strong> ${quantity}</div>
-        `;
-        
-        transactionList.appendChild(transactionDiv);
-      });
-    });
   }
-}, 100);
+
+
+// function searchTransactions() {
+//     const searchInput = document.getElementById("search-input").value;
+//     query.equalTo("item_name", searchInput);
+//     query.find().then((transactions) => {
+//       const transactionList = document.getElementById("transaction-list");
+//       transactionList.innerHTML = "";
+//       transactions.forEach((transaction) => {
+//         const transactionDiv = document.createElement("div");
+//         transactionDiv.style.border = "1px solid black";
+//         transactionDiv.style.borderRadius = "5px";
+//         transactionDiv.style.padding = "10px";
+        
+//         const date = transaction.get("createdAt").toDateString();
+//         const item = transaction.get("item_name");
+//         const description = transaction.get("contract_address");
+//         const amount = transaction.get("item_price");
+//         const quantity = transaction.get("quantity");
+        
+//         transactionDiv.innerHTML = `
+//           <div><strong>Date:</strong> ${date}</div>
+//           <div><strong>Item Name:</strong> ${item}</div>
+//           <div><strong>Contract Address:</strong> ${description}</div>
+//           <div><strong>Item Price:</strong> ${amount}</div>
+//           <div><strong>Quantity:</strong> ${quantity}</div>
+//         `;
+        
+//         transactionList.appendChild(transactionDiv);
+//       });
+//     });
+//   }
+// }, 10);
 
 
 // HTML code for search form
@@ -482,7 +515,7 @@ async function fetchETHPrice() {
                 }, function(error) {
                 console.log("Error: " + error.code + " " + error.message);
             });
-            
+            await readFromDB2();
             
         }
 
