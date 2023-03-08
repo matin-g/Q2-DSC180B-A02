@@ -295,7 +295,11 @@ contract Purchase {
        return map[addr].quant;
    }
    function getTerminated() public view returns(bool){
-    return terminated;
+        return terminated;
+   }
+
+   function getReady() public view returns(bool) {
+        return ready;
    }
 
 

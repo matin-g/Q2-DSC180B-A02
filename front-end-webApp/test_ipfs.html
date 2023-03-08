@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+    <link href="background.css" rel="stylesheet" type="text/css">
+
+    <title>Add Item to My Contract</title>
+    <style>
+      body {
+        background-color: #222;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2em;
+        margin-top: 100px;
+      }
+
+      #underscore {
+        font-size: 1em;
+        margin-top: 100px;
+        animation: flash 1.0s linear infinite;
+      }
+
+
+      #submit {
+        opacity: 0;
+        animation: fadeIn 1.0s 1s forwards;
+      }
+
+      input {
+        display: block;
+        margin: 0 auto;
+        margin-top: 30px;
+        padding: 10px;
+        border: 2px solid #fff;
+        border-radius: 5px;
+        background-color: transparent;
+        color: #f1eaea;
+        font-size: 1.5em;
+        width: 300px;
+      }
+
+      input::placeholder {
+        color: rgb(64, 70, 73);
+      }
+
+      button {
+        display: block;
+        margin: 0 auto;
+        margin-top: 50px;
+        padding: 10px 20px;
+        border: 2px solid #fff;
+        border-radius: 5px;
+        background-color: transparent;
+        color: #fff;
+        font-size: 1.5em;
+      }
+
+      button:hover {
+            background-color: rgb(38, 187, 233);
+      }
+
+      p {
+            font-family: fantasy;
+            font-size: 28px;
+            color:  #f1f3ec;
+      }
+
+      @keyframes flash {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+
+      #jumpToItemListing {
+        animation-name: motivate;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+      }
+
+      @keyframes motivate {
+        0% {
+        transform: translateY(0);
+        }
+        20% {
+        transform: translateY(-10px);
+        }
+        40% {
+        transform: translateY(0);
+        }
+        60% {
+        transform: translateY(-5px);
+        }
+        80% {
+        transform: translateY(0);
+        }
+        100% {
+        transform: translateY(-2px);
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+input[type="file"] {
+  margin-bottom: 10px;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+</style>
+  </head>
+  <body>
+<h1>Upload Image to IPFS<span id="underscore">_</span></h1>
+
+
+<form>
+  <label for="imageUpload">Choose an Image to Upload:</label>
+  <input type="file" id="imageUpload" name="imageUpload">
+</form>
+    
+    <p id="warnMessage"></p>
+
+    <button id="submit" style="visibility: visible;" onclick="upload()">Submit</button>
+    <a id="link" style="color:antiquewhite; font-size: 30px; padding-top: 200%;" target="_blank"></a>
+
+    <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
+
+    <script>
+        /* Ensure that the page starts at the top whenever refresh the page */
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
+        }
+
+        async function outputText(id, text, speed) {
+            var index = 0;
+            var speed = speed;
+            var container = document.getElementById(id);
+
+            var interval = setInterval(function() {
+            if (index < text.length) {
+                container.innerHTML += text.charAt(index);
+                index++;
+            } else {
+                clearInterval(interval);
+            }
+            }, speed);
+        }
+
+
+        async function upload() {
+            const fileReader = new FileReader()
+            // Read file as ArrayBuffer
+            await fileReader.readAsArrayBuffer(document.getElementById("imageUpload").files[0]);
+            //  Listen for the onload event
+            fileReader.onload = async (event) => {            
+                const node = await Ipfs.create();
+                // upload the file content
+                let { path } = await node.add(fileReader.result);
+                
+                console.log(path);
+                document.getElementById("link").href =  `https://ipfs.io/ipfs/${path}`;
+                outputText("link", `Click here to view your image`);
+                
+            }
+        }
+
+    </script>
+
+  </body>
+</html>

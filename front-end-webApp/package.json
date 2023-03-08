@@ -1,9 +1,11 @@
 {
   "dependencies": {
-    "express": "latest"
+    "express": "latest",
+    "ipfs-core": "^0.18.0",
+    "ipfs-http-client": "^60.0.0"
   },
-  "engines": { 
-    "node" : "16.1.0" 
+  "engines": {
+    "node": "16.1.0"
   },
   "scripts": {
     "start": "node server.js"
