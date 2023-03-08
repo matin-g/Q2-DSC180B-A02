@@ -186,7 +186,6 @@
         <!-- End Mainmenu Area -->
     </header>
 
-
   <body onload="connectMetamask()">
 
 
@@ -205,6 +204,51 @@
       <br>
       <div class="text-line" id="chooseActiveContracts">Choose contract to view more details</div>
     </div>
+
+    <body>
+
+      
+      <center><h1>Previous Terminated Contracts</h1></center>
+      <!-- <div style="display: flex; justify-content: flex-center;">
+        <form style="display: flex; align-items: center;"> -->
+          <!-- <label for="search-input" style="font-size: 14px; margin-right: 5px;">Search by Item Name:</label>
+          <div style="display: flex; align-items: center;"> -->
+            <!-- <input type="text" id="search-input" name="search" placeholder="Enter item name" style="font-size: 14px; padding: 5px; width: 150px;">
+            <button type="button" onclick="searchTransactions()" style="font-size: 14px; padding: 5px; height: 30px; width: 50px; border-radius: 5px;">Search</button> -->
+            <!-- <input id ='inn' type="text" placeholder="Search by any key words...">
+            <button id="submit">Search</button> -->
+          <!-- </div>
+        </form> -->
+      </div>
+      
+      <div id="transaction-list">
+      </div>
+<!-- <div style="display: flex; justify-content: flex-end;">
+  <form style="display: flex; align-items: center;">
+    <label for="search-input" style="font-size: 14px; margin-right: 5px;">Search by Contract Address or item:</label>
+    <div style="display: flex; align-items: center;">
+      <input type="text" id="search-input" name="search" placeholder="Enter contract address or item name" style="font-size: 14px; padding: 5px; width: 150px;">
+      <button type="button" onclick="searchTransactions()" style="font-size: 14px; padding: 5px; height: 30px; width: 50px; border-radius: 5px;">Search</button>
+    </div>
+  </form>
+</div>
+
+      <table id="transaction-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Item Name</th>
+            <th>Contract Address</th>
+            <th>Item Price</th>
+            <th>Quantity</th>
+            
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table> -->
+    </body>
+
+
 
     <script>
 
@@ -291,6 +335,113 @@
             outputText("time", dateString, 50);
         }
 
+
+        const API_URL2 = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
+        async function fetchETHPrice() {
+        try {
+          const response = await fetch(API_URL2);
+          const data = await response.json();
+          const ethPrice = data.ethereum.usd;
+          console.log("Price of 1 ETH in USD:", ethPrice);
+          return ethPrice;
+        } catch (error) {
+          console.error("Error fetching ETH price:", error);
+        }
+      }
+
+
+async function readFromDB3(sellerAccount) {
+
+const Transaction = Parse.Object.extend("Product_details");
+const query = new Parse.Query(Transaction);
+query.equalTo("SellerAddress", sellerAccount);
+query.equalTo("contractStatus", "terminated");
+query.descending("createdAt");
+
+const ethPrice = await fetchETHPrice();
+
+const transactions = await query.find();
+
+const transactionList = document.getElementById("transaction-list");
+transactions.forEach(async (transaction) => {
+
+  const transactionDiv = document.createElement("div");
+  transactionDiv.style.border = "1px solid white";
+  transactionDiv.style.borderRadius = "5px";
+  transactionDiv.style.padding = "15px";
+  //transactionDiv.style.marginBottom = "10px";
+  transactionDiv.style.margin = "15px";
+  transactionDiv.style.display = "flex"; // enable flexbox layout
+
+
+  const transactionDetailsStyle = `
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+  `;
+
+  const imageDiv = document.createElement("div");
+  imageDiv.style.width = "100px"; // set width for image container
+  imageDiv.style.height = "100px";
+  imageDiv.style.margin = "5px"; // add some space between image and details
+  imageDiv.style.marginRight = "10px"; // add some space between image and details
+  imageDiv.style.display = "flex";
+  //imageDiv.style.flexGrow = 1; // make imageDiv take up all available space
+
+
+  const date = transaction.get("createdAt").toDateString();
+  const item = transaction.get("ProductName");
+  const details = transaction.get("ProductDetails");
+  const amount = transaction.get("ProductPrice");
+  const ca = transaction.get("contractAddress");
+  
+  // const query3 = new Parse.Query("Product_details");
+  // query3.equalTo("contractAddress", description);
+  // const results = await query3.find();
+  // const results2 = await query3.find();
+  // const images = results.map(result => result.get("image").url());
+  // const dd = results2.map(result => result.get("SellerAddress"));
+
+  const image = document.createElement("img");
+  image.src = transaction.get("image").url();
+  image.style.width = "100%";
+  image.style.height = "100%";
+  image.style.objectFit = "fit"; // resize image to fill container without distorting
+  
+
+  imageDiv.appendChild(image);
+  transactionDiv.appendChild(imageDiv);
+
+  const detailsDiv = document.createElement("div");
+  detailsDiv.style.display = "flex";
+  detailsDiv.style.flexDirection = "column"; // stack details vertically
+  detailsDiv.style.height = "100%";
+  //detailsDiv.style.flexShrink = 1; 
+
+  var wei = amount;
+  var eth = wei / 10**18; // Convert Wei to ETH
+  var usd = eth * ethPrice;
+
+  detailsDiv.innerHTML = `
+    <div style="${transactionDetailsStyle}"><span>Item Name: ${item}</span></div>
+    <div style="${transactionDetailsStyle}"><span>Item Price: ${eth.toFixed(6)} ETH ($${usd.toFixed(2)})</span></div>
+    <div style="${transactionDetailsStyle}"><span>Item Details: ${details}</span></div>
+    <div style="${transactionDetailsStyle}"><span>Date Listed: ${date}</span></div>
+    <div style="${transactionDetailsStyle}"><span>Contract Address: ${ca}</span></div>
+  `;
+
+  detailsDiv.querySelectorAll('div[style^="display: flex"]').forEach(div => {
+    div.children[0].style.flexBasis = "50%";
+    div.children[1].style.textAlign = "right";
+  });
+
+  transactionDiv.appendChild(imageDiv);
+  transactionDiv.appendChild(detailsDiv);
+  transactionList.appendChild(transactionDiv);
+});
+}
+
+
         async function readFromDB() {
 
 
@@ -302,15 +453,19 @@
 
             // fetch rows that has column sellerAddress equal to seller Account
             query.equalTo("SellerAddress", sellerAccount);
+
+            //const getBuyerState = await window.contract.methods.getTerminated().call();
             
             // Fetch the data from the parse class
             query.find().then(async function(results) {
                 // Extract the data from the results and store it in an array
                 results.forEach(obj => {
+                  if (obj.get("contractStatus") != "terminated")
+                  {
                   contracts.push(obj.get("contractAddress"));
                   products.push(obj.get("ProductName"));
                   prices.push(obj.get("ProductPrice"));
-                });
+            }});
                 
                 var text = `Dear Seller: ${sellerAccount}, as of now, our system indicates that you have ${contracts.length} active 
                 contract(s).`;
@@ -341,6 +496,8 @@
                 }, function(error) {
                 console.log("Error: " + error.code + " " + error.message);
             });
+
+            await readFromDB3(sellerAccount);
             
         }
 
@@ -356,6 +513,7 @@
 
                 window.location.href = "sellerContractPage.html";
         });
+
 
     </script>
 
