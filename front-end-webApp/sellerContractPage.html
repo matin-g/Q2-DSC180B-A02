@@ -421,16 +421,16 @@
 
             var terminateButton = document.querySelector(".verify-btn2.axil-btn.btn-bg-secondary");
 
-if (buy_quantity[0] > 0) {
-    console.log('hsiiisisi');
-    terminateButton.disabled = true;
-    terminateButton.style.opacity = '0.5';
-    terminateButton.style.cursor = 'not-allowed';
-    terminateButton.setAttribute("title", "Wait until no Active Buyers");
-} else {
-    terminateButton.disabled = false;
-    terminateButton.onclick = function() { closeContract(); };
-}
+            if (buy_quantity[0] > 0) {
+                // console.log('hsiiisisi');
+                terminateButton.disabled = true;
+                terminateButton.style.opacity = '0.5';
+                terminateButton.style.cursor = 'not-allowed';
+                terminateButton.setAttribute("title", "Wait until no Active Buyers");
+            } else {
+                terminateButton.disabled = false;
+                terminateButton.onclick = function() { closeContract(); };
+            }
 
 
             for (var i=0; i<buyer.length; i++) {
@@ -647,22 +647,23 @@ if (buy_quantity[0] > 0) {
         }
 
         const closeContract = async () => {
-            
-            await window.contract.methods.closeContract().send( {from: sellerAddress} );
+            try{
+            await window.contract.methods.closeContract().send( {from: sellerAddress} )
+            .on("receipt", function() {
 
             var query3 = new Parse.Query("Product_details");
                 query3.equalTo("SellerAddress", sellerAddress);
                 query3.equalTo("contractAddress", contractAddress);
-                query3.find().then(function(results) {
-                    results.forEach(obj => {
-                    obj.set("contractStatus", "terminated");
-                    obj.save();
-                    });
+                query3.first().then(function(results) {
+                resutls.set("contractStatus", "terminated");
+                results.save();
                     console.log("Buyer state set to received for matching entries");
                 }, function(error) {
                     console.log("Error: " + error.code + " " + error.message);
-                });
-
+                });})
+            } catch (error) {
+                console.error(error);
+            }
         }
 
 
