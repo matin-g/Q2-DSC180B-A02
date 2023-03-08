@@ -79,7 +79,7 @@
         font-size: 1.5em;
         margin-top: 50px;
         cursor: pointer;
-        length: 50%;
+        /* length: 50%; */
       }
 
       select:hover {
@@ -300,7 +300,6 @@
         }
       }
 
-
 async function readFromDB3(buyerAccount) {
 
 const Transaction = Parse.Object.extend("buyerAddress");
@@ -428,6 +427,7 @@ async function fetchETHPrice() {
           let products = [];
           let prices = [];
           let quants = [];
+          let id = [];
           // let buyerState = [];
 
             // fetch seller's active contracts' data from database
@@ -446,6 +446,8 @@ async function fetchETHPrice() {
                   products.push(obj.get("item_name"));
                   prices.push(obj.get("item_price"));
                   quants.push(obj.get("quantity"));
+                  id.push(obj.id);
+                  // console.log(id);
                }});
                 
                 var text = `Dear Buyer: ${buyerAccount}, as of now, our system indicates that you have ${contracts.length} active 
@@ -463,14 +465,19 @@ async function fetchETHPrice() {
 
                   var eth = prices[i] / 10**18;; // Convert Wei to ETH
                   var usd = eth * ethPrice;
-                  console.log(usd);
+                  // console.log(usd);
 
 
                     const info = `${products[i]} (${quants[i]}x) at price $${usd.toFixed(2)} - ${contracts[i]}`;
                     var option = document.createElement("option");
-                    option.textContent = info; // Set the text content of the new option
+                    // var option1 = document.createElement("option1");
+                    option.textContent = id[i] // Set the text content of the new option
                     option.value = contracts[i];
+                    option.label = info;
+                    // console.log(option.textContent);
                     select.appendChild(option); // Add the new option to the select element
+                    // select.appendChild(option1); // Add the new option to the select element
+
                 }
 
                 }, function(error) {
@@ -487,10 +494,14 @@ async function fetchETHPrice() {
             select.addEventListener("change", function() {
                 var selectedOption = select.options[select.selectedIndex];
                 var contract = selectedOption.value;
+                var transactionID = selectedOption.textContent;
+                
 
                 // store the contract address and seller address for next html page to access
                 localStorage.setItem('contractAddress', contract);
                 localStorage.setItem('buyerAddress', buyerAccount);
+                localStorage.setItem('transactionID', transactionID);
+                // console.log(localStorage.getItem('transactionID'));
 
                 window.location.href = "buyerContractPage.html";
         });

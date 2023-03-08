@@ -1,4 +1,3 @@
-<!doctype html>
 <html class="no-js" lang="en">
 
 <head>
@@ -275,6 +274,8 @@
 
         const contractAddress = localStorage.getItem('contractAddress');
         const buyerAddress = localStorage.getItem('buyerAddress');
+        const transactionId = localStorage.getItem("transactionID");
+        // console.log(transactionId);
 
         const API_URL = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
         async function fetchETHPrice() {
@@ -349,32 +350,18 @@
         
 
         var query = new Parse.Query("buyerAddress");
-        query.equalTo("contract_address", contractAddress);
-
-        let buyer = [];
-        let buy_quantity = [];
-        let buy_time = [];
-        let status = [];
-        query.find().then(async function(results) {
-            // Extract the data from the results and store it in an array
-            results.forEach(obj => {
-                buy_quantity.push(obj.get("quantity"));
-                buy_time.push(obj.get("createdAt"));
-                buyer.push(obj.get("buyerAddress"));
-                status.push(obj.get("buyerState"));
-
-            });
-
+        // query.equalTo("contract_address", contractAddress).equalTo("buyerAddress", buyerAddress);
+        query.equalTo("objectId", transactionId);
+        query.first().then(async function(result) {
+        
             await connectContract();
+            const getBuyerState = await window.contract.methods.getBuyerState(buyerAddress).call();
+            const getBuyerQuantity = await window.contract.methods.getBuyerQuantity(buyerAddress).call();
 
-            //const getBuyerQuantity = await window.contract.methods.getBuyerQuantity(buyer[0]).call();
-            const getBuyerState = await window.contract.methods.getBuyerState(buyer[0]).call();
-
-            document.getElementById("productQuantity").innerHTML =  buy_quantity[0];// getBuyerQuantity
-            //console.log(buy_quantity);
+            document.getElementById("productQuantity").innerHTML = getBuyerQuantity;// getBuyerQuantity
             document.getElementById("buyerAddy").innerHTML =  buyerAddress;
-            document.getElementById("buyTime").innerHTML =  buy_time[0];
-            document.getElementById("buyerStatus").innerHTML = getBuyerState;//status[0];
+            document.getElementById("buyTime").innerHTML = result.get("createdAt");
+            document.getElementById("buyerStatus").innerHTML = getBuyerState;
 
             var confirmA = document.querySelector(".verify-btn");
             //var confirmB = document.querySelector(".verify-btn.axil-btn.btn-bg-secondary::before");
@@ -382,7 +369,6 @@
             var button = document.querySelector("button.axil-btn");
 
             if (getBuyerState != "shipped") {
-            console.log('hsiiisisi');
             confirmA.disabled = true;
             //button.style.backgroundColor = 'silver';
 
@@ -393,26 +379,27 @@
             confirmA.setAttribute("title", "Wait for the seller to Ship");
             } else {
             confirmA.disabled = false;
-            confirmA.onclick = function() { 
-                // TODO: Set buyerState to "recieved" in parse DB class "buyerAddress" for entries that match buyerAddress and contractAddress
+            confirmA.onclick = function() {confirmReceived()};
+            // confirmA.onclick = function() { 
+            //     // TODO: Set buyerState to "recieved" in parse DB class "buyerAddress" for entries that match buyerAddress and contractAddress
                 
-                var query3 = new Parse.Query("buyerAddress");
-                query3.equalTo("buyerAddress", buyerAddress);
-                query3.equalTo("contract_address", contractAddress);
-                query3.find().then(function(results) {
-                    results.forEach(obj => {
-                    obj.set("buyerState", "received");
-                    obj.save();
-                    });
-                    console.log("Buyer state set to received for matching entries");
-                }, function(error) {
-                    console.log("Error: " + error.code + " " + error.message);
-                });
-                                               
-                confirmReceived(); };
-            }
-
-            }, function(error) {
+            //     var query3 = new Parse.Query("buyerAddress");
+            //     query3.equalTo("objectId", transactionId);
+            //     query3.first.then(function(result)
+            //     {result.set})
+            //     // query3.equalTo("buyerAddress", buyerAddress);
+            //     // query3.equalTo("contract_address", contractAddress);
+            //     // query3.find().then(function(results) {
+            //     //     results.forEach(obj => {
+            //     //     obj.set("buyerState", "received");
+            //     //     obj.save();
+            //     //     });
+            //     //     console.log("Buyer state set to received for matching entries");
+            //     // }, function(error) {
+            //     //     console.log("Error: " + error.code + " " + error.message);
+            //     // });
+                                                ;
+            }}, function(error) {
             console.log("Error: " + error.code + " " + error.message);
         });
 
@@ -429,14 +416,21 @@
         const confirmReceived = async () => {
             try {
                 console.log(buyerAddress);
-                await window.contract.methods.confirmReceived().send({ from: buyerAddress });
-                console.log("Item received successfully!");
-            } catch (error) {
+                await window.contract.methods.confirmReceived().send({ from: buyerAddress })
+                .on("receipt", function() {
+                var query3 = new Parse.Query("buyerAddress");
+                query3.equalTo("objectId", transactionId);
+                query3.first.then(function(result)
+                {result.set("buyerState", "received");
+                result.save;
+                console.log("Buyer state set to received for matching entries");
+                })
+            })}
+            catch (error) {
                 console.error(error);
             }
         };
-
-
+        
 
     </script>
     <!-- JS

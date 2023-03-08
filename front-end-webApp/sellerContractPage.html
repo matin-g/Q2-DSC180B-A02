@@ -151,8 +151,8 @@
                                         
                                                         </div>
                                                 
-                                                        <div class="nft-verified-option">
-                                                            <button class="verify-btn axil-btn btn-bg-secondary" onclick="closeContract()">Terminate</button> 
+                                                        <div class="nft-verified-option" id = "dn">
+                                                            <button class="verify-btn2 axil-btn btn-bg-secondary" onclick="closeContract()">Terminate</button> 
                                                         </div>
                                                     </div>
                                                 </div>
@@ -398,6 +398,41 @@
             await connectContract();
 
 
+
+            // var confirmA = document.querySelector(".verify-btn.axil-btn.btn-bg-secondary");
+            // //var confirmB = document.querySelector(".verify-btn.axil-btn.btn-bg-secondary::before");
+
+            // var button = document.querySelector("button.axil-btn");
+
+            // if (buy_quantity[0] > 0) {
+            //     console.log('hsiiisisi');
+            //     confirmA.disabled = true;
+            //     //button.style.backgroundColor = 'silver';
+
+            //     button.disabled = true;
+            //     button.style.opacity = '0.5';
+            //     button.style.cursor = 'not-allowed';
+            //     // confirmA.style.color = 'black';
+            //     confirmA.setAttribute("title", "Wait untill no Active Buyers");
+            // } else {
+            // confirmA.disabled = false;
+            // confirmA.onclick = function() { closeContract(); };
+            // }
+
+            var terminateButton = document.querySelector(".verify-btn2.axil-btn.btn-bg-secondary");
+
+if (buy_quantity[0] > 0) {
+    console.log('hsiiisisi');
+    terminateButton.disabled = true;
+    terminateButton.style.opacity = '0.5';
+    terminateButton.style.cursor = 'not-allowed';
+    terminateButton.setAttribute("title", "Wait until no Active Buyers");
+} else {
+    terminateButton.disabled = false;
+    terminateButton.onclick = function() { closeContract(); };
+}
+
+
             for (var i=0; i<buyer.length; i++) {
                 
                 if (buyerState[i] != "completed") {
@@ -615,7 +650,23 @@
             
             await window.contract.methods.closeContract().send( {from: sellerAddress} );
 
+            var query3 = new Parse.Query("Product_details");
+                query3.equalTo("SellerAddress", sellerAddress);
+                query3.equalTo("contractAddress", contractAddress);
+                query3.find().then(function(results) {
+                    results.forEach(obj => {
+                    obj.set("contractStatus", "terminated");
+                    obj.save();
+                    });
+                    console.log("Buyer state set to received for matching entries");
+                }, function(error) {
+                    console.log("Error: " + error.code + " " + error.message);
+                });
+
         }
+
+
+         
 
 
     </script>

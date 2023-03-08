@@ -378,6 +378,20 @@ input[type="submit"]:hover {
                         product.set("contractAddress", contractAddress);
                         product.set("image", parseFile);
 
+
+                        var query3 = new Parse.Query("Product_details");
+                        query3.equalTo("SellerAddress", sellerAddress);
+                        query3.equalTo("contractAddress", contractAddress);
+                        query3.find().then(function(results) {
+                            results.forEach(obj => {
+                            obj.set("contractStatus", "active");
+                            obj.save();
+                            });
+                            console.log("Buyer state set to received for matching entries");
+                        }, function(error) {
+                            console.log("Error: " + error.code + " " + error.message);
+                        });
+
                         try {
                             let result = await product.save();
 
