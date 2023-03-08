@@ -294,6 +294,9 @@ contract Purchase {
    {
        return map[addr].quant;
    }
+   function getTerminated() public view returns(bool){
+    return terminated;
+   }
 
 
    function doesExist(address key) public view returns (bool) {
