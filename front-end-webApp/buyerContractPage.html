@@ -421,16 +421,31 @@
                 var query3 = new Parse.Query("buyerAddress");
                 query3.equalTo("objectId", transactionId);
                 query3.first.then(function(result)
-                {result.set("buyerState", "received");
-                result.save;
-                console.log("Buyer state set to received for matching entries");
-                })
-            })}
-            catch (error) {
+    
+                 {result.set("buyerState", "received");
+                  result.save().then((updatedObject) => {
+                            console.log("Object updated:", updatedObject);
+                        }, (error) => {
+                            console.error("Error updating object:", error);
+                        });
+                     }, (error) => {
+                        console.error("Error retrieving object:", error);
+                    });
+                });
+            } catch (error) {
                 console.error(error);
             }
+    
+            //     console.log("Buyer state set to received for matching entries");
+            //     })
+            // })}
+            // catch (error) {
+            //     console.error(error);
+            // }
+
+            
         };
-        
+
 
     </script>
     <!-- JS
