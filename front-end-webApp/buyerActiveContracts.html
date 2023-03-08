@@ -375,8 +375,9 @@
   const Transaction = Parse.Object.extend("buyerAddress");
   const query = new Parse.Query(Transaction);
   query.equalTo("buyerAddress", buyerAccount);
-  query.equalTo("buyerState", "completed");
-  query.equalTo("buyerState", "received");
+  //query.equalTo("buyerState", "completed");
+  //query.equalTo("buyerState", "received");
+  query.containedIn("buyerState", ["completed", "received"]);
   query.descending("createdAt");
   
   const ethPrice = await fetchETHPrice();
