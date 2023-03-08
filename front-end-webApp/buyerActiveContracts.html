@@ -368,6 +368,12 @@
   }
 }
 
+//---------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------
+//------------ IGNORE READ FROM DB 2 FUNC see READ FROM DB 3 func near bottom
+//---------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------
 
 
   async function readFromDB2() {
@@ -385,16 +391,115 @@
   query.find().then((transactions) => {
     const transactionList = document.getElementById("transaction-list");
     transactions.forEach((transaction) => {
+
+      // const transactionDiv = document.createElement("div");
+      // transactionDiv.style.border = "1px solid white";
+      // transactionDiv.style.borderRadius = "5px";
+      // transactionDiv.style.padding = "10px";
+      // transactionDiv.style.marginBottom = "10px";
+      // transactionDiv.style.display = "flex"; // enable flexbox layout
+
+      // const imageDiv = document.createElement("div");
+      // imageDiv.style.width = "100px"; // set width for image container
+      // imageDiv.style.height = "100px";
+      // imageDiv.style.marginRight = "10px"; // add some space between image and details
+
+      // const date = transaction.get("createdAt").toDateString();
+      // const item = transaction.get("item_name");
+      // const description = transaction.get("contract_address");
+      // const amount = transaction.get("item_price");
+      // const quantity = transaction.get("quantity");
+
+      // let images = [];
+      // var query3 = new Parse.Query("productDetails");
+      //           query3.equalTo("contract_address", description);
+      //           query3.find().then(function(results) {
+      //             images.push(obj.get("image"));
+      //               });
+      //               console.log("Buyer state set to received for matching entries");
+      //           }, function(error) {
+      //               console.log("Error: " + error.code + " " + error.message);
+      //           });
+
+      // const image = document.createElement("img");
+      // image.src = images[0];//"path/to/image.png"; // replace with actual image path
+      // image.style.width = "100%";
+      // image.style.height = "100%";
+      // image.style.objectFit = "cover"; // resize image to fill container without distorting
+
+      // imageDiv.appendChild(image);
+      // transactionDiv.appendChild(imageDiv);
+
+      // const detailsDiv = document.createElement("div");
+      // detailsDiv.style.display = "flex";
+      // detailsDiv.style.flexDirection = "column"; // stack details vertically
+
+
+
+      // var wei = amount;
+      // var eth = wei / 10**18;; // Convert Wei to ETH
+      // console.log(eth);
+      // var usd = eth * ethPrice;
+      // console.log(usd);
+
+      // detailsDiv.innerHTML = `
+      //   <div style="font-weight: bold; margin-bottom: 10px;">Transaction Details</div>
+      //   <div style="${transactionDetailsStyle}"><span>Date:</span><span>${date}</span></div>
+      //   <div style="${transactionDetailsStyle}"><span>Item Name:</span><span>${item}</span></div>
+      //   <div style="${transactionDetailsStyle}"><span>Contract Address:</span><span>${description}</span></div>
+      //   <div style="${transactionDetailsStyle}"><span>Item Price:</span><span>${eth.toFixed(6)} ETH ($${usd.toFixed(2)})</span></div>
+      //   <div style="${transactionDetailsStyle}"><span>Quantity:</span><span>${quantity}</span></div>
+      // `;
+
+      // detailsDiv.querySelectorAll('div[style^="display: flex"]').forEach(div => {
+      //   div.children[0].style.flexBasis = "50%";
+      //   div.children[1].style.textAlign = "right";
+      // });
+
+      // transactionDiv.appendChild(detailsDiv);
+
+      // const transactionDiv = document.createElement("div");
+      // transactionDiv.style.border = "1px solid white";
+      // transactionDiv.style.borderRadius = "5px";
+      // transactionDiv.style.padding = "10px";
+      // transactionDiv.style.marginBottom = "10px"; // add some spacing between each transaction
+      // transactionDiv.style.margin = "10px"
+
+// Define a CSS class for the transaction details
+// const transactionDetailsStyle = `
+//   display: flex;
+//   justify-content: space-between;
+//   margin-bottom: 5px;
+//   font-size: 14px;
+// `;
+
       const transactionDiv = document.createElement("div");
-      transactionDiv.style.border = "1px solid black";
+      transactionDiv.style.border = "1px solid white";
       transactionDiv.style.borderRadius = "5px";
       transactionDiv.style.padding = "10px";
-      
+      transactionDiv.style.marginBottom = "10px";
+      transactionDiv.style.display = "flex"; // enable flexbox layout
+
+          const transactionDetailsStyle = `
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    `;
+
+      const imageDiv = document.createElement("div");
+      imageDiv.style.width = "100px"; // set width for image container
+      imageDiv.style.height = "100px";
+      imageDiv.style.marginRight = "10px"; // add some space between image and details
+
+
       const date = transaction.get("createdAt").toDateString();
       const item = transaction.get("item_name");
       const description = transaction.get("contract_address");
       const amount = transaction.get("item_price");
       const quantity = transaction.get("quantity");
+
+      console.log('dsdsd');
+      console.log(description);
 
 
       var wei = amount;
@@ -402,16 +507,66 @@
       console.log(eth);
       var usd = eth * ethPrice;
       console.log(usd);
-      
-      transactionDiv.innerHTML = `
-        <div><strong>Date:</strong> ${date}</div>
-        <div><strong>Item Name:</strong> ${item}</div>
-        <div><strong>Contract Address:</strong> ${description}</div>
-        <div><strong>Item Price:</strong> ${eth.toFixed(6)} ETH ($${usd.toFixed(2)})</div>
-        <div><strong>Quantity:</strong> ${quantity}</div>
+
+
+      // async function getImage() {
+      let images = [];
+      let hows = [];
+      var query3 = new Parse.Query("Product_details");
+      query3.equalTo("contractAddress", description);
+        query3.find().then(function(results) {
+            results.forEach(obj => {
+              images.push(obj.get("image").url);
+              hows.push(obj.get("ProductName"));
+            });
+    console.log("Buyer state set to received for matching entries");
+
+
+          const image = document.createElement("img");
+      image.src = images[0];//"path/to/image.png"; // replace with actual image path
+      image.style.width = "100%";
+      image.style.height = "100%";
+      image.style.objectFit = "fit"; // resize image to fill container without distorting
+
+            imageDiv.appendChild(image);
+      transactionDiv.appendChild(imageDiv);
+
+      const detailsDiv = document.createElement("div");
+      detailsDiv.style.display = "flex";
+      detailsDiv.style.flexDirection = "column"; // stack details vertically
+
+
+    // // Use images array here
+    // transactionDiv.innerHTML = `
+    //   <div><strong>Date:</strong> ${date}</div>
+    //   <div><strong>Item Name:</strong> ${item}</div>
+    //   <div><strong>Contract Address:</strong> ${description}</div>
+    //   <div><strong>Item Price:</strong> ${eth.toFixed(6)} ETH ($${usd.toFixed(2)})</div>
+    //   <div><strong>Quantity:</strong> ${quantity}</div>
+    // `;
+
+          detailsDiv.innerHTML = `
+        <div style="font-weight: bold; margin-bottom: 10px;">Transaction Details</div>
+        <div style="${transactionDetailsStyle}"><span>Date:</span><span>${date}</span></div>
+        <div style="${transactionDetailsStyle}"><span>Item Name:</span><span>${item}</span></div>
+        <div style="${transactionDetailsStyle}"><span>Contract Address:</span><span>${description}</span></div>
+        <div style="${transactionDetailsStyle}"><span>Item Price:</span><span>${eth.toFixed(6)} ETH ($${usd.toFixed(2)})</span></div>
+        <div style="${transactionDetailsStyle}"><span>Quantity:</span><span>${quantity}</span></div>
       `;
-      
+
+          detailsDiv.querySelectorAll('div[style^="display: flex"]').forEach(div => {
+        div.children[0].style.flexBasis = "50%";
+        div.children[1].style.textAlign = "right";
+      });
+
       transactionList.appendChild(transactionDiv);
+
+
+}, function(error) {
+    console.log("Error: " + error.code + " " + error.message);
+});
+      
+   
     });
   });
 
@@ -455,6 +610,177 @@
 
 
 // JavaScript code for search function
+
+
+async function readFromDB3(buyerAccount) {
+
+const Transaction = Parse.Object.extend("buyerAddress");
+const query = new Parse.Query(Transaction);
+query.equalTo("buyerAddress", buyerAccount);
+query.containedIn("buyerState", ["completed", "received"]);
+query.descending("createdAt");
+
+const ethPrice = await fetchETHPrice();
+
+const transactions = await query.find();
+
+const transactionList = document.getElementById("transaction-list");
+transactions.forEach(async (transaction) => {
+
+  const transactionDiv = document.createElement("div");
+  transactionDiv.style.border = "1px solid white";
+  transactionDiv.style.borderRadius = "5px";
+  transactionDiv.style.padding = "15px";
+  //transactionDiv.style.marginBottom = "10px";
+  transactionDiv.style.margin = "15px";
+  transactionDiv.style.display = "flex"; // enable flexbox layout
+
+
+  const transactionDetailsStyle = `
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+  `;
+
+  const imageDiv = document.createElement("div");
+  imageDiv.style.width = "100px"; // set width for image container
+  imageDiv.style.height = "100px";
+  imageDiv.style.margin = "5px"; // add some space between image and details
+  imageDiv.style.marginRight = "10px"; // add some space between image and details
+  imageDiv.style.display = "flex";
+  //imageDiv.style.flexGrow = 1; // make imageDiv take up all available space
+
+
+  const date = transaction.get("createdAt").toDateString();
+  const item = transaction.get("item_name");
+  const description = transaction.get("contract_address");
+  const amount = transaction.get("item_price");
+  const quantity = transaction.get("quantity");
+
+  const query3 = new Parse.Query("Product_details");
+  query3.equalTo("contractAddress", description);
+  const results = await query3.find();
+  const images = results.map(result => result.get("image").url());
+
+  const image = document.createElement("img");
+  image.src = images[0];
+  image.style.width = "100%";
+  image.style.height = "100%";
+  image.style.objectFit = "fit"; // resize image to fill container without distorting
+  
+
+  imageDiv.appendChild(image);
+  transactionDiv.appendChild(imageDiv);
+
+  const detailsDiv = document.createElement("div");
+  detailsDiv.style.display = "flex";
+  detailsDiv.style.flexDirection = "column"; // stack details vertically
+  detailsDiv.style.height = "100%";
+  //detailsDiv.style.flexShrink = 1; 
+
+  var wei = amount;
+  var eth = wei / 10**18; // Convert Wei to ETH
+  var usd = eth * ethPrice;
+
+  detailsDiv.innerHTML = `
+    <div style="${transactionDetailsStyle}"><span>Item Name: ${item}</span></div>
+    <div style="${transactionDetailsStyle}"><span>Item Price: ${eth.toFixed(6)} ETH ($${usd.toFixed(2)})</span></div>
+    <div style="${transactionDetailsStyle}"><span>Quantity Purchased: ${quantity}</span></div>
+    <div style="${transactionDetailsStyle}"><span>Date Purchased: ${date}</span></div>
+    <div style="${transactionDetailsStyle}"><span>Contract Address: ${description}</span></div>
+  `;
+
+  detailsDiv.querySelectorAll('div[style^="display: flex"]').forEach(div => {
+    div.children[0].style.flexBasis = "50%";
+    div.children[1].style.textAlign = "right";
+  });
+
+  transactionDiv.appendChild(imageDiv);
+  transactionDiv.appendChild(detailsDiv);
+  transactionList.appendChild(transactionDiv);
+});
+}
+
+// async function readFromDB3(buyerAccount) {
+//   const Transaction = Parse.Object.extend("buyerAddress");
+//   const query = new Parse.Query(Transaction);
+//   query.equalTo("buyerAddress", buyerAccount);
+//   query.containedIn("buyerState", ["completed", "received"]);
+//   query.descending("createdAt");
+
+//   const ethPrice = await fetchETHPrice();
+//   const transactions = await query.find();
+//   const transactionList = document.getElementById("transaction-list");
+
+//   transactions.forEach(async (transaction) => {
+//     const transactionDiv = document.createElement("div");
+//     transactionDiv.style.border = "1px solid white";
+//     transactionDiv.style.borderRadius = "5px";
+//     transactionDiv.style.padding = "15px";
+//     transactionDiv.style.margin = "15px";
+//     transactionDiv.style.display = "flex";
+
+//     const transactionDetailsStyle = `
+//       display: flex;
+//       justify-content: space-between;
+//       height: 100%;
+//     `;
+
+//     const imageDiv = document.createElement("div");
+//     imageDiv.style.width = "100px";
+//     imageDiv.style.height = "100px";
+//     imageDiv.style.margin = "5px";
+//     imageDiv.style.marginRight = "10px";
+//     imageDiv.style.display = "flex";
+
+//     const date = transaction.get("createdAt").toDateString();
+//     const item = transaction.get("item_name");
+//     const description = transaction.get("contract_address");
+//     const amount = transaction.get("item_price");
+//     const quantity = transaction.get("quantity");
+
+//     const query3 = new Parse.Query("Product_details");
+//     query3.equalTo("contractAddress", description);
+//     const results = await query3.find();
+//     const images = results.map(result => result.get("image").url());
+
+//     const image = document.createElement("img");
+//     image.src = images[0];
+//     image.style.width = "100%";
+//     image.style.height = "100%";
+//     image.style.objectFit = "cover";
+
+//     imageDiv.appendChild(image);
+//     transactionDiv.appendChild(imageDiv);
+
+//     const detailsDiv = document.createElement("div");
+//     detailsDiv.style.display = "flex";
+//     detailsDiv.style.flexDirection = "column";
+//     detailsDiv.style.height = "100%";
+
+//     var wei = amount;
+//     var eth = wei / 10**18;
+//     var usd = eth * ethPrice;
+
+//   detailsDiv.innerHTML = `
+//     <div style="${transactionDetailsStyle}"><span>Item Name: ${item}</span></div>
+//     <div style="${transactionDetailsStyle}"><span>Item Price: ${eth.toFixed(6)} ETH ($${usd.toFixed(2)})</span></div>
+//     <div style="${transactionDetailsStyle}"><span>Quantity Purchased: ${quantity}</span></div>
+//     <div style="${transactionDetailsStyle}"><span>Date Purchased: ${date}</span></div>
+//     <div style="${transactionDetailsStyle}"><span>Contract Address: ${description}</span></div>
+//   `;
+
+
+//     detailsDiv.querySelectorAll('div[style^="display: flex"]').forEach(div => {
+//       div.children[0].style.flexBasis = "50%";
+//       div.children[1].style.textAlign = "right";
+//     });
+
+//     transactionDiv.appendChild(detailsDiv);
+//     transactionList.appendChild(transactionDiv);
+//   });
+// }
+
 
 
 const API_URL = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
@@ -539,7 +865,9 @@ async function fetchETHPrice() {
                 }, function(error) {
                 console.log("Error: " + error.code + " " + error.message);
             });
-            await readFromDB2();
+            //await readFromDB2();
+
+            await readFromDB3(buyerAccount);
             
         }
 
