@@ -656,11 +656,13 @@ transactions.forEach(async (transaction) => {
   const description = transaction.get("contract_address");
   const amount = transaction.get("item_price");
   const quantity = transaction.get("quantity");
-
+  
   const query3 = new Parse.Query("Product_details");
   query3.equalTo("contractAddress", description);
   const results = await query3.find();
+  const results2 = await query3.find();
   const images = results.map(result => result.get("image").url());
+  const dd = results2.map(result => result.get("SellerAddress"));
 
   const image = document.createElement("img");
   image.src = images[0];
@@ -688,6 +690,7 @@ transactions.forEach(async (transaction) => {
     <div style="${transactionDetailsStyle}"><span>Quantity Purchased: ${quantity}</span></div>
     <div style="${transactionDetailsStyle}"><span>Date Purchased: ${date}</span></div>
     <div style="${transactionDetailsStyle}"><span>Contract Address: ${description}</span></div>
+    <div style="${transactionDetailsStyle}"><span>Seller Address: ${dd[0]}</span></div>
   `;
 
   detailsDiv.querySelectorAll('div[style^="display: flex"]').forEach(div => {
