@@ -376,6 +376,7 @@
   const query = new Parse.Query(Transaction);
   query.equalTo("buyerAddress", buyerAccount);
   query.equalTo("buyerState", "completed");
+  query.equalTo("buyerState", "received");
   query.descending("createdAt");
   
   const ethPrice = await fetchETHPrice();
@@ -501,7 +502,7 @@ async function fetchETHPrice() {
             query.find().then(async function(results) {
                 // Extract the data from the results and store it in an array
                 results.forEach(obj => {
-                  if (obj.get("buyerState") != "completed")
+                  if (obj.get("buyerState") != "completed" && obj.get("buyerState") != "received")
                   {
                   contracts.push(obj.get("contract_address"));
                   products.push(obj.get("item_name"));

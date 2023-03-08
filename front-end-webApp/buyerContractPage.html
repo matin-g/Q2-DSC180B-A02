@@ -370,23 +370,16 @@
             //const getBuyerQuantity = await window.contract.methods.getBuyerQuantity(buyer[0]).call();
             const getBuyerState = await window.contract.methods.getBuyerState(buyer[0]).call();
 
-           // console.log('yppp', getBuyerQuantity);
-
             document.getElementById("productQuantity").innerHTML =  buy_quantity[0];// getBuyerQuantity
             //console.log(buy_quantity);
             document.getElementById("buyerAddy").innerHTML =  buyerAddress;
             document.getElementById("buyTime").innerHTML =  buy_time[0];
             document.getElementById("buyerStatus").innerHTML = getBuyerState;//status[0];
 
-
-
             var confirmA = document.querySelector(".verify-btn");
             //var confirmB = document.querySelector(".verify-btn.axil-btn.btn-bg-secondary::before");
 
-
-
             var button = document.querySelector("button.axil-btn");
-
 
             if (getBuyerState != "shipped") {
             console.log('hsiiisisi');
@@ -400,11 +393,24 @@
             confirmA.setAttribute("title", "Wait for the seller to Ship");
             } else {
             confirmA.disabled = false;
-            confirmA.onclick = function() { confirmReceived(); };
+            confirmA.onclick = function() { 
+                // TODO: Set buyerState to "recieved" in parse DB class "buyerAddress" for entries that match buyerAddress and contractAddress
+                
+                var query3 = new Parse.Query("buyerAddress");
+                query3.equalTo("buyerAddress", buyerAddress);
+                query3.equalTo("contract_address", contractAddress);
+                query3.find().then(function(results) {
+                    results.forEach(obj => {
+                    obj.set("buyerState", "received");
+                    obj.save();
+                    });
+                    console.log("Buyer state set to received for matching entries");
+                }, function(error) {
+                    console.log("Error: " + error.code + " " + error.message);
+                });
+                                               
+                confirmReceived(); };
             }
-
-
-            
 
             }, function(error) {
             console.log("Error: " + error.code + " " + error.message);
