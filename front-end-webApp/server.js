@@ -8,7 +8,7 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname + "/homePage.html"));
 })
 
-const port = process.env.PORT || 8084;
+const port = process.env.PORT || 8085;
 
 const server = app.listen(port);
 const portNumber = server.address().port;
