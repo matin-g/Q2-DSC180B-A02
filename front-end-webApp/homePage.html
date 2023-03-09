@@ -4,7 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>eTrade || Home-02</title>
+    <title>BlockBazaar</title>
+
+        <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D4JSQQJSYH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-D4JSQQJSYH');
+  </script>
+  
+
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -47,10 +59,10 @@
             padding-right: 5vw;
             padding-top: 0vw;
             padding-bottom: 10vh;
-  font: normal 40px/50px Montserrat, sans-serif;
-  top: 5;
-  position: relative;
-}
+            font: normal 40px/50px Montserrat, sans-serif;
+            top: 5;
+            position: relative;
+        }
 
 .Iam p {
   float: left;
@@ -217,7 +229,7 @@
                     </div>
                     <div class="header-action">
                         <ul class="action-list">
-                            <li class="axil-search d-xl-block d-none">
+                            <!-- <li class="axil-search d-xl-block d-none">
                                 <input type="search" class="placeholder product-search-input" name="search2" id="search2" value="" maxlength="128" placeholder="What are you looking for?" autocomplete="off">
                                 <button type="submit" class="icon wooc-btn-search">
                                     <i class="flaticon-magnifying-glass"></i>
@@ -227,7 +239,7 @@
                                 <a href="javascript:void(0)" class="header-search-icon" title="Search">
                                     <i class="flaticon-magnifying-glass"></i>
                                 </a>
-                            </li>
+                            </li> -->
                             <!-- <li class="wishlist">
                                 <a href="wishlist.html">
                                     <i class="flaticon-heart"></i>
@@ -477,13 +489,13 @@
                         <div class="copyright-left d-flex flex-wrap justify-content-center">
                             <ul class="quick-link">
                                 <!-- <li>© 2023. All rights reserved by <a target="_blank" href="https://axilthemes.com/">Axilthemes</a>.</li> -->
-                                <li>© 2023. All rights reserved by .</li>
+                                <li>© 2023. All rights reserved by BlockBazaar.</li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-12">
                         <div class="copyright-right d-flex flex-wrap justify-content-xl-end justify-content-center align-items-center">
-                            <span class="card-text">Accept For</span>
+                            <span class="card-text">Support</span>
                             <ul class="payment-icons-bottom quick-link">
                                 <li><img src="assets/images/icons/metamask.png" alt="paypal cart"></li>
                                 <!-- <li><img src="assets/images/icons/coin.png" alt="paypal cart"></li> -->
@@ -558,8 +570,9 @@
                
         }
 
-        document.getElementById("logIn").textContent = "View My Account";
-        document.getElementById("logIn").href = "my-account.html";
+        document.getElementById("logIn").textContent = "Connected";
+        // document.getElementById("logIn").textContent = "View My Account";
+        // document.getElementById("logIn").href = "my-account.html";
         localStorage.setItem("account", account);
         
     }
