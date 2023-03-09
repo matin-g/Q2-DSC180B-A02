@@ -107,7 +107,17 @@
 			width: 800px; /* Adjust this value to your desired width */
 			height: auto;
 			}
-	</style>
+		.image-wrapper {
+			text-align: center;
+		}
+
+		.smartcontract {
+		max-width: 50%;
+		height: auto;
+			}
+
+		
+		</style>
 	
 </head>
 <body>
@@ -138,8 +148,14 @@
 	</header>
 
 	<section id="introduction">
-		<h2>Introduction</h2>
-		<p>The emergence of blockchain technology has increased possibilities of decentralization in many industries, one of which is the online marketplace and escrow system. Currently, online marketplace exchanges like Ebay require the private information of users, a cut of the transaction’s profits ranging from 0.5% to 15% of the total amount of the sale, and are not very resistant to online faults and attacks. All of these pose risks to buyers and sellers while also costing sellers and buyers more money. However, a decentralized, Ethereum based escrow system would only require one’s public wallet address and negligible gas fees instead of a substantial portion of the seller’s profits and their sensitive information. Trusted third-party firms such as Ebay were critical prior to blockchain technology and smart contracts since they address the issue of trust between unknown buyers and sellers in a digital marketplace by acting as mediators. However, with smart contracts, open source code may replace such firms as mediators, while also eliminating the need for trust between transactors, but without the aforementioned drawbacks of centralized third parties. Additionally, decentralized platforms are more tolerant to faults and more resistant to attacks, making them a better alternative in many aspects than traditional online marketplace and escrow platforms. 
+		<h2 style="text-align: center;"> Introduction</h2>
+		<div class="image-wrapper">
+			<img src="assets/smartcontract.png" alt="smartcontract Placeholder" class="smartcontract">
+		</div>
+
+		<p>
+			
+			The emergence of blockchain technology has increased possibilities of decentralization in many industries, one of which is the online marketplace and escrow system. Currently, online marketplace exchanges like Ebay require the private information of users, a cut of the transaction’s profits ranging from 0.5% to 15% of the total amount of the sale, and are not very resistant to online faults and attacks. All of these pose risks to buyers and sellers while also costing sellers and buyers more money. However, a decentralized, Ethereum based escrow system would only require one’s public wallet address and negligible gas fees instead of a substantial portion of the seller’s profits and their sensitive information. Trusted third-party firms such as Ebay were critical prior to blockchain technology and smart contracts since they address the issue of trust between unknown buyers and sellers in a digital marketplace by acting as mediators. However, with smart contracts, open source code may replace such firms as mediators, while also eliminating the need for trust between transactors, but without the aforementioned drawbacks of centralized third parties. Additionally, decentralized platforms are more tolerant to faults and more resistant to attacks, making them a better alternative in many aspects than traditional online marketplace and escrow platforms. 
 			<br>A decentralized escrow smart contract greatly reduces the need for human interaction and minimizes the risk of litigation, in turn reducing costs as well. Via smart contract code, users may have more trust and sense of reliability, as smart contracts are open source and transparent, unlike third party firms that subject their users to rely on often obscure and undisclosed methods. Thus, by deploying a smart contract through the Ethereum network (Goerli test Ethereum network) using blockchain technology, buyers and sellers may interact with the contract through actions such as making deposits to initiate a transaction, canceling transactions, confirming transactions, and sending receipts. Ultimately, we propose that smart contracts are a more viable option than third party arbiters for a trustless marketplace exchange, since our smart contract will securely hold funds until the item is received by the buyer and all conditions of the smart contract are met. Using an escrow mechanism that requires buyers and sellers to make double deposits, creates a trustless system since the extra deposit locked in the contract acts as a collateral, giving the transactors a strong incentive to complete the transaction.            <br>In coordination with our smart contract, our application will include a user friendly front end that will make it easy for buyers and sellers to complete transactions.
 						<br>The smart contract process combined with our user friendly front end web application will provide users with all of the aforementioned benefits of blockchain technology in an efficient and convenient manner.
 						</p>
@@ -148,7 +164,7 @@
 	</section>
 
 	<section id="infrastructure">
-		<h2>Infrastructure</h2>
+		<h2 style="text-align: center;">Infrastructure</h2>
 				<!DOCTYPE html>
 		<meta charset="utf-8">
 
@@ -252,7 +268,7 @@
 	</section>
 
 	<section id="method">
-		<h2>Methods</h2>
+		<h2 style="text-align: center;">Methods</h2>
 		<p>Our online escrow marketplace is ran through a smart contract via the Remix Ethereum IDE, and in order to understand the process of executing our smart contract,  it is crucial to distinguish between some terminology. Each party in our escrow system will have their own MetaMask wallet, which contains their Ether and their unique wallet address, which is necessary for identifying the selling party and the buying party. For the purposes of our sample, we have two metamask wallet accounts which each represent a party in our sample transaction. Henceforth, we will refer to the purchasing party’s MetaMask account as the “buyer”, or the “buyer’s account” and the selling party’s account as the “seller”, or the “seller’s account”. At the moment, our smart contract exists on the Remix IDE and on the Goerli test Ethereum network (due to the high cost of deploying and testing with actual Ethereum, although once our protocol is finalized, we will deploy on the actual Ethereum Network with a more optimal frontend that will be established in the future). The transaction must be commenced from the point of view of the seller. The seller can deploy the purchase.sol file (the file of our smart contract) via our front end website, with the necessary Ether cost attached to it (twice the product amount for x items), to cover two times the transaction costs for escrow (not including the gas fee). For example, if the seller sells ten items, the Ether cost attached will be twice the total amount of the ten items. The smart contract is then documented on the etherscan website for the buyer and seller to monitor.  Next,  they must set values for the item_price_in_ETH, item_quantity, item_name, item_details, item_description which will be passed into respective read only functions that may be utilized by the buyer before confirming purchase.
 			<br>
 			
@@ -262,13 +278,13 @@
 	</section>
 
 	<section id="conclusion">
-		<h2>Conclusion</h2>
+		<h2 style="text-align: center;">Conclusion</h2>
 		<p>Our platform decentralizes peer-to-peer e-commerce using blockchain and smart contracts for increased security, transparency, and cost-effectiveness; allowing for a trustless marketplace. The combination of our easy to navigate front end combined with our smart contract code makes it a simple process for any individual to safely and securely process transactions without third parties and their overbearing costs and safety concerns. However, the true limitless potential of decentralization lies deeper in the idea that we can safely eliminate the need for third-party mediation in not only centralized marketplaces but also in other industries such as finance, insurance, real estate, supply chain, gaming, and more. Thus, decentralization promises to be the future in all the aforementioned industries as it quells privacy fears and eliminates unnecessary costs, while putting the decision completely in the hands of the two opposing parties, rather than relying on a third party for anything. </p>
 		<a href="#top">Back to top</a>
 	</section>
 
 	<section id="demo">
-		<h2>demo</h2>
+		<h2 style="text-align: center;">Demo</h2>
 		<p>[Insert text here]</p>
 		<a href="#top">Back to top</a>
 	</section>
