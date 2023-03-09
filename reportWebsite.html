@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Double Deposit Escrow E-commerce Platform</title>
+	<title>BlockBazaar - The Future of E-Commerce</title>
 	<style>
 		/* Styling for navigation bar */
 		nav {
@@ -113,11 +113,11 @@
 		<a href="#infrastructure">Infrastructure</a>
 		<a href="#method">Method</a>
 		<a href="#conclusion">Conclusion</a>
-		<a href="#demo">E-commerce platform demo</a>
+		<a href="#demo">BlockBazaar demo</a>
 	</nav>
 
 	<header>
-		<h1>Double Deposit Escrow E-commerce Platform</h1>
+		<h2>BlockBazaar - The Future of E-Commerce</h2>
 		<p>By <span title="Click to email"><a href="mailto:mghaffari@ucsd.edu">Matin Ghaffari</a></span>,
 			<span title="Click to email"><a href="mailto:w6chen@ucsd.edu">Wenyuan "Sandy" Chen</a></span>,
 			<span title="Click to email"><a href="mailto:aeamiria@ucsd.edu">Alan Amirian</a></span>,
@@ -125,31 +125,138 @@
 		</p>
 		<button onclick="location.href='https://github.com/matin-g/Q2-DSC180B-A02'">Github Repo</button>
 		<button onclick="location.href='https://github.com/matin-g/DSC180a-Q1-final-code/blob/main/report.pdf'">Report</button>
+		<button onclick="location.href='http://blockbazaar.net'" target="_blank">BlockBazaar</button>
 
 		
 	</header>
 
 	<section id="introduction">
 		<h2>Introduction</h2>
-		<p>[Insert text here]</p>
+		<p>The emergence of blockchain technology has increased possibilities of decentralization in many industries, one of which is the online marketplace and escrow system. Currently, online marketplace exchanges like Ebay require the private information of users, a cut of the transaction’s profits ranging from 0.5% to 15% of the total amount of the sale, and are not very resistant to online faults and attacks. All of these pose risks to buyers and sellers while also costing sellers and buyers more money. However, a decentralized, Ethereum based escrow system would only require one’s public wallet address and negligible gas fees instead of a substantial portion of the seller’s profits and their sensitive information. Trusted third-party firms such as Ebay were critical prior to blockchain technology and smart contracts since they address the issue of trust between unknown buyers and sellers in a digital marketplace by acting as mediators. However, with smart contracts, open source code may replace such firms as mediators, while also eliminating the need for trust between transactors, but without the aforementioned drawbacks of centralized third parties. Additionally, decentralized platforms are more tolerant to faults and more resistant to attacks, making them a better alternative in many aspects than traditional online marketplace and escrow platforms. 
+			<br>A decentralized escrow smart contract greatly reduces the need for human interaction and minimizes the risk of litigation, in turn reducing costs as well. Via smart contract code, users may have more trust and sense of reliability, as smart contracts are open source and transparent, unlike third party firms that subject their users to rely on often obscure and undisclosed methods. Thus, by deploying a smart contract through the Ethereum network (Goerli test Ethereum network) using blockchain technology, buyers and sellers may interact with the contract through actions such as making deposits to initiate a transaction, canceling transactions, confirming transactions, and sending receipts. Ultimately, we propose that smart contracts are a more viable option than third party arbiters for a trustless marketplace exchange, since our smart contract will securely hold funds until the item is received by the buyer and all conditions of the smart contract are met. Using an escrow mechanism that requires buyers and sellers to make double deposits, creates a trustless system since the extra deposit locked in the contract acts as a collateral, giving the transactors a strong incentive to complete the transaction.            <br>In coordination with our smart contract, our application will include a user friendly front end that will make it easy for buyers and sellers to complete transactions.
+						<br>The smart contract process combined with our user friendly front end web application will provide users with all of the aforementioned benefits of blockchain technology in an efficient and convenient manner.
+						</p>
+			
 		<a href="#top">Back to top</a>
 	</section>
 
 	<section id="infrastructure">
 		<h2>Infrastructure</h2>
-		<p>[Insert text here]</p>
+				<!DOCTYPE html>
+		<meta charset="utf-8">
+
+		<!-- Load d3.js -->
+		<script src="https://d3js.org/d3.v4.js"></script>
+
+		<!-- Create a div where the graph will take place -->
+		<div id="my_dataviz"></div>
+		<script>
+
+			// set the dimensions and margins of the graph
+			var width = 780
+			var height = 600
+			
+			// append the svg object to the body of the page
+			var svg = d3.select("#my_dataviz")
+			.append("svg")
+				.attr("width", 780)
+				.attr("height", 600)
+			
+			// create dummy data -> just one element per circle
+			// url need to be changed
+			var data = [{ "name": "Remix-Ethereum" ,"url": "http://blockbazaar.net/homePage.html"}, 
+						{ "name": "MetaMask Wallet", "url": "http://blockbazaar.net/homePage.html" },
+						{ "name": "Goerli TestNet" ,"url": "http://blockbazaar.net/homePage.html"},
+						{ "name": "Etherscan.io" , 'url': "http://blockbazaar.net/homePage.html"}, 
+						{ "name": "Javascript" ,"url": "http://blockbazaar.net/homePage.html"},
+						{ "name": "Parse", 'url': "http://blockbazaar.net/homePage.html" }]
+			
+			// Initialize the circle: all located at the center of the svg area
+			var group = svg.append("g");
+			
+			var node = group.selectAll("circle")
+			.data(data)
+			.enter()
+			.append("circle")
+				.attr("r", 70)
+				.attr("cx", width / 2)
+				.attr("cy", height / 2)
+				.style("fill", "#69b3a2")
+				.style("fill-opacity", 0.3)
+				.attr("stroke", "#69a2b2")
+				.style("stroke-width", 4);
+			
+			var label = group.selectAll("text")
+			.data(data)
+			.enter()
+			.append("text")
+				.attr("text-anchor", "middle")
+				.attr("font-size", "20px")
+				.attr("fill", "black")
+				.text(function(d) { return d.name; });
+			
+			// Add event listeners to the circles
+			node.on("mouseover", function() {
+				d3.select(this)
+					.transition()
+					.duration(200)
+					.attr("r", 90)
+					.style("fill-opacity", 0.6)
+				})
+				.on("mouseout", function() {
+				d3.select(this)
+					.transition()
+					.duration(200)
+					.attr("r", 70)
+					.style("fill-opacity", 0.3)
+				});
+			label.on("click", function(d) {
+				window.open(d.url);
+			})
+			
+			// Features of the forces applied to the nodes:
+			var simulation = d3.forceSimulation()
+				.force("center", d3.forceCenter().x(width / 2).y(height / 2)) // Attraction to the center of the svg area
+				.force("charge", d3.forceManyBody().strength(0.5)) // Nodes are attracted one each other of value is > 0
+				.force("collide", d3.forceCollide().strength(.01).radius(80).iterations(1)) // Force that avoids circle overlapping
+			
+			// Apply these forces to the nodes and update their positions.
+			// Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
+			simulation
+				.nodes(data)
+				.on("tick", function(d){
+				node
+					.attr("cx", function(d){ return d.x; })
+					.attr("cy", function(d){ return d.y; });
+				label
+					.attr("x", function(d) { return d.x; })
+					.attr("y", function(d) { return d.y + 5; });
+				});
+			</script>
+	
+		<p>Remix-Ethereum: Remix-Ethereum is where we write our smart contract code. From Remix-Ethereum, we are able to deploy our smart contract. Any changes in code must be updated here and redeployed.
+			<br> MetaMask Wallet: The buyer/seller must connect to their MetaMask wallet (or a similar crypto currency wallet), in order to utilize the smart contract, as the currency (Ether) is contained in the MetaMask wallet. The MetaMask wallet is also used for its unique ID (public key) to recognize an account (unique identifier for security purposes such as verifying sufficient funds). 
+			<br>Goerli Test Network: This is the network where our smart contracts run until our protocol is ready for production. It is a test Ethereum network that replicates the Ethereum Network (EVM - Ethereum Virtual Machine) and uses the test currency we are using, Goerli Test Ether. We use a test network and test Ethereum due to the expense of using actual Ethereum for contract deployment and testing. 
+			<br>Etherscan.io: We now use etherscan.io as a dashboard to monitor active contracts. Previously, prior to our front end, this was also where we run the smart contract, verify it (ensuring the bytecode for contract execution is the same as when it was deployed), publish it, read from it, write to it, and monitor it. However, we can now do all the core functionalities through our front end and we now use etherscan.io just for monitoring.  
+			<br>Javascript: JavaScript helped us set up and connect our smart contract to our front end, essentially working as the bridge for our decentralized application. In particular, the Node.js and Express.js packages were used for connecting with MetaMask, our database, and our smart contract code. 
+			<br>Parse: Parse is a back end that we used in conjunction with Node.js to set up our database and store all relevant data. We are using a NoSQL database via Parse using MongoDB that contains entries for each user. It’s used to record user information necessary to complete a transaction such as buyer wallet address, item contract address,quantity to purchase, etc. One thing to note is that there is no private information stored except for the buyer's shipping address that is also hidden in the database. 
+			</p>
 		<a href="#top">Back to top</a>
 	</section>
 
 	<section id="method">
-		<h2>Method</h2>
-		<p>[Insert text here]</p>
+		<h2>Methods</h2>
+		<p>Our online escrow marketplace is ran through a smart contract via the Remix Ethereum IDE, and in order to understand the process of executing our smart contract,  it is crucial to distinguish between some terminology. Each party in our escrow system will have their own MetaMask wallet, which contains their Ether and their unique wallet address, which is necessary for identifying the selling party and the buying party. For the purposes of our sample, we have two metamask wallet accounts which each represent a party in our sample transaction. Henceforth, we will refer to the purchasing party’s MetaMask account as the “buyer”, or the “buyer’s account” and the selling party’s account as the “seller”, or the “seller’s account”. At the moment, our smart contract exists on the Remix IDE and on the Goerli test Ethereum network (due to the high cost of deploying and testing with actual Ethereum, although once our protocol is finalized, we will deploy on the actual Ethereum Network with a more optimal frontend that will be established in the future). The transaction must be commenced from the point of view of the seller. The seller can deploy the purchase.sol file (the file of our smart contract) via our front end website, with the necessary Ether cost attached to it (twice the product amount for x items), to cover two times the transaction costs for escrow (not including the gas fee). For example, if the seller sells ten items, the Ether cost attached will be twice the total amount of the ten items. The smart contract is then documented on the etherscan website for the buyer and seller to monitor.  Next,  they must set values for the item_price_in_ETH, item_quantity, item_name, item_details, item_description which will be passed into respective read only functions that may be utilized by the buyer before confirming purchase.
+			<br>
+			
+			Now that the seller has put the smart contract officially in motion, two times the total product price is held in the contract and a buyer must make the next step. However, if a suitable buyer is not found, the seller has the ability to terminate the contract and this will refund their Ether deposited in the contract. The transaction process is secured by the buyer states, which tells us which stage of the contract the buyer is in. The contract tracks the transaction process with threebuyer states (Paid, Shipped, and Received) and the strict buyer state check before each step ensures the process runs smoothly and efficiently. Once buyers confirm their purchase and deposit two times the transaction amount into the smart contract, their state becomes “paid” in the system. With both parties double depositing, they will both bear the same risk if the contract is not completed, creating an equally strong incentive for both parties to complete the transaction. At this point, the buyer’s MetaMask account is connected to the smart contract and recognized as the purchaser, by confirming the purchase. Now, the escrows for both buyer and seller are locked in the contract , as an agreement is being initiated between the two acknowledged parties. Then, the seller can set the “Paid” buyer state to “Shipped” once he ships the item. The Ether will be locked into the contract until the buyer confirms receiving the promised item agreed upon. Thus, upon receipt of the purchased item, the buyer, who is in the “Shipped” state, will confirm that they have received the purchase, at which point the buyer will be refunded half of their input into the smart contract (1x the price of the product). Following this, the buyer state becomes “Received” and gets removed from the buyer hashmap and indicated by our parse database as “completed” buyer. This means the buyer no longer exists in the smart contract. Finally, the seller will refund their stored Ether, to receive their whole input, as well as the revenue generated from the transaction (total of 3x the price of the product to account for the seller’s profit and their original deposit).
+<p>			
 		<a href="#top">Back to top</a>
 	</section>
 
 	<section id="conclusion">
 		<h2>Conclusion</h2>
-		<p>[Insert text here]</p>
+		<p>Our platform decentralizes peer-to-peer e-commerce using blockchain and smart contracts for increased security, transparency, and cost-effectiveness; allowing for a trustless marketplace. The combination of our easy to navigate front end combined with our smart contract code makes it a simple process for any individual to safely and securely process transactions without third parties and their overbearing costs and safety concerns. However, the true limitless potential of decentralization lies deeper in the idea that we can safely eliminate the need for third-party mediation in not only centralized marketplaces but also in other industries such as finance, insurance, real estate, supply chain, gaming, and more. Thus, decentralization promises to be the future in all the aforementioned industries as it quells privacy fears and eliminates unnecessary costs, while putting the decision completely in the hands of the two opposing parties, rather than relying on a third party for anything. </p>
 		<a href="#top">Back to top</a>
 	</section>
 
