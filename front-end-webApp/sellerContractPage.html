@@ -433,8 +433,11 @@
 
             var terminateButton = document.querySelector(".verify-btn2.axil-btn.btn-bg-secondary");
 
-            if (buy_quantity[0] > 0) {
-                // console.log('hsiiisisi');
+            // check smart-contract terminated condition
+            const getActiveBuyerNumber = await window.contract.methods.getBuyerNumber().call();
+
+
+            if (getActiveBuyerNumber > 0) {
                 terminateButton.disabled = true;
                 terminateButton.style.opacity = '0.5';
                 terminateButton.style.cursor = 'not-allowed';
@@ -452,8 +455,9 @@
                     var addr = rd[i] + " " + apt[i] + ", " + city[i] + " " + state[i] + ", " + country[i];
 
                     const getBuyerState = await window.contract.methods.getBuyerState(buyer[i]).call();
+                    const getBuyerQuantity = await window.contract.methods.getBuyerQuantity(buyer[i]).call();
 
-                    addBuyerInfo(buyerTransactRowID[i], buyer[i], buy_quantity[i], getBuyerState, addr, buy_time[i]);
+                    addBuyerInfo(buyerTransactRowID[i], buyer[i], getBuyerQuantity, getBuyerState, addr, buy_time[i]);
                 }
 
             }
@@ -652,8 +656,8 @@
 
             document.getElementById("addEscrowButton").textContent = "Proceed with " + val + " Wei";
             document.getElementById("addEscrowButton").onclick = async () => {
-            await window.contract.methods.addEscrow().send( {from: sellerAddress, value: val} );
-            console.log("Escrow added successfully!");
+                await window.contract.methods.addEscrow(quant).send( {from: sellerAddress, value: val} );
+                console.log("Escrow added successfully!");
             };
 
         }
@@ -663,11 +667,11 @@
             await window.contract.methods.closeContract().send( {from: sellerAddress} )
             .on("receipt", function() {
 
-            var query3 = new Parse.Query("Product_details");
+                var query3 = new Parse.Query("Product_details");
                 query3.equalTo("SellerAddress", sellerAddress);
                 query3.equalTo("contractAddress", contractAddress);
                 query3.first().then(function(results) {
-                resutls.set("contractStatus", "terminated");
+                results.set("contractStatus", "terminated");
                 results.save();
                     console.log("Buyer state set to received for matching entries");
                 }, function(error) {

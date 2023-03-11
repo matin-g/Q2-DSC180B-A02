@@ -345,12 +345,16 @@ button:active {
     <script>
 
       // Initialize Parse
-Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi");
-Parse.serverURL = "https://parseapi.back4app.com/";
+      Parse.initialize("rgzBD2oDrFGwnP4GhepGqvLTb4zxUCVA8ISU94G6", "rbN8I2nlk462haH28HHxwAka3o02oVqWWz1PrFdi"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
+      Parse.serverURL = "https://parseapi.back4app.com/";
 
 // Query the database to get all the data
 const query = new Parse.Query("Product_details");
+
+query.notEqualTo('contractStatus', 'terminated');
+
 query.find().then(results => {
+
   const products = results.map(result => result.toJSON());
   renderProducts(products);
 
