@@ -430,7 +430,7 @@
                 .on("receipt", function() {
                     var query3 = new Parse.Query("buyerAddress");
                     query3.equalTo("objectId", transactionId);
-                    query3.first.then(function(result)
+                    query3.first().then(function(result)
         
                     {result.set("buyerState", "received");
                     result.save().then((updatedObject) => {
