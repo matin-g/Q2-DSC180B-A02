@@ -638,9 +638,10 @@
                 const getEscrow = await window.contract.methods.getEscrowLeft().call();
                 const getBuyerNumber = await window.contract.methods.getBuyerNumber().call();
 
+
                 document.getElementById("productQuantity").innerHTML = getQuantity;
-                document.getElementById("contractBalance").innerHTML = getBalance;
-                document.getElementById("escrowLeft").innerHTML = getEscrow;
+                document.getElementById("contractBalance").innerHTML = getBalance/10**18 + " ETH";
+                document.getElementById("escrowLeft").innerHTML = getEscrow/10**18 + " ETH";
                 document.getElementById("buyerNumber").innerHTML = getBuyerNumber;
             }
 
