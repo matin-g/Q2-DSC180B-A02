@@ -8,3 +8,12 @@ A decentralized exchange via ethereum smart contracts intergrated within a websi
 
 # Please see Q1 code and report here: 
 https://github.com/matin-g/DSC180a-Q1-final-code
+
+
+# Instruction to run on local machine
+After pulling all the codes within front-end folder to your local machine ---
+
+make sure you have node.js (npm) installed (https://nodejs.org/en/download/)
+install express package: open up terminal, input "npm install express --save"
+cd into the front-end folder, and input "node server.js", and you will see "port is open on 8082"
+open chrome - "http://127.0.0.1:8082/"
