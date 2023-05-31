@@ -1,5 +1,5 @@
 # Most up to date web app code in this folder --> front-end-webApp
-# Most up to date contract code is new_purchase.sol
+# Most up to date contract code is final_purchase.sol
 
 <br>
 
